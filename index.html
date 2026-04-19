@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What We Carry — A Household Check-In</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1115;
+  --surface:#1a1d24;
+  --surface-2:#242832;
+  --surface-3:#2e3340;
+  --text:#e8e9ed;
+  --text-muted:#9aa0ab;
+  --text-dim:#7a808c;
+  --border:rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.18);
+  --accent:#ff7a59;
+  --accent-2:#ffb26b;
+  --accent-ink:#1a1d24;
+  --accent-soft:rgba(255,122,89,0.15);
+  --ok-bg:rgba(74,222,128,0.18);
+  --ok-fg:#86efac;
+  --warn-bg:rgba(251,191,36,0.18);
+  --warn-fg:#fcd34d;
+  --err-bg:rgba(248,113,113,0.18);
+  --err-fg:#fca5a5;
+  --info-bg:rgba(96,165,250,0.12);
+  --info-fg:#bfdbfe;
+  --info-border:rgba(96,165,250,0.25);
+  --phys:#60a5fa;
+  --mental:#f87171;
+  --row-agree-bg:rgba(34,197,94,0.1);
+  --row-phys-bg:rgba(249,115,22,0.1);
+  --row-men-bg:rgba(234,179,8,0.1);
+  --row-both-bg:rgba(239,68,68,0.1);
+  --row-skip-bg:var(--surface-2);
+  --row-oneskip-bg:rgba(167,139,250,0.1);
+  --chip-phys-me-bg:rgba(59,130,246,0.2); --chip-phys-me-fg:#93c5fd;
+  --chip-phys-sh-bg:rgba(34,197,94,0.2); --chip-phys-sh-fg:#86efac;
+  --chip-men-me-bg:rgba(239,68,68,0.2); --chip-men-me-fg:#fca5a5;
+  --chip-men-sh-bg:rgba(234,179,8,0.2); --chip-men-sh-fg:#fde68a;
+  --chip-partner-bg:var(--surface-3); --chip-partner-fg:#cbd5e1;
+}
+[data-theme="light"]{
+  color-scheme:light;
+  --bg:#F7F4EF;
+  --surface:#ffffff;
+  --surface-2:#faf7f1;
+  --surface-3:#eeebe3;
+  --text:#1a1a18;
+  --text-muted:#6b6b66;
+  --text-dim:#6b6b66;
+  --border:rgba(0,0,0,0.08);
+  --border-strong:rgba(0,0,0,0.2);
+  --accent:#d97757;
+  --accent-2:#c2410c;
+  --accent-ink:#ffffff;
+  --accent-soft:rgba(217,119,87,0.14);
+  --ok-bg:#e6f4ea; --ok-fg:#2d6a4f;
+  --warn-bg:#fff8e1; --warn-fg:#b45309;
+  --err-bg:#fde8e8; --err-fg:#b91c1c;
+  --info-bg:#eff6ff; --info-fg:#1e40af; --info-border:#bfdbfe;
+  --phys:#2563eb; --mental:#dc2626;
+  --row-agree-bg:#f0fdf4;
+  --row-phys-bg:#fff7ed;
+  --row-men-bg:#fefce8;
+  --row-both-bg:#fef2f2;
+  --row-skip-bg:#f8f8f6;
+  --row-oneskip-bg:#f5f3ff;
+  --chip-phys-me-bg:#dbeafe; --chip-phys-me-fg:#1d4ed8;
+  --chip-phys-sh-bg:#dcfce7; --chip-phys-sh-fg:#166534;
+  --chip-men-me-bg:#fee2e2; --chip-men-me-fg:#b91c1c;
+  --chip-men-sh-bg:#fef9c3; --chip-men-sh-fg:#92400e;
+  --chip-partner-bg:#f1f5f9; --chip-partner-fg:#475569;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--accent-ink);padding:8px 14px;border-radius:6px;z-index:100;font-family:inherit;font-size:13px;font-weight:500;text-decoration:none}
+.skip-link:focus{left:8px;top:8px;outline:2px solid var(--accent);outline-offset:2px}
+.app-toolbar{position:fixed;top:14px;right:14px;z-index:10;display:flex;gap:10px}
+.app-toolbar > button{position:static}
+button:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1rem}
+#root{max-width:660px;margin:0 auto;padding:1rem 0 5rem}
+em{color:var(--accent-2);font-style:italic}
+strong{color:var(--text)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text)}
+.btn-primary{padding:9px 22px;border-radius:8px;border:none;background:var(--accent);color:var(--accent-ink);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600}
+.btn-primary:hover{background:var(--accent-2)}
+.btn-primary:disabled{background:var(--surface-3);color:var(--text-dim);cursor:not-allowed}
+.btn-ghost{padding:8px 18px;border-radius:8px;border:1px solid var(--border-strong);background:transparent;color:var(--text);font-size:13px;cursor:pointer;font-family:inherit}
+.btn-ghost:disabled{opacity:.3;cursor:not-allowed}
+.pill{padding:4px 10px;border-radius:12px;font-size:12px;cursor:pointer;font-family:inherit;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted)}
+.pill:hover{border-color:var(--accent);color:var(--text)}
+.form-pill{padding:10px 14px;min-height:40px;font-size:13px}
+.cat-tab{padding:5px 12px;border-radius:12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;border:1px solid var(--border);background:transparent;color:var(--text-muted)}
+.cat-tab.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.filter-btn{padding:5px 13px;border-radius:12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted)}
+.filter-btn:hover{border-color:var(--accent-2);color:var(--text)}
+.filter-btn.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.toggle-pill{padding:6px 14px;border-radius:14px;font-size:12px;cursor:pointer;font-family:inherit;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted);font-weight:500}
+.toggle-pill.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.wflag-group{display:inline-flex;gap:4px;margin-left:4px;flex-wrap:nowrap}
+.wflag-btn{padding:2px 8px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted);line-height:1.2;white-space:nowrap}
+.wflag-btn:hover{border-color:var(--accent);color:var(--text)}
+.wflag-btn.up.active{background:var(--accent-soft);color:var(--accent-2);border-color:var(--accent);font-weight:500}
+.wflag-btn.down.active{background:var(--info-bg);color:var(--info-fg);border-color:var(--phys);font-weight:500}
+.emoflag-btn{padding:2px 8px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted);line-height:1.2;white-space:nowrap;margin-left:4px}
+.emoflag-btn:hover{border-color:#a855f7;color:var(--text)}
+.emoflag-btn.active{background:rgba(168,85,247,.15);color:#7c3aed;border-color:#a855f7;font-weight:500}
+.theme-toggle{position:fixed;top:14px;right:14px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.reset-btn{position:fixed;top:14px;right:60px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
+.reset-btn.visible{display:flex}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.export-btn{position:fixed;top:14px;right:106px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:15px;line-height:1;display:none;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
+.export-btn.visible{display:flex}
+.export-btn:hover,.export-btn.open{border-color:var(--accent);color:var(--accent)}
+.export-menu{position:fixed;top:58px;right:14px;z-index:11;min-width:260px;max-width:calc(100vw - 28px);background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.35);padding:6px;display:none;font-family:inherit}
+.export-menu.open{display:block}
+.export-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:6px;color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit;line-height:1.3}
+.export-menu-item:hover{background:var(--surface-2);color:var(--accent)}
+.export-menu-item .em-ico{flex-shrink:0;font-size:15px;width:18px;text-align:center;opacity:.85}
+.export-menu-item .em-sub{display:block;font-size:11px;color:var(--text-muted);margin-top:2px}
+.export-menu-sep{height:1px;background:var(--border-strong);margin:4px 6px;opacity:.5}
+.export-menu-toggle{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;user-select:none}
+.export-menu-toggle input{margin:0;cursor:pointer;accent-color:var(--accent)}
+.export-menu-toggle:hover{color:var(--text)}
+.setup-opt{display:block;width:100%;padding:14px 16px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);text-align:left;cursor:pointer;font-family:inherit;margin-bottom:8px;transition:all .15s;color:var(--text)}
+.setup-opt:hover{border-color:var(--accent-2)}
+.setup-opt.active{border-color:var(--accent);background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--accent)}
+.setup-opt-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.setup-opt-desc{font-size:12px;color:var(--text-muted);line-height:1.5}
+.progress-track{height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px}
+.badge{padding:2px 7px;border-radius:10px;font-size:10px;font-weight:500;white-space:nowrap}
+.badge-routine{background:var(--ok-bg);color:var(--ok-fg)}
+.badge-moderate{background:var(--warn-bg);color:var(--warn-fg)}
+.badge-complex{background:var(--err-bg);color:var(--err-fg)}
+.info-box{border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.info-box.blue{background:var(--info-bg);border:1px solid var(--info-border);color:var(--info-fg)}
+.info-box.green{background:var(--ok-bg);border:1px solid var(--ok-bg);color:var(--ok-fg)}
+.info-box.yellow{background:var(--warn-bg);border:1px solid var(--warn-bg);color:var(--warn-fg)}
+.info-box.red{background:var(--err-bg);border:1px solid var(--err-bg);color:var(--err-fg)}
+.task-sep{padding:13px 0;border-top:1px solid var(--border);position:relative;transition:background .15s}
+.task-sep.focused{background:var(--surface-2)}
+.task-sep.focused::before{content:'';position:absolute;left:-14px;top:13px;bottom:13px;width:3px;background:var(--accent);border-radius:2px}
+.kbd-hint{font-size:11px;padding:3px 10px;border-radius:14px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-family:inherit;line-height:1}
+.kbd-hint:hover{color:var(--accent);border-color:var(--accent)}
+.kbd-hint.active{color:var(--accent);border-color:var(--accent)}
+.kbd-panel{font-size:12px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.9}
+.kbd-panel kbd{display:inline-block;padding:0 6px;border-radius:4px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:11px;min-width:14px;text-align:center}
+.hero-wrap{margin-bottom:16px}
+.hero-split{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.hero-split-head{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text);margin-bottom:3px}
+.hero-split-sub{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:12px}
+.hero-split-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hero-split-row:last-child{margin-bottom:0}
+.hero-split-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.3px;color:var(--text-muted);width:62px;flex-shrink:0}
+.hero-split-bar{flex:1;height:10px;background:var(--surface-3);border-radius:5px;overflow:hidden;display:flex;min-width:60px}
+.hero-split-bar>div{height:100%;transition:width .3s}
+.hero-split-val{font-size:11px;color:var(--text);white-space:nowrap;min-width:110px;text-align:right}
+.hero-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));grid-auto-rows:1fr;gap:8px}
+.hero-tile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 13px;cursor:pointer;text-align:left;font-family:inherit;color:var(--text);transition:border-color .15s,transform .1s}
+.hero-tile:hover{border-color:var(--accent);transform:translateY(-1px)}
+.hero-tile:active{transform:translateY(0)}
+.hero-num{font-size:26px;font-weight:600;color:var(--accent);line-height:1.1;margin-bottom:4px}
+.hero-tile-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text);margin-bottom:3px}
+.hero-tile-sub{font-size:11px;color:var(--text-muted);line-height:1.4}
+.hero-tile.bright{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.04));border-color:#22c55e}
+.hero-tile.bright:hover{border-color:#16a34a}
+.hero-tile.bright .hero-num,.hero-tile.bright .hero-tile-label{color:#166534}
+.tab-scroll{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-x;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.tab-scroll::-webkit-scrollbar{display:none}
+.tab-scroll.dragging{cursor:grabbing}
+.filter-scroll{display:flex;gap:5px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-x;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.filter-scroll::-webkit-scrollbar{display:none}
+.filter-scroll.dragging{cursor:grabbing}
+@media (hover:hover){.tab-scroll,.filter-scroll{scrollbar-width:thin}.tab-scroll::-webkit-scrollbar,.filter-scroll::-webkit-scrollbar{display:block;height:6px}.tab-scroll::-webkit-scrollbar-thumb,.filter-scroll::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}}
+input[type="text"]{width:100%;padding:8px 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:var(--surface-2);color:var(--text)}
+input[type="text"]:focus{border-color:var(--accent)}
+input[type="text"]::placeholder{color:var(--text-dim)}
+label{display:block;font-size:11px;font-weight:500;margin-bottom:5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
+.score-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:14px}
+.score-card{background:var(--surface-2);border-radius:8px;padding:12px}
+.mini-bar-track{height:5px;background:var(--surface-3);border-radius:2px;overflow:hidden;margin-top:3px}
+.mental-split-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.mental-split-bar{flex:1;height:12px;background:var(--surface-3);border-radius:6px;overflow:hidden}
+.cat-bar-wrap{display:flex;height:10px;border-radius:5px;background:var(--surface-3);position:relative;overflow:visible}
+.cat-bar-inner{display:flex;height:100%;border-radius:5px;overflow:hidden;width:100%}
+.cat-bar-tick{position:absolute;top:-3px;bottom:-3px;width:0;border-left:none;z-index:1;pointer-events:none}
+.cat-bar-tick::after{content:'';position:absolute;top:-4px;left:-3px;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid currentColor}
+.cat-bar-tick.a::after{color:#1e40af}
+.cat-bar-tick.b::after{color:#991b1b}
+.gut-row{padding:12px 0;border-bottom:0.5px solid rgba(0,0,0,.08)}
+.gut-row:last-child{border-bottom:none}
+.gut-row-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.gut-row-name{font-size:14px;font-weight:500}
+.gut-row-val{font-size:12px}
+.gut-row-slider{display:flex;align-items:center;gap:10px}
+.gut-row-slider input[type=range]{flex:1;accent-color:#555}
+.gut-end{font-size:10.5px;color:var(--text-dim);min-width:70px}
+.gut-end:first-child{text-align:right}
+.note-box{background:var(--info-bg);border:1px solid var(--info-border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px;color:var(--info-fg)}
+.cmp-row{border-radius:8px;padding:10px 12px;margin-bottom:6px;border-left:3px solid transparent}
+.cmp-agree{background:var(--row-agree-bg);border-left-color:#22c55e}
+.cmp-phys-mis{background:var(--row-phys-bg);border-left-color:#f97316}
+.cmp-men-mis{background:var(--row-men-bg);border-left-color:#eab308}
+.cmp-both-mis{background:var(--row-both-bg);border-left-color:#ef4444}
+.cmp-skipped{background:var(--row-skip-bg);border-left-color:#64748b}
+.cmp-one-skip{background:var(--row-oneskip-bg);border-left-color:#a78bfa}
+.cmp-unanswered{background:var(--row-skip-bg);border-left-color:#64748b}
+.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
+.chip-me-p{background:var(--chip-phys-me-bg);color:var(--chip-phys-me-fg)}
+.chip-shared-p{background:var(--chip-phys-sh-bg);color:var(--chip-phys-sh-fg)}
+.chip-partner-p{background:var(--chip-partner-bg);color:var(--chip-partner-fg)}
+.chip-me-m{background:var(--chip-men-me-bg);color:var(--chip-men-me-fg)}
+.chip-shared-m{background:var(--chip-men-sh-bg);color:var(--chip-men-sh-fg)}
+.chip-partner-m{background:var(--chip-partner-bg);color:var(--chip-partner-fg)}
+.chip-skip{background:var(--surface-3);color:var(--text-dim)}
+.chip-none{background:var(--surface-3);color:var(--text-dim);font-style:italic}
+.big-agree{font-size:36px;font-weight:600;line-height:1;margin-bottom:4px}
+.agree-green{color:var(--ok-fg)}
+.agree-yellow{color:var(--warn-fg)}
+.agree-red{color:var(--err-fg)}
+.section-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.section-sub{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:14px}
+.answered-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px;font-size:12px}
+.answered-pill{padding:3px 9px;border-radius:10px;background:var(--surface-2);color:var(--text-muted);font-weight:500}
+.wflag-up-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:var(--accent-soft);color:var(--accent-2);font-weight:500}
+.wflag-down-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:var(--info-bg);color:var(--info-fg);font-weight:500}
+.wflag-conflict-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:var(--err-bg);color:var(--err-fg);font-weight:500}
+.wflag-quiet{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:var(--surface-2);color:var(--text-muted)}
+.emoflag-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:rgba(168,85,247,.15);color:#7c3aed;font-weight:500}
+.emoflag-quiet{display:inline-block;font-size:10px;padding:1px 7px;border-radius:6px;background:var(--surface-2);color:var(--text-muted)}
+.cmp-prompt{margin-top:9px}
+.cmp-prompt-toggle{background:transparent;border:1px dashed var(--text-dim);color:var(--text-muted);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.cmp-prompt-toggle:hover{border-style:solid;color:var(--text);background:var(--surface-2)}
+.cmp-prompt-toggle .cpt-arrow{font-size:9px;transition:transform .15s}
+.cmp-prompt-toggle[aria-expanded="true"] .cpt-arrow{transform:rotate(90deg)}
+.cmp-prompt-body{margin-top:7px;padding:10px 12px;background:var(--surface-2);border-left:2px solid var(--accent);border-radius:6px;font-size:12.5px;line-height:1.5;color:var(--text)}
+.cmp-prompt-body em{color:var(--accent);font-style:normal;font-weight:500}
+.action-prompt-list{display:flex;flex-direction:column;gap:10px}
+.action-prompt{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border-left:2px solid var(--accent);border-radius:8px;flex-wrap:wrap}
+.action-prompt .ap-text{flex:1;min-width:220px;font-size:13px;line-height:1.5;color:var(--text)}
+.action-prompt .ap-text em{font-style:normal;color:var(--accent);font-weight:500}
+.action-prompt .ap-btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:7px 12px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+.action-prompt .ap-btn:hover{filter:brightness(1.1)}
+.action-prompt-stack{flex-direction:column;align-items:stretch}
+.action-prompt-stack .ap-text{flex:none}
+.action-prompt-stack .ap-btn{align-self:flex-start}
+.ap-examples{list-style:none;padding:0;margin:4px 0 8px;display:flex;flex-direction:column;gap:5px}
+.ap-examples li{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text);flex-wrap:wrap;padding:4px 0}
+.ap-examples .ap-ex-name{font-weight:500}
+.ap-examples .ap-ex-frame{color:var(--text-muted);font-style:italic;font-size:11px;margin-left:auto}
+.ap-examples-empty{font-size:12px;color:var(--text-muted);font-style:italic;margin:4px 0 8px}
+@media (max-width:420px){#root > div > h1:not(.sr-only),#root > div > h2:first-of-type{padding-right:150px}}
+
+</style>
+</head>
+<body>
+<a href="#root" class="skip-link">Skip to main content</a>
+<header role="banner">
+  <div class="app-toolbar" role="toolbar" aria-label="App actions">
+    <button id="exportBtn" class="export-btn" onclick="toggleExportMenu(event)" title="Export your results" aria-label="Export your results" aria-haspopup="true" aria-expanded="false">📤</button>
+    <button id="resetBtn" class="reset-btn" onclick="resetAll()" title="Start over (clears all answers)" aria-label="Start over and clear all answers">↺</button>
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark" aria-label="Toggle light or dark theme">🌙</button>
+  </div>
+  <div id="exportMenu" class="export-menu" role="menu" aria-hidden="true"></div>
+</header>
+<input type="file" id="importFileInput" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
+<main id="root"><p style="color:var(--text-muted);font-size:14px;padding:2rem 0">Setting up...</p></main>
+<script>
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function applyTheme(t){const btn=document.getElementById('themeToggle');if(t==='light'){document.documentElement.setAttribute('data-theme','light');if(btn)btn.textContent='☀';}else{document.documentElement.removeAttribute('data-theme');if(btn)btn.textContent='🌙';}}
+function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';const next=cur==='light'?'dark':'light';try{localStorage.setItem('mlv7_theme',next);}catch(e){}applyTheme(next);}
+try{applyTheme(localStorage.getItem('mlv7_theme')||'dark');}catch(e){applyTheme('dark');}
+const WC={1:{label:'routine',cls:'badge-routine'},2:{label:'moderate',cls:'badge-moderate'},3:{label:'complex',cls:'badge-complex'}};
+const FQ={daily:4,weekly:3,monthly:2,occasional:1};
+const FQ_LABEL={daily:'daily',weekly:'weekly',monthly:'monthly',occasional:'occasional'};
+const CATS=[
+{id:'household',name:'Household'},
+{id:'school',name:'School & daycare'},
+{id:'body',name:'Body & health'},
+{id:'pets',name:'Pets'},
+{id:'hobbies',name:'Activities'},
+{id:'clothes',name:'Clothes'},
+{id:'birthdays',name:'Birthdays & holidays'},
+{id:'transport',name:'Transport'},
+{id:'relationships',name:'Sleep & relationships'},
+{id:'money',name:'Money & admin'},
+{id:'technology',name:'Technology'},
+{id:'eldercare',name:'Eldercare & family caregiving'}
+];
+const T=[
+{id:'h01',cat:'household',name:'Washing & hanging laundry',w:1,freq:'weekly'},
+{id:'h02',cat:'household',name:'Drying laundry (dryer or line)',w:1,freq:'weekly'},
+{id:'h03',cat:'household',name:'Folding & putting away laundry',w:1,freq:'weekly'},
+{id:'h04',cat:'household',name:'Ironing',w:1,freq:'monthly'},
+{id:'h05',cat:'household',name:'Changing bed sheets',w:1,freq:'weekly'},
+{id:'h06',cat:'household',name:'Making beds (daily)',w:1,freq:'daily'},
+{id:'h07',cat:'household',name:'Cooking weekday family dinners',w:2,freq:'daily'},
+{id:'h08',cat:'household',name:'Preparing kid breakfasts / school-morning food',w:1,freq:'daily',requiresKids:true},
+{id:'h09',cat:'household',name:'Cooking from-scratch / skill-required meals',w:3,freq:'weekly'},
+{id:'h10',cat:'household',name:"Knowing each family member's food preferences & restrictions",w:3,freq:'weekly'},
+{id:'h11',cat:'household',name:'Loading & unloading the dishwasher',w:1,freq:'daily'},
+{id:'h12',cat:'household',name:'Hand-washing pots, pans & oversize items',w:1,freq:'daily'},
+{id:'h13',cat:'household',name:'Wiping counters & stovetop after meals',w:1,freq:'daily'},
+{id:'h14',cat:'household',name:'Deep kitchen reset (weekly — appliances, sink, splashbacks)',w:2,freq:'weekly'},
+{id:'h15',cat:'household',name:'Maintaining the running grocery list',w:3,freq:'weekly'},
+{id:'h16',cat:'household',name:"Tracking what's running low in pantry / fridge",w:2,freq:'daily'},
+{id:'h17',cat:'household',name:'Grocery shopping (the trip)',w:2,freq:'weekly'},
+{id:'h18',cat:'household',name:'Planning meals for the week',w:3,freq:'weekly'},
+{id:'h19',cat:'household',name:'Daily kitchen / common-area tidy (reset to baseline)',w:1,freq:'daily'},
+{id:'h20',cat:'household',name:'Weekly deeper tidy (surfaces, clutter sweep)',w:2,freq:'weekly'},
+{id:'h21',cat:'household',name:'Decluttering / purging (seasonal or as-needed)',w:3,freq:'occasional'},
+{id:'h22',cat:'household',name:'Vacuuming',w:1,freq:'weekly'},
+{id:'h23',cat:'household',name:'Mopping / wet-cleaning floors',w:1,freq:'weekly'},
+{id:'h24',cat:'household',name:'Quick bathroom touch-up (sink, mirror, counter)',w:1,freq:'weekly'},
+{id:'h25',cat:'household',name:'Deep bathroom clean (toilet, tub, shower, grout)',w:2,freq:'monthly'},
+{id:'h26',cat:'household',name:'Restocking bathroom supplies (TP, soap, towels)',w:2,freq:'monthly'},
+{id:'h27',cat:'household',name:'Cleaning the oven (deep clean)',w:2,freq:'occasional'},
+{id:'h40',cat:'household',name:'Cleaning fridge & freezer (interior, expired food sweep)',w:2,freq:'monthly'},
+{id:'h28',cat:'household',name:'Watering indoor plants',w:1,freq:'weekly'},
+{id:'h29',cat:'household',name:'Knowing what each plant needs (light, food, repotting)',w:2,freq:'weekly'},
+{id:'h30',cat:'household',name:'Daily trash bin emptying (kitchen → outside bin)',w:1,freq:'daily'},
+{id:'h41',cat:'household',name:'Daily recycling bin emptying (kitchen → outside bin)',w:1,freq:'daily'},
+{id:'h31',cat:'household',name:'Weekly trash to curb',w:1,freq:'weekly'},
+{id:'h42',cat:'household',name:'Weekly recycling to curb',w:1,freq:'weekly'},
+{id:'h32',cat:'household',name:'Knowing trash & recycling collection schedule (which day, special pickups)',w:2,freq:'weekly'},
+{id:'h33',cat:'household',name:'Mail handling — sorting incoming, opening, filing',w:1,freq:'daily'},
+{id:'h34',cat:'household',name:'Returns & outgoing shipments',w:2,freq:'monthly'},
+{id:'h35',cat:'household',name:'Light bulb / battery / smoke-alarm replacement',w:1,freq:'occasional'},
+{id:'h36',cat:'household',name:'Maintaining the Target / Walmart / general-merchandise list',w:2,freq:'weekly'},
+{id:'h37',cat:'household',name:'Target / Walmart shopping trips',w:2,freq:'weekly'},
+{id:'h38',cat:'household',name:"Maintaining the wholesale (Costco / BJ's / Sam's) shopping list",w:2,freq:'monthly'},
+{id:'h39',cat:'household',name:'Wholesale shopping trips',w:2,freq:'monthly'},
+{id:'s01',cat:'school',name:'Morning drop-off (the drive)',w:1,freq:'daily',requiresSchool:true},
+{id:'s02',cat:'school',name:'Afternoon pick-up (the drive)',w:1,freq:'daily',requiresSchool:true},
+{id:'s03',cat:'school',name:'Coordinating who does drop-off / pick-up each day',w:2,freq:'weekly',requiresSchool:true},
+{id:'s04',cat:'school',name:'Packing school lunches',w:2,freq:'daily',requiresSchool:true},
+{id:'s05',cat:'school',name:'Preparing snack boxes',w:2,freq:'daily',requiresSchool:true},
+{id:'s06',cat:'school',name:'Supervising homework',w:2,freq:'daily',requiresSchool:true},
+{id:'s07',cat:'school',name:'Helping with bigger school projects',w:3,freq:'monthly',requiresSchool:true},
+{id:'s08',cat:'school',name:'Getting school & daycare supplies',w:3,freq:'occasional',requiresSchool:true},
+{id:'s09',cat:'school',name:"Being the school's primary contact person",w:3,freq:'weekly',requiresSchool:true},
+{id:'s10',cat:'school',name:'Reading school emails / app notifications',w:2,freq:'daily',requiresSchool:true},
+{id:'s11',cat:'school',name:'Parent-teacher conferences / parent nights',w:2,freq:'occasional',requiresSchool:true},
+{id:'s12',cat:'school',name:'Preparing gym kit / sports gear for school',w:2,freq:'weekly',requiresSchool:true},
+{id:'s13',cat:'school',name:'Tracking the school calendar (early release, breaks, picture day, themed days)',w:3,freq:'weekly',requiresSchool:true},
+{id:'s14',cat:'school',name:'Permission slips & forms',w:2,freq:'monthly',requiresSchool:true},
+{id:'s15',cat:'school',name:'Field trip & classroom volunteer sign-ups',w:2,freq:'monthly',requiresSchool:true},
+{id:'s16',cat:'school',name:'Teacher gifts / classroom contributions',w:2,freq:'occasional',requiresSchool:true},
+{id:'s17',cat:'school',name:"Knowing kids' friends, friend-group dynamics & social issues",w:3,freq:'weekly',requiresSchool:true},
+{id:'s18',cat:'school',name:'Coordinating carpools with other families',w:2,freq:'weekly',requiresSchool:true},
+{id:'b01',cat:'body',name:"Kids' hair combing & styling",w:1,freq:'daily',requiresKids:true},
+{id:'b02',cat:'body',name:"Kids' bath time & hair washing",w:1,freq:'daily',requiresKids:true},
+{id:'b03',cat:'body',name:'Tooth-brushing supervision (kids)',w:1,freq:'daily',requiresKids:true},
+{id:'b04',cat:'body',name:'Tracking & buying drugstore supplies (toothpaste, deodorant, etc.)',w:2,freq:'monthly'},
+{id:'b05',cat:'body',name:'Making doctor appointments — kids',w:3,freq:'monthly',requiresKids:true},
+{id:'b06',cat:'body',name:'Making doctor appointments — self / partner',w:3,freq:'monthly'},
+{id:'b07',cat:'body',name:'Doctor visits & follow-ups (taking, sitting through, remembering instructions)',w:2,freq:'monthly'},
+{id:'b08',cat:'body',name:'Tracking immunizations & well-child visits',w:3,freq:'occasional',requiresKids:true},
+{id:'b09',cat:'body',name:'Dental cleanings — scheduling & taking',w:3,freq:'occasional'},
+{id:'b10',cat:'body',name:'Eye exams & glasses upkeep',w:3,freq:'occasional'},
+{id:'b11',cat:'body',name:"Sorting & updating the medicine cabinet (what's expired, what we're out of)",w:3,freq:'monthly'},
+{id:'b12',cat:'body',name:'Managing prescription refills',w:3,freq:'monthly'},
+{id:'b13',cat:'body',name:'Insurance claims, EOBs, billing follow-up',w:3,freq:'monthly'},
+{id:'b14',cat:'body',name:'Mental health / therapy scheduling (self & kids)',w:3,freq:'monthly'},
+{id:'b15',cat:'body',name:'Noticing early illness signs in the household',w:3,freq:'weekly'},
+{id:'b16',cat:'body',name:'Caring for a sick family member (food, comfort, monitoring)',w:2,freq:'monthly'},
+{id:'p01',cat:'pets',name:'Daily feeding',w:1,freq:'daily'},
+{id:'p02',cat:'pets',name:'Daily walks / outdoor time / exercise',w:1,freq:'daily'},
+{id:'p03',cat:'pets',name:'Litter box / waste cleanup (indoor)',w:1,freq:'daily'},
+{id:'p04',cat:'pets',name:'Yard waste cleanup (outdoor)',w:1,freq:'weekly'},
+{id:'p05',cat:'pets',name:'Grooming — brushing, bathing, nail trims',w:2,freq:'monthly'},
+{id:'p06',cat:'pets',name:'Vet appointments — scheduling',w:3,freq:'occasional'},
+{id:'p07',cat:'pets',name:'Vet appointments — taking the pet',w:2,freq:'occasional'},
+{id:'p08',cat:'pets',name:'Medication schedule & administering',w:3,freq:'daily'},
+{id:'p09',cat:'pets',name:'Buying pet food & supplies',w:2,freq:'monthly'},
+{id:'p10',cat:'pets',name:'Pet sitter / boarding coordination when traveling',w:3,freq:'occasional'},
+{id:'a01',cat:'hobbies',name:'Driving kids to / from after-school activities',w:1,freq:'daily',requiresKids:true},
+{id:'a02',cat:'hobbies',name:'Coordinating logistics for activities (who, when, gear, snack)',w:2,freq:'weekly',requiresKids:true},
+{id:'a03',cat:'hobbies',name:'Sports / club registration, fees, paperwork',w:3,freq:'occasional',requiresKids:true},
+{id:'a04',cat:'hobbies',name:'Researching new clubs / sports / lessons',w:3,freq:'occasional',requiresKids:true},
+{id:'a05',cat:'hobbies',name:'Making play dates',w:3,freq:'weekly',requiresKids:true},
+{id:'a06',cat:'hobbies',name:'Weekend excursions / family outings',w:2,freq:'weekly'},
+{id:'a07',cat:'hobbies',name:'Organizing babysitter / childcare',w:3,freq:'monthly',requiresKids:true},
+{id:'a08',cat:'hobbies',name:"Managing kids' pocket money / allowance",w:2,freq:'weekly',requiresKids:true},
+{id:'a09',cat:'hobbies',name:"Vacation planning (where, when, who's invited)",w:3,freq:'occasional'},
+{id:'a10',cat:'hobbies',name:'Booking travel logistics (flights, hotels, rental cars)',w:3,freq:'occasional'},
+{id:'a11',cat:'hobbies',name:'Packing suitcases — kids',w:2,freq:'occasional',requiresKids:true},
+{id:'a12',cat:'hobbies',name:'Packing suitcases — self / partner',w:1,freq:'occasional'},
+{id:'a13',cat:'hobbies',name:'Adult social planning (friends, dinners out, double dates)',w:3,freq:'monthly'},
+{id:'a14',cat:'hobbies',name:'Planning date nights / one-on-one couple time',w:2,freq:'monthly'},
+{id:'a15',cat:'hobbies',name:'Holiday tradition planning (non-gift-related)',w:3,freq:'occasional'},
+{id:'c01',cat:'clothes',name:"Choosing kids' daily outfits",w:1,freq:'daily',requiresKids:true},
+{id:'c02',cat:'clothes',name:'Physically dressing young children',w:1,freq:'daily',requiresKids:true},
+{id:'c03',cat:'clothes',name:"Tracking kids' current clothing sizes",w:3,freq:'monthly',requiresKids:true},
+{id:'c04',cat:'clothes',name:'Sorting & rotating outgrown clothes',w:2,freq:'occasional',requiresKids:true},
+{id:'c05',cat:'clothes',name:'Shoe size testing & shopping (kids)',w:3,freq:'occasional',requiresKids:true},
+{id:'c06',cat:'clothes',name:'Buying new clothes — kids',w:2,freq:'monthly',requiresKids:true},
+{id:'c07',cat:'clothes',name:'Buying new clothes — self',w:1,freq:'monthly'},
+{id:'c08',cat:'clothes',name:'Buying new clothes — partner',w:2,freq:'monthly'},
+{id:'c09',cat:'clothes',name:'Mending / hemming clothes',w:2,freq:'occasional'},
+{id:'c10',cat:'clothes',name:'Donating / selling used clothes',w:2,freq:'occasional'},
+{id:'c11',cat:'clothes',name:'Seasonal wardrobe rotation (storing & retrieving)',w:2,freq:'occasional'},
+{id:'c12',cat:'clothes',name:'Special-occasion outfits (school events, weddings, family photos)',w:2,freq:'occasional'},
+{id:'d01',cat:'birthdays',name:'Sending birthday greetings (cards, texts, calls)',w:2,freq:'monthly'},
+{id:'d02',cat:'birthdays',name:'Buying birthday gifts for friends & extended family',w:3,freq:'monthly'},
+{id:'d03',cat:'birthdays',name:"Knowing kids' gift wishes & relaying to relatives",w:2,freq:'monthly',requiresKids:true},
+{id:'d04',cat:'birthdays',name:'Buying birthday gifts for own children',w:3,freq:'occasional',requiresKids:true},
+{id:'d05',cat:'birthdays',name:"Planning kids' birthday parties",w:3,freq:'occasional',requiresKids:true},
+{id:'d06',cat:'birthdays',name:'Holiday gift planning & shopping (Christmas, Hanukkah, etc.)',w:3,freq:'occasional'},
+{id:'d07',cat:'birthdays',name:'Holiday cards / family photo coordination',w:3,freq:'occasional'},
+{id:'d08',cat:'birthdays',name:'Hosting family gatherings — logistics (who, when, RSVPs)',w:3,freq:'occasional'},
+{id:'d09',cat:'birthdays',name:'Hosting family gatherings — food & cooking',w:3,freq:'occasional'},
+{id:'d10',cat:'birthdays',name:'Decorating the home for holidays',w:2,freq:'occasional'},
+{id:'d11',cat:'birthdays',name:'Tracking anniversaries & important family dates',w:2,freq:'monthly'},
+{id:'d12',cat:'birthdays',name:'Buying gifts for partner',w:2,freq:'occasional'},
+{id:'d13',cat:'birthdays',name:'Buying gifts for own parents / siblings',w:2,freq:'occasional'},
+{id:'t01',cat:'transport',name:'Refueling the car',w:1,freq:'weekly'},
+{id:'t02',cat:'transport',name:'Car checkups & repairs — scheduling',w:2,freq:'occasional'},
+{id:'t03',cat:'transport',name:'Car checkups & repairs — taking it in',w:1,freq:'occasional'},
+{id:'t04',cat:'transport',name:'Servicing bicycles',w:2,freq:'occasional'},
+{id:'t05',cat:'transport',name:'Helmet sizing & buying (kids & adults)',w:2,freq:'occasional'},
+{id:'t06',cat:'transport',name:'Buying child seats for car & bike',w:3,freq:'occasional',requiresKids:true},
+{id:'t07',cat:'transport',name:'Vehicle registration & inspections',w:3,freq:'occasional'},
+{id:'t08',cat:'transport',name:'Vehicle insurance (renewal, comparison shopping)',w:3,freq:'occasional'},
+{id:'t09',cat:'transport',name:'Car cleaning — interior',w:1,freq:'monthly'},
+{id:'t10',cat:'transport',name:'Car cleaning — exterior / wash',w:1,freq:'monthly'},
+{id:'t11',cat:'transport',name:'Researching the next vehicle purchase',w:3,freq:'occasional'},
+{id:'r01',cat:'relationships',name:'Bedtime — bringing kids to bed (the routine itself)',w:2,freq:'daily',requiresKids:true},
+{id:'r02',cat:'relationships',name:'Bedtime — reading / wind-down ritual',w:1,freq:'daily',requiresKids:true},
+{id:'r03',cat:'relationships',name:'Wake-up support — getting kids up & moving',w:1,freq:'daily',requiresKids:true},
+{id:'r04',cat:'relationships',name:'Night shifts during illness',w:2,freq:'monthly',requiresKids:true},
+{id:'r05',cat:'relationships',name:'Night wakings / soothing back to sleep',w:2,freq:'weekly',requiresKids:true},
+{id:'r06',cat:'relationships',name:'Conversations with teenagers (the heavy talks)',w:3,freq:'weekly',requiresSchool:true},
+{id:'r07',cat:'relationships',name:'Rule agreements with older children (screens, curfew, etc.)',w:3,freq:'monthly',requiresSchool:true},
+{id:'r08',cat:'relationships',name:'Mediating sibling conflict',w:2,freq:'daily',requiresKids:true},
+{id:'r09',cat:'relationships',name:'Emotional check-ins with kids (noticing mood, processing big feelings)',w:3,freq:'weekly',requiresKids:true},
+{id:'r10',cat:'relationships',name:'Organizing couple time',w:2,freq:'monthly'},
+{id:'r11',cat:'relationships',name:"Remembering & honoring partner's preferences (\"love language\" upkeep)",w:3,freq:'weekly'},
+{id:'r12',cat:'relationships',name:'Maintaining contact with own parents / siblings',w:3,freq:'weekly'},
+{id:'r13',cat:'relationships',name:"Maintaining contact with partner's parents / siblings",w:3,freq:'weekly'},
+{id:'r14',cat:'relationships',name:'Sending holiday cards / staying in touch with friends',w:3,freq:'monthly'},
+{id:'r15',cat:'relationships',name:'Saving memories & photos (capturing them)',w:2,freq:'weekly'},
+{id:'r16',cat:'relationships',name:'Managing the digital photo library / shared albums',w:2,freq:'monthly'},
+{id:'m01',cat:'money',name:'Paying recurring bills (rent / mortgage, electric, water, etc.)',w:3,freq:'monthly'},
+{id:'m02',cat:'money',name:'Household budgeting / cash-flow tracking',w:3,freq:'weekly'},
+{id:'m03',cat:'money',name:'Reviewing bank & credit card statements for errors',w:2,freq:'monthly'},
+{id:'m04',cat:'money',name:'Managing household subscriptions (streaming, software, memberships)',w:3,freq:'monthly'},
+{id:'m05',cat:'money',name:'Researching utilities & insurance providers',w:3,freq:'occasional'},
+{id:'m06',cat:'money',name:'Tax prep — gathering documents',w:2,freq:'occasional'},
+{id:'m07',cat:'money',name:'Tax prep — filing decisions / working with accountant',w:3,freq:'occasional'},
+{id:'m08',cat:'money',name:'Retirement & long-term financial planning',w:3,freq:'occasional'},
+{id:'m09',cat:'money',name:'College savings / 529 plans',w:3,freq:'occasional',requiresKids:true},
+{id:'m10',cat:'money',name:'Estate / will / guardianship paperwork',w:3,freq:'occasional'},
+{id:'m11',cat:'money',name:"Tracking & renewing IDs, passports, driver's licenses",w:3,freq:'occasional'},
+{id:'m12',cat:'money',name:'Managing the family calendar / shared scheduling app',w:3,freq:'daily'},
+{id:'n01',cat:'technology',name:'Setting up new devices for family members (phone, laptop, tablet — activation, accounts)',w:2,freq:'monthly'},
+{id:'n02',cat:'technology',name:'Researching big tech purchases (which TV, which phone, which laptop)',w:2,freq:'occasional'},
+{id:'n03',cat:'technology',name:'Managing the home network — fixing it when it breaks',w:2,freq:'monthly'},
+{id:'n04',cat:'technology',name:'Being on call as the household\'s tech support ("X isn\'t working")',w:3,freq:'weekly'},
+{id:'n05',cat:'technology',name:'Managing passwords & shared logins (where they live, who has access)',w:3,freq:'monthly'},
+{id:'n06',cat:'technology',name:'Software / OS updates on family devices',w:1,freq:'monthly'},
+{id:'n07',cat:'technology',name:"Photo & file backups (knowing they happen, fixing when they don't)",w:3,freq:'weekly'},
+{id:'n08',cat:'technology',name:'Managing streaming & subscription accounts (profiles, family plans, who is logged in where)',w:2,freq:'monthly'},
+{id:'n09',cat:'technology',name:"Setting & enforcing kids' screen-time rules",w:3,freq:'weekly',requiresKids:true},
+{id:'n10',cat:'technology',name:'Talking to kids about online safety (scams, content, strangers, social apps)',w:3,freq:'monthly',requiresKids:true},
+{id:'n11',cat:'technology',name:'School tech support (Chromebook, parent portal logins, app installs for assignments)',w:2,freq:'weekly',requiresSchool:true},
+{id:'n12',cat:'technology',name:'Smart home / IoT setup & day-to-day fixes (devices the family actually uses)',w:2,freq:'monthly'},
+{id:'e01',cat:'eldercare',name:'Medication tracking & refills',w:3,freq:'weekly',requiresEldercare:true},
+{id:'e02',cat:'eldercare',name:'Scheduling & attending medical appointments',w:3,freq:'monthly',requiresEldercare:true},
+{id:'e03',cat:'eldercare',name:'Transportation to appointments / errands',w:2,freq:'weekly',requiresEldercare:true},
+{id:'e04',cat:'eldercare',name:'Daily check-ins (calls, visits)',w:2,freq:'daily',requiresEldercare:true},
+{id:'e05',cat:'eldercare',name:'Insurance / Medicare / benefits paperwork',w:3,freq:'monthly',requiresEldercare:true},
+{id:'e06',cat:'eldercare',name:'Coordinating siblings or other family caregivers',w:3,freq:'weekly',requiresEldercare:true},
+{id:'e07',cat:'eldercare',name:'Managing paid caregivers or facility relationships',w:3,freq:'weekly',requiresEldercare:true},
+{id:'e08',cat:'eldercare',name:'Home-safety adaptations (mobility, grab bars, etc.)',w:2,freq:'occasional',requiresEldercare:true},
+{id:'e09',cat:'eldercare',name:'Meal prep or grocery delivery for the care recipient',w:2,freq:'weekly',requiresEldercare:true},
+{id:'e10',cat:'eldercare',name:'Advance-directive / end-of-life planning',w:3,freq:'occasional',requiresEldercare:true},
+{id:'e11',cat:'eldercare',name:'Holding the worry — noticing changes, anticipating decline',w:3,freq:'daily',requiresEldercare:true}
+];
+
+const DEFAULT_S=()=>({screen:'intro',nameA:'',nameB:'',kidsState:null,eldercareState:null,answersA:{},answersB:{},gutCheckA:{},gutCheckB:{},catIdx:0,resFilter:'all',agreeMode:'strict',scoreMode:'complexity',metaSurprise:''});
+let S=DEFAULT_S();
+// 'mlv7' key retained for backward-compat with existing users; do not rename without migration.
+function saveS(){try{localStorage.setItem('mlv7',JSON.stringify(S));}catch(e){}}
+function checkMigration(){
+  if(S.eldercareState==null&&S.screen!=='intro'&&S.screen!=='welcome'){
+    S.screen='setup';S._migrationBanner=true;
+  }
+}
+function loadS(){try{const d=localStorage.getItem('mlv7');if(d){Object.assign(S,JSON.parse(d));if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};[S.answersA,S.answersB].forEach(ans=>{if(!ans)return;Object.keys(ans).forEach(k=>{const a=ans[k];if(a&&a.heavy&&!a.wFlag){a.wFlag='up';}if(a)delete a.heavy;});});checkMigration();}}catch(e){}}
+
+function isApplicable(t){
+  const ks=S.kidsState||'school';
+  if(ks==='none'){if(t.requiresKids||t.requiresSchool)return false;}
+  else if(ks==='preschool'){if(t.requiresSchool)return false;}
+  if(t.requiresEldercare&&S.eldercareState!=='present')return false;
+  return true;
+}
+function activeTasks(){return T.filter(isApplicable);}
+function activeCats(){const at=activeTasks();return CATS.filter(c=>at.some(t=>t.cat===c.id));}
+
+const PV={me:1,shared:.5,partner:0};
+function sc(ans,mode){
+  let p=0,m=0;
+  activeTasks().forEach(t=>{
+    const a=ans[t.id];if(!a||!a.phys||a.phys==='na')return;
+    const mult=mode==='frequency'?t.w*FQ[t.freq]:t.w;
+    p+=(PV[a.phys]||0)*mult;
+    m+=(PV[a.mental]||0)*mult;
+  });
+  return{p,m,total:p+m};
+}
+// Per-person, per-category measured "what % of this area do I do?" — self-referential,
+// blends physical + mental perspective. Returns 0–100 or null if no answers.
+function measuredSelfShare(ans,cid,mode){
+  let sum=0,wt=0;
+  activeTasks().filter(t=>t.cat===cid).forEach(t=>{
+    const a=ans[t.id];if(!a||!a.phys||a.phys==='na')return;
+    const mult=mode==='frequency'?t.w*FQ[t.freq]:t.w;
+    const pv=PV[a.phys]||0;
+    const mv=a.mental?(PV[a.mental]||0):pv;
+    sum+=((pv+mv)/2)*mult;wt+=mult;
+  });
+  return wt>0?Math.round((sum/wt)*100):null;
+}
+function scCat(ans,cid,mode){
+  let p=0,m=0;
+  activeTasks().filter(t=>t.cat===cid).forEach(t=>{
+    const a=ans[t.id];if(!a||!a.phys||a.phys==='na')return;
+    const mult=mode==='frequency'?t.w*FQ[t.freq]:t.w;
+    p+=(PV[a.phys]||0)*mult;
+    m+=(PV[a.mental]||0)*mult;
+  });
+  return{p,m,total:p+m};
+}
+function catProg(ans){
+  const cats=activeCats();
+  return cats.map(c=>{
+    const ts=activeTasks().filter(t=>t.cat===c.id);
+    const done=ts.filter(t=>{const a=ans[t.id];return a&&a.phys&&(a.phys==='na'||a.mental);}).length;
+    return{...c,done,total:ts.length};
+  });
+}
+function answeredCount(ans){return activeTasks().filter(t=>{const a=ans[t.id];return a&&a.phys&&(a.phys==='na'||a.mental);}).length;}
+
+function classifyTask(t){
+  const a=S.answersA[t.id],b=S.answersB[t.id];
+  const aDone=a&&a.phys&&(a.phys==='na'||a.mental);
+  const bDone=b&&b.phys&&(b.phys==='na'||b.mental);
+  if(!aDone&&!bDone) return 'unanswered';
+  if(!aDone||!bDone) return 'one-skip';
+  if(a.phys==='na'&&b.phys==='na') return 'skipped';
+  if(a.phys==='na'||b.phys==='na') return 'one-skip';
+  const physAgree=a.phys===b.phys;
+  const menAgree=a.mental===b.mental;
+  if(physAgree&&menAgree) return 'agree';
+  if(physAgree&&!menAgree) return 'men-mis';
+  if(!physAgree&&menAgree) return 'phys-mis';
+  return 'both-mis';
+}
+
+function taskFlags(t){
+  const a=S.answersA[t.id],b=S.answersB[t.id];
+  return{
+    invisA:!!(a&&a.phys==='partner'&&a.mental==='me'),
+    invisB:!!(b&&b.phys==='partner'&&b.mental==='me'),
+    menGapA:!!(a&&a.phys==='shared'&&a.mental==='me'),
+    menGapB:!!(b&&b.phys==='shared'&&b.mental==='me'),
+    wFlagA:(a&&a.wFlag)||null,
+    wFlagB:(b&&b.wFlag)||null,
+    emoFlagA:!!(a&&a.emoFlag),
+    emoFlagB:!!(b&&b.emoFlag),
+  };
+}
+
+function cmpPrompt(t,a,b,f){
+  const tn=esc(t.name),aN=esc(S.nameA),bN=esc(S.nameB);
+  const wA=f.wFlagA,wB=f.wFlagB;
+  const eA=f.emoFlagA,eB=f.emoFlagB;
+  if(wA&&wB&&wA!==wB) return{key:'w-conflict',label:'Directional conflict',text:`<em>${tn}</em> feels heavier than average to one of you, lighter to the other. Is one of you doing it, and the other observing it being done?`};
+  if(a.phys==='me'&&b.phys==='me') return{key:'both-claim',label:'Both claim it',text:`You both said you handle <em>${tn}</em>. What does "doing it" mean to each of you? Often one person executes and the other plans — and both count.`};
+  if(a.phys==='partner'&&b.phys==='partner') return{key:'neither-claim',label:'Neither claims it',text:`Neither of you claimed <em>${tn}</em>. Who actually does it — or is it just not getting done?`};
+  if(wA==='up'&&wB==='up') return{key:'agreed-heavier',label:'Both flagged heavier',text:`You both said <em>${tn}</em> is heavier than average. Shared pain point — redesign candidate.`};
+  if(eA&&eB) return{key:'emo-agreed',label:'Both flagged as draining',text:`You both marked <em>${tn}</em> as costing energy beyond the time. Shared emotional cost — worth naming together.`};
+  if(a.phys&&b.phys&&a.phys!==b.phys&&a.phys!=='na'&&b.phys!=='na') return{key:'straight-dis',label:'Different answers',text:`You see this differently. Talk about what "doing it" looks like for <em>${tn}</em> week-to-week.`};
+  if((wA&&!wB)||(!wA&&wB)){const who=wA?aN:bN;const dir=(wA||wB)==='up'?'heavier':'lighter';return{key:'w-asymmetric',label:'Weight asymmetry',text:`${who} flagged <em>${tn}</em> as ${dir}; the other didn't flag it. Is this a weight that isn't visible from the outside?`};}
+  if(eA!==eB){const who=eA?aN:bN;return{key:'emo-asymmetric',label:'Emotional-labor asymmetry',text:`${who} feels <em>${tn}</em> as draining; the other didn't flag it. What makes the difference — the task itself, or everything riding on it?`};}
+  if(wA==='down'&&wB==='down') return{key:'agreed-lighter',label:'Both flagged lighter',text:`You both said <em>${tn}</em> is lighter than it looks. One of the easy ones — you're already on the same page here.`};
+  return null;
+}
+
+const PL={me:'I do this',shared:'We share',partner:'Partner'};
+const ML={me:'I track',shared:'We both',partner:'Partner'};
+const PC={me:'chip-me-p',shared:'chip-shared-p',partner:'chip-partner-p'};
+const MC={me:'chip-me-m',shared:'chip-shared-m',partner:'chip-partner-m'};
+function pChip(v){if(!v||v==='na')return'<span class="chip chip-skip">skipped</span>';return`<span class="chip ${PC[v]||''}">${PL[v]||v}</span>`;}
+function mChip(v){if(!v)return'<span class="chip chip-none">—</span>';return`<span class="chip ${MC[v]||''}">${ML[v]||v}</span>`;}
+
+// ───── Export module (v7) ─────
+const EXPORT_SCHEMA='mlv7';
+const EX={redact:false,menuOpen:false};
+const BUCKET_PRIORITY={'w-conflict':1,'both-claim':2,'neither-claim':3,'agreed-heavier':4,'emo-agreed':5,'straight-dis':6,'w-asymmetric':7,'emo-asymmetric':8,'agreed-lighter':9};
+
+function exportNames(){
+  const a=(S.nameA||'Person A').trim()||'Person A';
+  const b=(S.nameB||'Person B').trim()||'Person B';
+  if(EX.redact) return{a:'Person A',b:'Person B'};
+  return{a,b};
+}
+
+function computeExport(){
+  const sMode=S.scoreMode||'complexity';
+  const aTasks=activeTasks();
+  const sA=sc(S.answersA,sMode),sB=sc(S.answersB,sMode);
+  const tot=sA.total+sB.total;
+  const pA=tot>0?Math.round((sA.total/tot)*100):50,pB=100-pA;
+  const physShareA=(sA.p+sB.p)>0?Math.round(sA.p/(sA.p+sB.p)*100):50;
+  const menShareA=(sA.m+sB.m)>0?Math.round(sA.m/(sA.m+sB.m)*100):50;
+  const classified=aTasks.map(t=>({...t,cls:classifyTask(t),...taskFlags(t)}));
+  const bothAnswered=classified.filter(t=>!['unanswered','one-skip','skipped'].includes(t.cls));
+  const agreed=bothAnswered.filter(t=>t.cls==='agree');
+  const anyMis=bothAnswered.filter(t=>t.cls!=='agree');
+  const bothClaim=bothAnswered.filter(t=>{const a=S.answersA[t.id],b=S.answersB[t.id];return a&&b&&a.phys==='me'&&b.phys==='me';});
+  const neitherClaim=bothAnswered.filter(t=>{const a=S.answersA[t.id],b=S.answersB[t.id];return a&&b&&a.phys==='partner'&&b.phys==='partner';});
+  const wConflict=classified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='down')||(t.wFlagA==='down'&&t.wFlagB==='up'));
+  const wAsymmetric=classified.filter(t=>(t.wFlagA&&!t.wFlagB)||(!t.wFlagA&&t.wFlagB));
+  const emoBoth=classified.filter(t=>t.emoFlagA&&t.emoFlagB);
+  const emoOnlyA=classified.filter(t=>t.emoFlagA&&!t.emoFlagB);
+  const emoOnlyB=classified.filter(t=>t.emoFlagB&&!t.emoFlagA);
+  const emoAnyList=classified.filter(t=>t.emoFlagA||t.emoFlagB);
+  const perceptionGap=bothAnswered.length>0?Math.round(anyMis.length/bothAnswered.length*100):0;
+  const agreeRateStrict=bothAnswered.length>0?Math.round((agreed.length/bothAnswered.length)*100):0;
+
+  // §15.3 Agreement bright spot for export
+  const brightSpotExport=(()=>{
+    const perCat=activeCats().map(c=>{
+      const cT=classified.filter(t=>t.cat===c.id&&!['unanswered','skipped','one-skip'].includes(t.cls));
+      const cAg=cT.filter(t=>t.cls==='agree');
+      const cAR=cT.length>0?Math.round((cAg.length/cT.length)*100):null;
+      const cClassified=classified.filter(t=>t.cat===c.id);
+      const wc=cClassified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='down')||(t.wFlagA==='down'&&t.wFlagB==='up')).length;
+      const wa=cClassified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='up')||(t.wFlagA==='down'&&t.wFlagB==='down')).length;
+      return{name:c.name,id:c.id,agreeRate:cAR,count:cT.length,wConflict:wc,wAgreed:wa};
+    });
+    const elig=perCat.filter(c=>c.agreeRate!==null&&c.count>=3&&c.agreeRate>=70&&c.wConflict===0);
+    if(elig.length===0)return null;
+    elig.sort((a,b)=>(b.agreeRate-a.agreeRate)||(b.wAgreed-a.wAgreed));
+    return elig[0];
+  })();
+
+  // Top 5 disagreements — rank by cmpPrompt bucket priority, then weight desc
+  // Gut-check deltas for export
+  const gutRows=[];
+  activeCats().forEach(c=>{
+    [{person:'A',nameKey:'a',gut:S.gutCheckA&&S.gutCheckA[c.id],ans:S.answersA},
+     {person:'B',nameKey:'b',gut:S.gutCheckB&&S.gutCheckB[c.id],ans:S.answersB}].forEach(p=>{
+      if(typeof p.gut!=='number')return;
+      const m=measuredSelfShare(p.ans,c.id,sMode);
+      if(m===null)return;
+      gutRows.push({person:p.person,nameKey:p.nameKey,cat:c.name,catId:c.id,gut:p.gut,measured:m,delta:p.gut-m,abs:Math.abs(p.gut-m)});
+    });
+  });
+  gutRows.sort((a,b)=>b.abs-a.abs);
+  const gutCalibration=gutRows.length>0?Math.round(gutRows.reduce((s,g)=>s+g.abs,0)/gutRows.length):null;
+
+  const ranked=[];
+  bothAnswered.concat(classified.filter(t=>!bothAnswered.includes(t)&&(t.wFlagA||t.wFlagB))).forEach(t=>{
+    const a=S.answersA[t.id]||{},b=S.answersB[t.id]||{};
+    const p=cmpPrompt(t,a,b,{wFlagA:t.wFlagA,wFlagB:t.wFlagB});
+    if(!p)return;
+    if(p.key==='agreed-lighter')return; // not a disagreement
+    ranked.push({task:t,bucket:p.key,label:p.label,prompt:p.text,priority:BUCKET_PRIORITY[p.key]||99});
+  });
+  ranked.sort((x,y)=>x.priority-y.priority||(y.task.w||0)-(x.task.w||0));
+  const top5=ranked.slice(0,5);
+
+  return{
+    names:exportNames(),
+    generatedAt:new Date().toISOString(),
+    scoreMode:sMode,
+    hero:{
+      physShareA,physShareB:100-physShareA,
+      menShareA,menShareB:100-menShareA,
+      overallA:pA,overallB:pB,
+      perceptionGap,
+      bothClaim:bothClaim.length,
+      neitherClaim:neitherClaim.length,
+      weightAsymmetry:wAsymmetric.length+wConflict.length,
+      emoFlagged:emoAnyList.length,
+      emoBoth:emoBoth.length,
+      emoOnlyA:emoOnlyA.length,
+      emoOnlyB:emoOnlyB.length,
+      agreeRate:agreeRateStrict,
+      answeredTotal:bothAnswered.length,
+      totalActive:aTasks.length
+    },
+    emoFlag:{
+      both:emoBoth.map(t=>({name:t.name,weight:t.w})),
+      onlyA:emoOnlyA.map(t=>({name:t.name,weight:t.w})),
+      onlyB:emoOnlyB.map(t=>({name:t.name,weight:t.w})),
+      totalFlagged:emoAnyList.length
+    },
+    brightSpot:brightSpotExport,
+    top5:top5.map(r=>({name:r.task.name,weight:r.task.w,bucket:r.bucket,label:r.label,prompt:stripHTML(r.prompt)})),
+    gutCheck:{
+      rows:gutRows,
+      biggest:gutRows[0]||null,
+      calibration:gutCalibration
+    },
+    actions:(()=>{const wAny=classified.filter(t=>t.wFlagA||t.wFlagB);return[
+      {text:`Pick one task from the disputed list to re-negotiate this month.`,count:anyMis.length,filter:'any-mis',listLabel:'mismatch list',examples:pickExamples(anyMis)},
+      {text:`Pick one task from your heavier list to trade or share for 30 days.`,count:wAny.length,filter:'w-flagged',listLabel:'weight-flagged list',examples:pickExamples(wAny)},
+      {text:`Pick one task from the neither-claim list to officially claim, hand off, or retire.`,count:neitherClaim.length,filter:'neither-claim',listLabel:'neither-claim list',examples:pickExamples(neitherClaim)}
+    ];})(),
+    metaSurprise:(S.metaSurprise||'').trim()
+  };
+}
+
+function stripHTML(s){return String(s||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();}
+
+const LEVEL_FRAME={1:'quick win',2:'realistic 30-day trial',3:'high-impact, harder negotiation'};
+function pickExamples(tasks){
+  const out=[];
+  [1,2,3].forEach(w=>{const hit=tasks.find(t=>t.w===w);if(hit)out.push({name:hit.name,weight:w,levelLabel:WC[w].label,frame:LEVEL_FRAME[w]});});
+  return out;
+}
+
+const DISCLAIMER_LINES=[
+  'Local-only: nothing is uploaded, shared, or synced. Data lives in the browser you entered it in.',
+  'This is a tool for discovery, perception, and discussion — not for scoring points against a partner.',
+  'Inspired by Eve Rodsky\u2019s *Fair Play*. The value is in the conversation the results open up.'
+];
+
+function serializeMD(d){
+  const {names,hero,top5,actions,metaSurprise,generatedAt,scoreMode,gutCheck,emoFlag,brightSpot}=d;
+  const dt=new Date(generatedAt).toLocaleString();
+  const lines=[];
+  lines.push(`# Mental Load Visibility Test — Results`);
+  lines.push(``);
+  lines.push(`*Generated ${dt} · ${names.a} & ${names.b} · ${scoreMode==='complexity'?'cognitive-complexity':'frequency-weighted'} view*`);
+  lines.push(``);
+  lines.push(`> ${DISCLAIMER_LINES.join(' ')}`);
+  lines.push(``);
+  lines.push(`## Hero stats`);
+  lines.push(``);
+  lines.push(`- **Physical load:** ${names.a} ${hero.physShareA}% / ${names.b} ${hero.physShareB}%`);
+  lines.push(`- **Mental load:** ${names.a} ${hero.menShareA}% / ${names.b} ${hero.menShareB}%`);
+  lines.push(`- **Perception gap:** ${hero.perceptionGap}% — of the ${hero.answeredTotal} tasks you both answered, this is the share you answered differently`);
+  lines.push(`- **Both-claim:** ${hero.bothClaim} — tasks where both of you said "I do this"`);
+  lines.push(`- **Neither-claim:** ${hero.neitherClaim} — tasks where both of you pointed at the other`);
+  lines.push(`- **Weight asymmetry:** ${hero.weightAsymmetry} — tasks where one of you flagged heavier/lighter and the other didn't (or you disagreed on direction)`);
+  lines.push(`- **Agreement rate:** ${hero.agreeRate}%`);
+  lines.push(``);
+  if(brightSpot){
+    lines.push(`## ✨ Bright spot`);
+    lines.push(``);
+    lines.push(`**${brightSpot.name}** is your highest-alignment area — ${brightSpot.agreeRate}% agreement, no directional conflicts. Whatever's working here, see if it can be copied into the categories with more friction.`);
+    lines.push(``);
+  }
+  if(gutCheck&&gutCheck.biggest){
+    const b=gutCheck.biggest;
+    const bn=b.nameKey==='a'?names.a:names.b;
+    const dir=b.delta>0?'overestimated':'underestimated';
+    lines.push(`## Gut feel vs. itemized truth`);
+    lines.push(``);
+    lines.push(`**Biggest blind spot:** ${bn} guessed they handle **${b.gut}%** of **${b.cat}**, but their own answers place them at **${b.measured}%** — a ${Math.round(b.abs)}-point gap. ${bn} ${dir} how much of this area they carry.`);
+    lines.push(``);
+    if(gutCheck.calibration!==null){
+      lines.push(`Average gut-to-measured gap across all categories: **${gutCheck.calibration} points**.`);
+      lines.push(``);
+    }
+    if(gutCheck.rows.length>1){
+      lines.push(`| Person | Category | Gut | Measured | Gap |`);
+      lines.push(`| --- | --- | --- | --- | --- |`);
+      gutCheck.rows.forEach(r=>{
+        const rn=r.nameKey==='a'?names.a:names.b;
+        const sign=r.delta>0?'+':(r.delta<0?'−':'');
+        lines.push(`| ${rn} | ${r.cat} | ${r.gut}% | ${r.measured}% | ${sign}${Math.abs(r.delta)} |`);
+      });
+      lines.push(``);
+    }
+  }
+  if(emoFlag&&emoFlag.totalFlagged>0){
+    lines.push(`## 🧠 Emotional-labor flags`);
+    lines.push(``);
+    lines.push(`Tasks one or both of you marked as costing energy beyond the time. Not scored — a conversation starter.`);
+    lines.push(``);
+    lines.push(`- **Both flagged as draining:** ${emoFlag.both.length}`);
+    lines.push(`- **Only ${names.a} flagged:** ${emoFlag.onlyA.length}`);
+    lines.push(`- **Only ${names.b} flagged:** ${emoFlag.onlyB.length}`);
+    lines.push(``);
+    if(emoFlag.both.length>0){
+      lines.push(`**Both flagged:**`);
+      emoFlag.both.forEach(t=>lines.push(`  - ${t.name}`));
+      lines.push(``);
+    }
+    if(emoFlag.onlyA.length>0){
+      lines.push(`**Only ${names.a} flagged:**`);
+      emoFlag.onlyA.forEach(t=>lines.push(`  - ${t.name}`));
+      lines.push(``);
+    }
+    if(emoFlag.onlyB.length>0){
+      lines.push(`**Only ${names.b} flagged:**`);
+      emoFlag.onlyB.forEach(t=>lines.push(`  - ${t.name}`));
+      lines.push(``);
+    }
+  }
+  lines.push(`## Top 5 conversations`);
+  lines.push(``);
+  if(top5.length===0){
+    lines.push(`*No disagreements surfaced — either full agreement or not enough answered yet.*`);
+  }else{
+    top5.forEach((r,i)=>{
+      lines.push(`### ${i+1}. ${r.name} — *${r.label}*`);
+      lines.push(``);
+      lines.push(`${r.prompt}`);
+      lines.push(``);
+    });
+  }
+  lines.push(`## Where to go from here`);
+  lines.push(``);
+  actions.forEach(a=>{
+    lines.push(`**${a.text}** *(${a.count} in list)*`);
+    if(a.count===0){lines.push(``);lines.push(`  *Nothing in this list right now.*`);lines.push(``);return;}
+    if(a.examples.length===0){lines.push(``);return;}
+    a.examples.forEach(ex=>{lines.push(`  - **${ex.levelLabel}** — ${ex.name} *(${ex.frame})*`);});
+    lines.push(``);
+  });
+  if(metaSurprise){
+    lines.push(`## What surprised you`);
+    lines.push(``);
+    lines.push(`> ${metaSurprise.split('\n').join('\n> ')}`);
+    lines.push(``);
+  }
+  return lines.join('\n');
+}
+
+function serializeHTML(d){
+  const {names,hero,top5,actions,metaSurprise,generatedAt,scoreMode,gutCheck,emoFlag,brightSpot}=d;
+  const dt=new Date(generatedAt).toLocaleString();
+  const tileHTML=(num,label,sub)=>`<div class="tile"><div class="t-num">${num}</div><div class="t-lbl">${esc(label)}</div><div class="t-sub">${esc(sub)}</div></div>`;
+  const top5HTML=top5.length===0
+    ?`<p class="muted">No disagreements surfaced — either full agreement or not enough answered yet.</p>`
+    :top5.map((r,i)=>`<div class="row"><div class="row-h"><span class="row-n">${i+1}</span><span class="row-t">${esc(r.name)}</span><span class="row-b">${esc(r.label)}</span></div><p>${esc(r.prompt)}</p></div>`).join('');
+  const lvlColor={1:'#16a34a',2:'#d97706',3:'#b91c1c'};
+  const actionsHTML=actions.map(a=>{
+    const exHTML=a.count===0
+      ?`<div class="ex-empty">Nothing in this list right now.</div>`
+      :(a.examples.length?`<ul class="ex-list">${a.examples.map(ex=>`<li><span class="ex-badge" style="background:${lvlColor[ex.weight]}">${esc(ex.levelLabel)}</span><span class="ex-name">${esc(ex.name)}</span><span class="ex-frame">${esc(ex.frame)}</span></li>`).join('')}</ul>`:'');
+    return`<div class="action"><div class="action-h">${esc(a.text)} <span class="muted">(${a.count} in ${esc(a.listLabel)})</span></div>${exHTML}</div>`;
+  }).join('');
+  const metaHTML=metaSurprise?`<section><h2>What surprised you</h2><blockquote>${esc(metaSurprise).replace(/\n/g,'<br>')}</blockquote></section>`:'';
+  return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Mental Load Visibility Test — Results</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:780px;margin:0 auto;padding:32px 24px;color:#1f2328;background:#fafaf7;line-height:1.55}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:17px;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid #e4e4e0;letter-spacing:-.005em}
+.meta{color:#6b7280;font-size:12px;margin-bottom:18px}
+.disclaimer{background:#fff9ec;border-left:3px solid #d97706;padding:12px 14px;border-radius:6px;font-size:12.5px;color:#57534e;margin-bottom:22px}
+.disclaimer p{margin:0 0 4px}.disclaimer p:last-child{margin-bottom:0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 8px}
+.tile{background:#fff;border:1px solid #e4e4e0;border-radius:8px;padding:12px 14px}
+.t-num{font-size:22px;font-weight:600;letter-spacing:-.02em;color:#1f2328}
+.t-lbl{font-size:12px;font-weight:500;color:#374151;margin-top:2px}
+.t-sub{font-size:11px;color:#6b7280;margin-top:3px;line-height:1.4}
+.split{background:#fff;border:1px solid #e4e4e0;border-radius:8px;padding:14px;margin-bottom:14px}
+.split-row{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:12.5px}
+.split-row:first-of-type{margin-top:0}
+.split-lbl{width:70px;color:#6b7280;font-size:11px;font-weight:500}
+.split-bar{flex:1;height:18px;border-radius:9px;overflow:hidden;display:flex;background:#eee}
+.split-bar .a{background:#2563eb}.split-bar .b{background:#dc2626}
+.split-val{font-size:11px;color:#374151;white-space:nowrap}
+.split-val .a{color:#2563eb;font-weight:600}.split-val .b{color:#dc2626;font-weight:600}
+.row{background:#fff;border:1px solid #e4e4e0;border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.row-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.row-n{font-size:13px;font-weight:600;color:#6b7280;width:18px}
+.row-t{font-size:14px;font-weight:600;color:#1f2328}
+.row-b{font-size:11px;color:#d97706;font-weight:500;margin-left:auto;text-transform:uppercase;letter-spacing:.04em}
+.row p{margin:0;font-size:13px;color:#374151;line-height:1.55}
+.action{background:#fff;border:1px solid #e4e4e0;border-left:3px solid #2563eb;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.action-h{font-size:13px;color:#1f2328;line-height:1.5;margin-bottom:8px}
+.ex-list{list-style:none;padding:0;margin:6px 0 0}
+.ex-list li{display:flex;align-items:baseline;gap:8px;padding:4px 0;font-size:12.5px;flex-wrap:wrap}
+.ex-badge{font-size:10px;font-weight:600;color:#fff;padding:1px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.ex-name{color:#1f2328;font-weight:500}
+.ex-frame{color:#9ca3af;font-style:italic;font-size:11px;margin-left:auto}
+.ex-empty{font-size:12px;color:#9ca3af;font-style:italic;margin-top:4px}
+blockquote{margin:0;padding:12px 14px;background:#fff;border-left:3px solid #2563eb;border-radius:6px;font-size:13px;color:#374151;font-style:italic}
+.gut-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12.5px;background:#fff;border:1px solid #e4e4e0;border-radius:6px;overflow:hidden}
+.gut-table th{background:#f5f5f2;font-weight:500;text-align:left;padding:8px 10px;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}
+.gut-table td{padding:8px 10px;border-top:1px solid #f0f0ec;color:#1f2328}
+.muted{color:#6b7280;font-size:12px}
+footer{margin-top:32px;padding-top:14px;border-top:1px solid #e4e4e0;font-size:11px;color:#9ca3af;text-align:center}
+@media print{body{background:#fff;padding:0;max-width:none}h2{page-break-after:avoid}.row,.tile,.split{break-inside:avoid;box-shadow:none}.disclaimer{background:#f5f5f2}}
+</style></head><body>
+<h1>Mental Load Visibility Test</h1>
+<div class="meta">Generated ${esc(dt)} · ${esc(names.a)} &amp; ${esc(names.b)} · ${esc(scoreMode==='complexity'?'cognitive-complexity':'frequency-weighted')} view</div>
+<div class="disclaimer">
+  ${DISCLAIMER_LINES.map(l=>`<p>${esc(l)}</p>`).join('')}
+</div>
+<section>
+  <h2>Hero stats</h2>
+  <div class="split">
+    <div class="split-row"><span class="split-lbl">Physical</span><div class="split-bar"><div class="a" style="width:${hero.physShareA}%"></div><div class="b" style="width:${hero.physShareB}%"></div></div><span class="split-val"><span class="a">${esc(names.a)} ${hero.physShareA}%</span> / <span class="b">${esc(names.b)} ${hero.physShareB}%</span></span></div>
+    <div class="split-row"><span class="split-lbl">Mental</span><div class="split-bar"><div class="a" style="width:${hero.menShareA}%"></div><div class="b" style="width:${hero.menShareB}%"></div></div><span class="split-val"><span class="a">${esc(names.a)} ${hero.menShareA}%</span> / <span class="b">${esc(names.b)} ${hero.menShareB}%</span></span></div>
+  </div>
+  <div class="tiles">
+    ${tileHTML(hero.perceptionGap+'%','Perception gap','tasks you two answered differently')}
+    ${tileHTML(hero.bothClaim,'Both-claim','you both said you do it')}
+    ${tileHTML(hero.neitherClaim,'Neither-claim','you both pointed at the other')}
+    ${tileHTML(hero.weightAsymmetry,'Weight asymmetry','only one of you flagged it heavier/lighter')}
+    ${hero.emoFlagged>0?tileHTML(hero.emoFlagged,'🧠 Emotional-drain flags','tasks marked as costing energy beyond the time'):''}
+    ${tileHTML(hero.agreeRate+'%','Agreement','of the '+hero.answeredTotal+' tasks you both answered')}
+    ${brightSpot?`<div class="tile" style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);border-color:#86efac"><div class="t-num" style="color:#166534">✨ ${brightSpot.agreeRate}%</div><div class="t-lbl" style="color:#166534">Bright spot: ${esc(brightSpot.name)}</div><div class="t-sub">your highest-alignment area — what's working here?</div></div>`:''}
+  </div>
+</section>
+${(()=>{
+  if(!gutCheck||!gutCheck.biggest)return'';
+  const b=gutCheck.biggest;
+  const bn=b.nameKey==='a'?names.a:names.b;
+  const dir=b.delta>0?'overestimated':'underestimated';
+  const rows=gutCheck.rows.map(r=>{
+    const rn=r.nameKey==='a'?names.a:names.b;
+    const color=r.nameKey==='a'?'#2563eb':'#dc2626';
+    const sign=r.delta>0?'+':(r.delta<0?'−':'');
+    return `<tr><td style="color:${color};font-weight:500">${esc(rn)}</td><td>${esc(r.cat)}</td><td style="text-align:right">${r.gut}%</td><td style="text-align:right">${r.measured}%</td><td style="text-align:right;font-weight:500">${sign}${Math.abs(r.delta)}</td></tr>`;
+  }).join('');
+  const calibLine=gutCheck.calibration!==null?`<p class="muted">Average gut-to-measured gap across all categories: <strong>${gutCheck.calibration} points</strong>.</p>`:'';
+  const tableHTML=gutCheck.rows.length>1?`<table class="gut-table"><thead><tr><th>Person</th><th>Category</th><th style="text-align:right">Gut</th><th style="text-align:right">Measured</th><th style="text-align:right">Gap</th></tr></thead><tbody>${rows}</tbody></table>`:'';
+  return `<section>
+    <h2>Gut feel vs. itemized truth</h2>
+    <div class="action"><div class="action-h"><strong>Biggest blind spot:</strong> ${esc(bn)} guessed they handle <strong>${b.gut}%</strong> of <strong>${esc(b.cat)}</strong>, but their own answers place them at <strong>${b.measured}%</strong> — a ${Math.round(b.abs)}-point gap. ${esc(bn)} ${dir} how much of this area they carry.</div></div>
+    ${calibLine}
+    ${tableHTML}
+  </section>`;
+})()}
+${(()=>{
+  if(!emoFlag||emoFlag.totalFlagged===0)return'';
+  const mkList=items=>items.length?`<ul class="ex-list">${items.map(t=>`<li><span class="ex-name">${esc(t.name)}</span></li>`).join('')}</ul>`:'';
+  const bothBlock=emoFlag.both.length?`<div class="action"><div class="action-h"><strong>Both flagged as draining</strong> <span class="muted">(${emoFlag.both.length})</span></div>${mkList(emoFlag.both)}</div>`:'';
+  const aBlock=emoFlag.onlyA.length?`<div class="action"><div class="action-h"><strong>Only ${esc(names.a)} flagged</strong> <span class="muted">(${emoFlag.onlyA.length})</span></div>${mkList(emoFlag.onlyA)}</div>`:'';
+  const bBlock=emoFlag.onlyB.length?`<div class="action"><div class="action-h"><strong>Only ${esc(names.b)} flagged</strong> <span class="muted">(${emoFlag.onlyB.length})</span></div>${mkList(emoFlag.onlyB)}</div>`:'';
+  return `<section>
+    <h2>🧠 Emotional-labor flags</h2>
+    <p class="muted">Tasks one or both of you marked as costing energy beyond the time. Not scored — a conversation starter, like the heavier/lighter flags.</p>
+    ${bothBlock}${aBlock}${bBlock}
+  </section>`;
+})()}
+<section><h2>Top 5 conversations</h2>${top5HTML}</section>
+<section><h2>Where to go from here</h2>${actionsHTML}</section>
+${metaHTML}
+<footer>Mental Load Visibility Test · self-contained export · open locally, print to PDF via your browser · v11</footer>
+</body></html>`;
+}
+
+function downloadBlob(filename,content,mime){
+  const blob=new Blob([content],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},0);
+}
+
+function exportFilename(ext){
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  const stamp=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+  return `mental-load-${stamp}.${ext}`;
+}
+
+function doExportHTML(){
+  const data=computeExport();
+  downloadBlob(exportFilename('html'),serializeHTML(data),'text/html;charset=utf-8');
+  closeExportMenu();
+}
+function doCopyMD(){
+  const data=computeExport();
+  const md=serializeMD(data);
+  const done=()=>{flashExportStatus('Copied Markdown to clipboard');closeExportMenu();};
+  const fail=()=>{downloadBlob(exportFilename('md'),md,'text/markdown;charset=utf-8');flashExportStatus('Clipboard blocked — downloaded .md file instead');closeExportMenu();};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(md).then(done,fail);
+  }else{fail();}
+}
+function doExportJSON(){
+  const payload={version:EXPORT_SCHEMA,exportedAt:new Date().toISOString(),state:S};
+  downloadBlob(exportFilename('json'),JSON.stringify(payload,null,2),'application/json');
+  closeExportMenu();
+}
+function doImportJSON(){
+  const fi=document.getElementById('importFileInput');
+  if(fi){fi.value='';fi.click();}
+  closeExportMenu();
+}
+function handleImportFile(ev){
+  const f=ev.target.files&&ev.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const j=JSON.parse(rd.result);
+      if(!j||j.version!==EXPORT_SCHEMA) throw new Error(`Unexpected schema version: ${j&&j.version||'none'}`);
+      if(!j.state||typeof j.state!=='object') throw new Error('Missing state payload');
+      if(hasData()&&!window.confirm('Importing will replace your current answers. Continue?'))return;
+      S=Object.assign(DEFAULT_S(),j.state);
+      if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};
+      if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};
+      checkMigration();
+      saveS();render();
+      flashExportStatus('Imported prior session');
+    }catch(e){window.alert('Could not import that file.\n\n'+(e&&e.message||e));}
+  };
+  rd.onerror=()=>window.alert('Could not read that file.');
+  rd.readAsText(f);
+}
+
+function flashExportStatus(msg){
+  let el=document.getElementById('exportStatus');
+  if(!el){el=document.createElement('div');el.id='exportStatus';el.style.cssText='position:fixed;top:58px;right:14px;z-index:12;background:var(--surface);color:var(--text);border:1px solid var(--border-strong);border-radius:8px;padding:8px 12px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:inherit;transition:opacity .25s';document.body.appendChild(el);}
+  el.textContent=msg;el.style.opacity='1';
+  clearTimeout(flashExportStatus._t);
+  flashExportStatus._t=setTimeout(()=>{el.style.opacity='0';},2200);
+}
+
+function renderExportMenu(){
+  const menu=document.getElementById('exportMenu');if(!menu)return;
+  if(S.screen==='results'){
+    menu.innerHTML=`
+    <button class="export-menu-item" role="menuitem" onclick="doExportHTML()"><span class="em-ico">📄</span><span>Download summary (.html)<span class="em-sub">Styled, printable. Opens in any browser.</span></span></button>
+    <button class="export-menu-item" role="menuitem" onclick="doCopyMD()"><span class="em-ico">📋</span><span>Copy as Markdown<span class="em-sub">For Obsidian, Notes, etc.</span></span></button>
+    <div class="export-menu-sep"></div>
+    <button class="export-menu-item" role="menuitem" onclick="doExportJSON()"><span class="em-ico">💾</span><span>Download full data (.json)<span class="em-sub">Backup / re-import hatch</span></span></button>
+    <button class="export-menu-item" role="menuitem" onclick="doImportJSON()"><span class="em-ico">📥</span><span>Import data (.json)<span class="em-sub">Load a prior session</span></span></button>
+    <div class="export-menu-sep"></div>
+    <label class="export-menu-toggle"><input type="checkbox" id="exportRedactChk" ${EX.redact?'checked':''} onchange="EX.redact=this.checked"> Use generic labels (Person A / Person B)</label>`;
+  }else{
+    menu.innerHTML=`
+    <button class="export-menu-item" role="menuitem" onclick="doExportJSON()"><span class="em-ico">💾</span><span>Save progress (.json)<span class="em-sub">Download a backup of answers so far.</span></span></button>
+    <button class="export-menu-item" role="menuitem" onclick="doImportJSON()"><span class="em-ico">📥</span><span>Resume from a file (.json)<span class="em-sub">Load a prior session.</span></span></button>
+    <div class="export-menu-sep"></div>
+    <div style="padding:8px 12px;font-size:11px;color:var(--text-muted);line-height:1.5">The full summary export (HTML, Markdown) unlocks once both partners finish.</div>`;
+  }
+}
+
+function toggleExportMenu(ev){
+  if(ev&&ev.stopPropagation)ev.stopPropagation();
+  EX.menuOpen=!EX.menuOpen;
+  applyExportMenuState();
+}
+function closeExportMenu(){if(!EX.menuOpen)return;EX.menuOpen=false;applyExportMenuState();}
+function applyExportMenuState(){
+  const btn=document.getElementById('exportBtn'),menu=document.getElementById('exportMenu');
+  if(!btn||!menu)return;
+  const wasOpen=menu.classList.contains('open');
+  if(EX.menuOpen){
+    renderExportMenu();menu.classList.add('open');menu.setAttribute('aria-hidden','false');btn.classList.add('open');btn.setAttribute('aria-expanded','true');
+    const first=menu.querySelector('.export-menu-item');if(first)first.focus();
+  }else{
+    menu.classList.remove('open');menu.setAttribute('aria-hidden','true');btn.classList.remove('open');btn.setAttribute('aria-expanded','false');
+    if(wasOpen)btn.focus();
+  }
+}
+document.addEventListener('click',ev=>{
+  if(!EX.menuOpen)return;
+  const menu=document.getElementById('exportMenu'),btn=document.getElementById('exportBtn');
+  if(menu&&menu.contains(ev.target))return;
+  if(btn&&btn.contains(ev.target))return;
+  closeExportMenu();
+});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&EX.menuOpen)closeExportMenu();});
+
+const R=document.getElementById('root');
+const F={focusedTid:null,cheatOpen:window.matchMedia('(hover:hover) and (pointer:fine)').matches};
+function hasData(){return (S.screen!=='intro')||S.nameA||S.nameB||S.kidsState||Object.keys(S.answersA||{}).length||Object.keys(S.answersB||{}).length;}
+function guardClick(btn,ms){if(!btn)return;btn.disabled=true;setTimeout(()=>{btn.disabled=false;},ms||200);}
+function isFormInProgress(){return ['formA','formB','gutA','gutB','handoff'].includes(S.screen);}
+window.addEventListener('beforeunload',e=>{if(isFormInProgress()){e.preventDefault();e.returnValue='';}});
+function resetAll(){if(!window.confirm('Start over? This will clear both partners\u2019 answers and return to the intro screen.'))return;S=DEFAULT_S();try{localStorage.removeItem('mlv7');localStorage.removeItem('mlv7_ack');}catch(e){}render();}
+function render(){({intro:renderIntro,welcome:renderWelcome,names:renderNames,setup:renderSetup,gutA:()=>renderGutCheck('A'),formA:()=>renderForm('A'),handoff:renderHandoff,gutB:()=>renderGutCheck('B'),formB:()=>renderForm('B'),results:renderResults}[S.screen]||renderIntro)();postRender();}
+function postRender(){
+  const rb=document.getElementById('resetBtn');
+  if(rb)rb.classList.toggle('visible',!!hasData());
+  const eb=document.getElementById('exportBtn');
+  const exportScreens=['names','setup','gutA','formA','handoff','gutB','formB','results'];
+  if(eb)eb.classList.toggle('visible',exportScreens.indexOf(S.screen)>=0);
+  if(exportScreens.indexOf(S.screen)<0&&EX.menuOpen)closeExportMenu();
+  if((S.screen==='formA'||S.screen==='formB')&&F.focusedTid){
+    document.querySelectorAll('.task-sep').forEach(el=>el.classList.toggle('focused',el.dataset.tid===F.focusedTid));
+    const focused=document.querySelector('.task-sep.focused');
+    if(focused&&focused.scrollIntoView){try{focused.scrollIntoView({block:'nearest',behavior:'auto'});}catch(e){}}
+  }
+  document.querySelectorAll('.tab-scroll, .filter-scroll').forEach(el=>{
+    if(!el._wheelBound){
+      el._wheelBound=true;
+      el.addEventListener('wheel',ev=>{
+        if(ev.deltaY===0)return;
+        if(el.scrollWidth<=el.clientWidth)return;
+        el.scrollLeft+=ev.deltaY;
+        ev.preventDefault();
+      },{passive:false});
+    }
+    if(!el._dragBound){
+      el._dragBound=true;
+      let down=false,startX=0,startScroll=0,moved=false;
+      el.addEventListener('pointerdown',e=>{
+        if(e.pointerType==='mouse'&&e.button!==0)return;
+        down=true;moved=false;startX=e.clientX;startScroll=el.scrollLeft;
+      });
+      el.addEventListener('pointermove',e=>{
+        if(!down)return;
+        const dx=e.clientX-startX;
+        if(!moved&&Math.abs(dx)>4){moved=true;el.classList.add('dragging');try{el.setPointerCapture(e.pointerId);}catch(_){}}
+        if(moved){el.scrollLeft=startScroll-dx;e.preventDefault();}
+      });
+      const end=e=>{if(!down)return;down=false;el.classList.remove('dragging');if(moved){el._justDragged=true;setTimeout(()=>{el._justDragged=false;},0);}moved=false;};
+      el.addEventListener('pointerup',end);
+      el.addEventListener('pointercancel',end);
+      el.addEventListener('click',e=>{if(el._justDragged){e.preventDefault();e.stopPropagation();}},true);
+    }
+  });
+  const centerInline=(container,active)=>{
+    if(!container||!active)return;
+    const cr=container.getBoundingClientRect();
+    const ar=active.getBoundingClientRect();
+    const delta=(ar.left+ar.width/2)-(cr.left+cr.width/2);
+    container.scrollLeft+=delta;
+  };
+  const tabScroll=document.querySelector('.tab-scroll');
+  centerInline(tabScroll,tabScroll&&tabScroll.querySelector('.cat-tab.active'));
+  const filterScroll=document.querySelector('.filter-scroll');
+  centerInline(filterScroll,filterScroll&&filterScroll.querySelector('.filter-btn.active'));
+}
+
+function ackIntro(){try{localStorage.setItem('mlv7_ack','1');}catch(e){}S.screen='welcome';saveS();render();}
+window.ackIntro=ackIntro;
+
+function renderIntro(){
+  R.innerHTML=`<div style="max-width:560px">
+<h1 style="font-size:26px;font-weight:600;margin-bottom:4px;letter-spacing:-0.01em">What We Carry</h1>
+<p style="font-size:14px;color:var(--text-muted);font-style:italic;margin-bottom:22px">A household check-in for two</p>
+<div style="font-size:15px;line-height:1.75;color:var(--text)">
+<p style="margin-bottom:14px">Hey — this started as a personal project. My partner and I wanted a way to see the invisible work of running our home — the mental load, the remembering, the planning. What we built helped us talk about it more honestly, so I'm sharing it in case it helps yours. It's a personal tool, not a framework. Take what's useful.</p>
+<p style="margin-bottom:14px">Here's what this is: a two-person questionnaire about the work that runs a home. Each of you answers on your own, then the tool lines up your answers side by side. It tries to count both the <strong>physical</strong> work of a task (the doing) and the <strong>mental</strong> work (the remembering, planning, worrying, and keeping-track). A lot of the second kind is invisible until you write it down.</p>
+<p style="margin-bottom:14px">Nothing you type leaves this browser. There's no account, no server, no analytics. If you close the tab, it's gone unless you export it yourself.</p>
+<p style="margin-bottom:14px">This isn't a test and there's no score that means anything about you as a partner or a person. It's a mirror, not a verdict. The point is to have a more specific conversation afterward — one where you're both looking at the same picture.</p>
+<p style="margin-bottom:20px">If today isn't the right day for this, close the tab. Come back when it is. If you do keep going, be honest rather than generous; the tool is only useful if the answers are real.</p>
+<p style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:22px">Inspired in part by Eve Rodsky's <em>Fair Play</em>, which got me thinking about this in the first place.</p>
+</div>
+<button class="btn-primary" onclick="ackIntro()">Got it — continue</button>
+</div>`;
+}
+
+function renderWelcome(){
+  R.innerHTML=`<div style="max-width:540px">
+<h1 style="font-size:22px;font-weight:500;margin-bottom:4px">What We Carry</h1>
+<p style="font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:14px">A household check-in for two</p>
+<p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:18px">A more nuanced look at care work — not just <em>who does it</em>, but <em>who thinks about it</em>.</p>
+<div class="card"><h2 class="card-title">The scope of this check-in</h2>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin:0">This tool measures one thing: the shared work of running a home. It does not measure paid work outside the home. It does not measure the full day of a stay-at-home parent or caregiver. If either of those is part of your household, that effort is real — it's just on a different ledger than this one. Fill this out for what it is: a conversation starter about the home-running work, not a verdict on who contributes more overall.</p></div>
+<div class="card"><h2 class="card-title">Two dimensions, measured separately</h2>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="padding:10px;background:var(--surface-2);border-radius:8px"><div style="font-size:13px;font-weight:500;color:#1d4ed8;margin-bottom:3px">Physical doing</div><div style="font-size:13px;color:var(--text-muted);line-height:1.6">Who physically performs the task?</div></div>
+<div style="padding:10px;background:var(--surface-2);border-radius:8px"><div style="font-size:13px;font-weight:500;color:#b91c1c;margin-bottom:3px">Mental holding</div><div style="font-size:13px;color:var(--text-muted);line-height:1.6">Who <em>notices</em> it needs doing, plans it, tracks it, and worries when it slips?</div></div>
+</div></div>
+<div class="card"><h2 class="card-title">Tasks are weighted by cognitive demand</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+<div style="display:flex;align-items:center;gap:8px"><span class="badge badge-routine">routine</span><span style="font-size:13px;color:var(--text-muted)">Straightforward, minimal planning</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="badge badge-moderate">moderate</span><span style="font-size:13px;color:var(--text-muted)">Regular tracking or forward planning</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="badge badge-complex">complex</span><span style="font-size:13px;color:var(--text-muted)">Ongoing decisions, anticipation, coordination</span></div>
+</div>
+<p style="font-size:12px;color:var(--text-muted);border-top:0.5px solid rgba(0,0,0,.08);padding-top:10px;line-height:1.6">"Making beds" is routine. "Planning meals for the week" is complex — nutrition, preferences, schedule, ongoing adjustment.</p></div>
+<div class="card"><h2 class="card-title">About the difficulty ratings</h2>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">These ratings are <em>defaults</em> — the same in every household, so results stay comparable.</p>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">But every household is different. If a task feels <em>heavier</em> or <em>lighter</em> in your home than the rating suggests — say, "cooking" is rated <em>moderate</em> but in your house it means meal-planning for picky eaters and food allergies — tap <span class="wflag-btn up active" style="cursor:default;display:inline-block">↑ heavier</span> or <span class="wflag-btn down active" style="cursor:default;display:inline-block">↓ lighter</span> next to that task. <em>You're stating that you disagree with the default weight.</em></p>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7">The flags <strong>don't change your scores</strong>. They surface in the results as conversation prompts: when one of you flags a task and the other doesn't, that's a small but useful disagreement worth talking about. <em>"Why does this feel like a 4 to me but a 2 to you?"</em></p></div>
+<div class="card"><h2 class="card-title">About the 🧠 drain chip</h2>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">Some tasks don't look hard on paper but quietly cost you energy — the worry, the watching, the <em>"what if I forget."</em> Tap <span class="emoflag-btn active" style="cursor:default;display:inline-block">🧠 drain</span> next to any task that feels that way to you. It's opt-in — most tasks won't need it.</p>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7">Like the ↑/↓ flags, this <strong>doesn't change your scores</strong>. It surfaces in the results so you can talk about the tasks that quietly wear you down, and about the ones where one of you feels the drain and the other doesn't.</p></div>
+<div class="info-box blue" style="font-size:13px;line-height:1.7">Both people fill this out independently, then compare together. The goal isn't to win — it's to make invisible work visible. <strong>Skip generously</strong> — anything that doesn't apply just won't count.</div>
+<button class="btn-primary" onclick="S.screen='names';render()">Get started</button>
+<div style="margin-top:14px;text-align:center">
+  <button type="button" onclick="doImportJSON()" style="background:none;border:none;color:var(--text-muted);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;padding:4px 8px">↺ Resume from a prior session (.json)</button>
+</div>
+</div>`;
+}
+
+function renderNames(){
+  R.innerHTML=`<div style="max-width:400px">
+<h1 class="sr-only">What We Carry — Who's taking part</h1>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:6px">Who's taking this test?</h2>
+<p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">Each person fills out independently, then compare results together.</p>
+<div class="card">
+<div style="margin-bottom:14px"><label>Person A</label><input id="nA" type="text" value="${esc(S.nameA)}" placeholder="Name..."></div>
+<div><label>Person B</label><input id="nB" type="text" value="${esc(S.nameB)}" placeholder="Name..."></div>
+</div>
+<button class="btn-primary" onclick="guardClick(this);S.nameA=document.getElementById('nA').value.trim();S.nameB=document.getElementById('nB').value.trim();if(S.nameA&&S.nameB){S.screen='setup';saveS();render()}">Continue →</button>
+</div>`;
+}
+
+function renderSetup(){
+  const ks=S.kidsState;
+  const es=S.eldercareState;
+  const opts=[
+    {v:'none',title:'No children',desc:'School and child-related tasks will be hidden.'},
+    {v:'preschool',title:'Children, not yet in school',desc:'School-specific tasks (drop-off, homework, parent-teacher) will be hidden, but child-care tasks stay.'},
+    {v:'school',title:'Children, in school (or older)',desc:'All categories shown.'}
+  ];
+  const optsHtml=opts.map(o=>`<button class="setup-opt${ks===o.v?' active':''}" role="radio" aria-checked="${ks===o.v?'true':'false'}" onclick="setKids('${o.v}')"><div class="setup-opt-title">${o.title}</div><div class="setup-opt-desc">${o.desc}</div></button>`).join('');
+  const eopts=[
+    {v:'none',title:'No',desc:'Eldercare & family caregiving tasks will be hidden.'},
+    {v:'present',title:'Yes',desc:"You'll see an Eldercare & family caregiving category."}
+  ];
+  const eoptsHtml=eopts.map(o=>`<button class="setup-opt${es===o.v?' active':''}" role="radio" aria-checked="${es===o.v?'true':'false'}" onclick="setEldercare('${o.v}')"><div class="setup-opt-title">${o.title}</div><div class="setup-opt-desc">${o.desc}</div></button>`).join('');
+  const migBanner=S._migrationBanner?`<div class="info-box blue" style="font-size:13px;line-height:1.6;margin-bottom:12px">We added a new category in this version — just need one quick answer.</div>`:'';
+  R.innerHTML=`<div style="max-width:480px">
+<h1 class="sr-only">What We Carry — Setup</h1>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:6px">A couple of quick setup questions</h2>
+${migBanner}
+<p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">This tailors which tasks you'll see. You can skip any individual task or whole category later regardless.</p>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Children in your household"><label style="margin-bottom:8px">Are there children in your household?</label>${optsHtml}</div>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Caring for an aging, ill, or disabled family member"><label style="margin-bottom:8px">Are you involved in caring for an aging, ill, or disabled family member — a parent, in-law, or anyone else?</label>${eoptsHtml}</div>
+<div style="display:flex;justify-content:space-between;gap:10px">
+<button class="btn-ghost" onclick="S.screen='names';render()">← Back</button>
+<button class="btn-primary" ${(ks&&es)?'':'disabled'} onclick="if(S.kidsState&&S.eldercareState){guardClick(this);delete S._migrationBanner;S.screen='gutA';saveS();render()}">Start form →</button>
+</div></div>`;
+}
+
+window.setKids=function(v){S.kidsState=v;saveS();render();};
+window.setEldercare=function(v){S.eldercareState=v;saveS();render();};
+window.setPhys=function(person,tid,val){const ans=person==='A'?S.answersA:S.answersB;const prev=ans[tid]||{};ans[tid]={phys:val,mental:val==='na'?undefined:prev.mental,wFlag:prev.wFlag,emoFlag:prev.emoFlag||false};F.focusedTid=tid;saveS();render();};
+window.setMen=function(person,tid,val){const ans=person==='A'?S.answersA:S.answersB;ans[tid]={...(ans[tid]||{}),mental:val};F.focusedTid=tid;saveS();render();};
+window.setWFlag=function(person,tid,dir){const ans=person==='A'?S.answersA:S.answersB;const prev=ans[tid]||{};ans[tid]={...prev,wFlag:prev.wFlag===dir?null:dir};F.focusedTid=tid;saveS();render();};
+window.toggleEmo=function(person,tid){const ans=person==='A'?S.answersA:S.answersB;const prev=ans[tid]||{};ans[tid]={...prev,emoFlag:!prev.emoFlag};F.focusedTid=tid;saveS();render();};
+window.goCat=function(i){if(S.catIdx!==i){F.focusedTid=null;}S.catIdx=i;render();};
+window.F=F;
+window.donePerson=function(p){S.screen=p==='A'?'handoff':'results';saveS();render();};
+window.setResFilter=function(f){S.resFilter=f;saveS();renderResults();postRender();};
+window.jumpToFilter=function(f){S.resFilter=f;saveS();renderResults();postRender();requestAnimationFrame(()=>{const comp=document.getElementById('comp-card');if(!comp)return;const firstRow=comp.querySelector('.cmp-row');const target=firstRow||comp;const rect=target.getBoundingClientRect();const topY=window.scrollY+rect.top-(firstRow?90:16);window.scrollTo({top:Math.max(0,topY),behavior:'smooth'});});};
+window.setAgreeMode=function(m){S.agreeMode=m;saveS();renderResults();postRender();};
+window.setScoreMode=function(m){S.scoreMode=m;saveS();renderResults();postRender();};
+window.setMetaSurprise=function(v){S.metaSurprise=v;saveS();};
+window.togglePrompt=function(tid,btn){const el=document.getElementById('cmp-prompt-'+tid);if(!el)return;const open=el.hidden;el.hidden=!open;if(btn)btn.setAttribute('aria-expanded',open?'true':'false');};
+window.skipCategory=function(person,cid){const ans=person==='A'?S.answersA:S.answersB;activeTasks().filter(t=>t.cat===cid).forEach(t=>{const prev=ans[t.id]||{};ans[t.id]={phys:'na',wFlag:prev.wFlag,emoFlag:prev.emoFlag||false};});saveS();render();};
+
+function renderForm(person){
+  const ans=person==='A'?S.answersA:S.answersB;
+  const name=person==='A'?S.nameA:S.nameB;
+  const other=person==='A'?S.nameB:S.nameA;
+  const aTasks=activeTasks();
+  const aCats=activeCats();
+  const prog=catProg(ans);
+  const totalDone=prog.reduce((s,c)=>s+c.done,0);
+  const pct=Math.round((totalDone/aTasks.length)*100);
+  if(S.catIdx>=aCats.length)S.catIdx=0;
+  const cat=aCats[S.catIdx];
+  const tasks=aTasks.filter(t=>t.cat===cat.id);
+  const cp=prog[S.catIdx];
+  const tabs=prog.map((c,i)=>`<button class="cat-tab${S.catIdx===i?' active':''}" onclick="goCat(${i})">${esc(c.name)}${c.done===c.total?' ✓':''}</button>`).join('');
+  const POpts=[{v:'me',lbl:'I do this',ac:'background:#1d4ed8;color:#fff;border-color:#1d4ed8'},{v:'shared',lbl:'We share',ac:'background:#166534;color:#fff;border-color:#166534'},{v:'partner',lbl:'Partner',ac:'background:#555;color:#fff;border-color:#555'},{v:'na',lbl:'Skip',ac:'background:#aaa;color:#fff;border-color:#aaa'}];
+  const MOpts=[{v:'me',lbl:'I track',ac:'background:#b91c1c;color:#fff;border-color:#b91c1c'},{v:'shared',lbl:'We both',ac:'background:#b45309;color:#fff;border-color:#b45309'},{v:'partner',lbl:'Partner',ac:'background:#555;color:#fff;border-color:#555'}];
+  const taskHTML=tasks.map(t=>{
+    const a=ans[t.id]||{};const wc=WC[t.w];
+    const heavyBtn=`<span class="wflag-group"><button class="wflag-btn up${a.wFlag==='up'?' active':''}" onclick="setWFlag('${person}','${t.id}','up')" title="Feels heavier in our house than rated">↑ heavier</button><button class="wflag-btn down${a.wFlag==='down'?' active':''}" onclick="setWFlag('${person}','${t.id}','down')" title="Feels lighter in our house than rated">↓ lighter</button><button class="emoflag-btn${a.emoFlag?' active':''}" onclick="toggleEmo('${person}','${t.id}')" title="This task costs me energy beyond the time it takes">🧠 drain</button></span>`;
+    const pb=POpts.map(o=>`<button class="pill form-pill" aria-label="${esc(t.name)} — who does it physically: ${o.lbl}" onclick="setPhys('${person}','${t.id}','${o.v}')" style="${a.phys===o.v?o.ac:''}">${o.lbl}</button>`).join('');
+    let mr='';
+    if(a.phys&&a.phys!=='na'){const mb=MOpts.map(o=>`<button class="pill form-pill" aria-label="${esc(t.name)} — who holds it mentally: ${o.lbl}" onclick="setMen('${person}','${t.id}','${o.v}')" style="${a.mental===o.v?o.ac:''}">${o.lbl}</button>`).join('');mr=`<div style="margin-top:8px;padding-top:8px;border-top:0.5px dashed rgba(0,0,0,.1)"><div style="font-size:11px;font-weight:500;margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px"><span style="color:#b91c1c">who holds it mentally?</span> <span style="font-weight:400;color:#b45309;text-transform:none;letter-spacing:0">who notices, plans, worries?</span></div><div style="display:flex;flex-wrap:wrap;gap:5px">${mb}</div></div>`;}
+    return`<div class="task-sep" data-tid="${t.id}"><div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:8px;flex-wrap:wrap"><span class="badge ${wc.cls}" style="margin-top:2px;flex-shrink:0">${wc.label}</span><span style="font-size:13.5px;line-height:1.45;flex:1;min-width:60%">${esc(t.name)}</span>${heavyBtn}</div><div><div style="font-size:11px;font-weight:500;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px">who does this?</div><div style="display:flex;flex-wrap:wrap;gap:5px">${pb}</div></div>${mr}</div>`;
+  }).join('');
+  if(!F.focusedTid||!tasks.find(t=>t.id===F.focusedTid)){
+    const firstUnans=tasks.find(t=>{const a=ans[t.id];return !a||!a.phys||(a.phys!=='na'&&!a.mental);});
+    F.focusedTid=(firstUnans||tasks[0]).id;
+  }
+  const kbdPanel=F.cheatOpen?`<div class="kbd-panel"><strong style="color:var(--text)">Keyboard shortcuts</strong><br><kbd>1</kbd>&nbsp;I do &middot; <kbd>2</kbd>&nbsp;we share &middot; <kbd>3</kbd>&nbsp;partner &middot; <kbd>4</kbd>&nbsp;skip<br><kbd>Q</kbd>&nbsp;I track &middot; <kbd>W</kbd>&nbsp;we both track &middot; <kbd>E</kbd>&nbsp;partner tracks<br><kbd>H</kbd>&nbsp;↑ heavier &middot; <kbd>L</kbd>&nbsp;↓ lighter (toggle) &middot; <kbd>D</kbd>&nbsp;🧠 drain (toggle)<br><kbd>J</kbd>&nbsp;/&nbsp;<kbd>↓</kbd> next task &middot; <kbd>K</kbd>&nbsp;/&nbsp;<kbd>↑</kbd> previous &middot; <kbd>Enter</kbd> advance &middot; <kbd>?</kbd> hide this</div>`:'';
+  R.innerHTML=`<div style="max-width:580px">
+<h1 class="sr-only">What We Carry — ${esc(name)}'s form</h1>
+<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:10px"><span style="font-size:16px;font-weight:500">${esc(name)}'s form</span><span style="display:flex;align-items:center;gap:8px"><button class="kbd-hint${F.cheatOpen?' active':''}" onclick="F.cheatOpen=!F.cheatOpen;render()" title="Show / hide keyboard shortcuts (?)">⌨ Shortcuts ${F.cheatOpen?'▲':'▼'}</button><span style="font-size:13px;color:var(--text-muted)">${totalDone} / ${aTasks.length} answered</span></div><div class="progress-track" role="progressbar" aria-valuenow="${totalDone}" aria-valuemin="0" aria-valuemax="${aTasks.length}" aria-label="Form progress"><div class="progress-fill" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Your progress is saved — feel free to pause and come back.</div></div>
+${kbdPanel}
+<div class="tab-scroll">${tabs}</div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:17px;font-weight:500">${esc(cat.name)}</span><span style="font-size:13px;color:var(--text-muted)">${cp.done}/${cp.total} answered</span></div><p style="font-size:13.5px;color:var(--text-muted);margin-bottom:3px">Answer from your own perspective. Skip tasks that don't apply.</p>
+<p style="font-size:12.5px;color:var(--text-dim);font-style:italic;margin-bottom:6px">Disagree with the weight? Tap ↑ if it feels heavier or ↓ if it feels lighter in your house than rated. Tap 🧠 drain if the task costs you energy beyond the time — the worry, the watching, the "what if I forget." Opt-in, not scored.</p>
+<div style="margin-bottom:2px"><button class="btn-ghost" style="font-size:11px;padding:4px 10px" onclick="if(confirm('Skip every task in &quot;${esc(cat.name)}&quot;? You can change individual answers afterward.')){skipCategory('${person}','${cat.id}');}">Skip whole category</button></div>
+${taskHTML}</div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><button class="btn-ghost" ${S.catIdx===0?'disabled':''} onclick="guardClick(this);if(S.catIdx>0){S.catIdx--;F.focusedTid=null;render();}">← Back</button>${S.catIdx<aCats.length-1?`<button class="btn-primary" onclick="guardClick(this);S.catIdx++;F.focusedTid=null;render()">Next →</button>`:`<button class="btn-primary" onclick="guardClick(this);donePerson('${person}')">${person==='B'?'See results →':`Done — pass to ${esc(other)} →`}</button>`}</div>
+</div>`;
+}
+
+function renderGutCheck(person){
+  const ans=person==='A'?S.gutCheckA:S.gutCheckB;
+  const name=person==='A'?S.nameA:S.nameB;
+  const other=person==='A'?S.nameB:S.nameA;
+  const selfColor=person==='A'?'#2563eb':'#dc2626';
+  const aCats=activeCats();
+  aCats.forEach(c=>{if(typeof ans[c.id]!=='number')ans[c.id]=50;});
+  const rows=aCats.map(c=>{
+    const v=ans[c.id];
+    return `<div class="gut-row" data-cid="${c.id}">
+      <div class="gut-row-head">
+        <span class="gut-row-name">${esc(c.name)}</span>
+        <span class="gut-row-val"><strong style="color:${selfColor}">${v}%</strong> <span style="color:var(--text-muted)">me · ${100-v}% ${esc(other)}</span></span>
+      </div>
+      <div class="gut-row-slider">
+        <span class="gut-end">mostly ${esc(other)}</span>
+        <input type="range" min="0" max="100" step="5" value="${v}" oninput="setGut('${person}','${c.id}',this.value,this)" aria-label="${esc(c.name)} gut-feel share" aria-valuetext="${v} percent ${esc(name)}, ${100-v} percent ${esc(other)}" />
+        <span class="gut-end">mostly me</span>
+      </div>
+    </div>`;
+  }).join('');
+  const back=person==='A'?'setup':'handoff';
+  const nextScreen=person==='A'?'formA':'formB';
+  R.innerHTML=`<div style="max-width:560px">
+<h1 class="sr-only">What We Carry — Gut check</h1>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:6px">${esc(name)} — quick gut check</h2>
+<p style="font-size:13.5px;color:var(--text-muted);margin-bottom:6px">Before the detailed questions, go with your <strong>instinct</strong>: roughly what share of each area do you feel you handle?</p>
+<p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">No math, no second-guessing. We'll compare this gut feel to your itemized answers at the end — the gap is often where the insight lives.</p>
+<div class="card">${rows}</div>
+<div style="display:flex;justify-content:space-between;gap:10px;margin-top:12px">
+<button class="btn-ghost" onclick="guardClick(this);S.screen='${back}';render()">← Back</button>
+<button class="btn-primary" onclick="guardClick(this);S.screen='${nextScreen}';S.catIdx=0;saveS();render()">Continue to questions →</button>
+</div></div>`;
+}
+window.setGut=function(p,cid,v,el){
+  const n=parseInt(v,10);
+  (p==='A'?S.gutCheckA:S.gutCheckB)[cid]=n;
+  saveS();
+  if(!el)return;
+  const self=esc(p==='A'?S.nameA:S.nameB);
+  const other=esc(p==='A'?S.nameB:S.nameA);
+  el.setAttribute('aria-valuetext',`${n} percent ${self}, ${100-n} percent ${other}`);
+  const row=el.closest('.gut-row');
+  if(!row)return;
+  const valEl=row.querySelector('.gut-row-val');
+  if(!valEl)return;
+  const color=p==='A'?'#2563eb':'#dc2626';
+  valEl.innerHTML=`<strong style="color:${color}">${n}%</strong> <span style="color:var(--text-muted)">me · ${100-n}% ${other}</span>`;
+};
+
+function renderHandoff(){
+  R.innerHTML=`<div style="max-width:420px;text-align:center;padding:3rem 0">
+<h1 class="sr-only">What We Carry — Hand off</h1>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:12px">${esc(S.nameA)}'s form complete</h2>
+<div class="card" style="text-align:left"><p style="font-size:13.5px;color:var(--text-muted);line-height:1.7">Now hand the device to <strong>${esc(S.nameB)}</strong> to fill out their form independently. Don't share your answers yet — the comparison is more meaningful when done separately.</p></div>
+<button class="btn-primary" onclick="guardClick(this);S.screen='gutB';saveS();render()">Start ${esc(S.nameB)}'s form →</button>
+</div>`;
+}
+
+function renderResults(){
+  const aTasks=activeTasks();
+  const sMode=S.scoreMode||'complexity';
+  const sA=sc(S.answersA,sMode),sB=sc(S.answersB,sMode);
+  const tot=sA.total+sB.total;
+  const pA=tot>0?Math.round((sA.total/tot)*100):50,pB=100-pA;
+  const mTot=sA.m+sB.m;
+  const mPA=mTot>0?Math.round((sA.m/mTot)*100):50;
+  const maxS=Math.max(sA.total,sB.total,1);
+  const imbalance=Math.abs(pA-pB);
+  const higherN=pA>pB?S.nameA:S.nameB;
+  const ansA=answeredCount(S.answersA);
+  const ansB=answeredCount(S.answersB);
+  // Also compute the alternate-mode totals so we can show a "switch view" hint
+  const altMode=sMode==='complexity'?'frequency':'complexity';
+  const altA=sc(S.answersA,altMode),altB=sc(S.answersB,altMode);
+  const altTot=altA.total+altB.total;
+  const altPA=altTot>0?Math.round((altA.total/altTot)*100):50;
+  const altImbalance=Math.abs(altPA-(100-altPA));
+
+  const classified=aTasks.map(t=>({...t,cls:classifyTask(t),...taskFlags(t)}));
+  const bothAnswered=classified.filter(t=>!['unanswered','one-skip','skipped'].includes(t.cls));
+  const agreed=bothAnswered.filter(t=>t.cls==='agree');
+  const onlyPhysMis=bothAnswered.filter(t=>t.cls==='phys-mis');
+  const onlyMenMis=bothAnswered.filter(t=>t.cls==='men-mis');
+  const bothMis=bothAnswered.filter(t=>t.cls==='both-mis');
+  const physMis=bothAnswered.filter(t=>t.cls==='phys-mis'||t.cls==='both-mis');
+  const menMis=bothAnswered.filter(t=>t.cls==='men-mis'||t.cls==='both-mis');
+  const anyMis=bothAnswered.filter(t=>t.cls!=='agree');
+  const invisTasks=classified.filter(t=>t.invisA||t.invisB);
+  const menGapTasks=classified.filter(t=>t.menGapA||t.menGapB);
+  const oneSkip=classified.filter(t=>t.cls==='one-skip');
+  const unanswered=classified.filter(t=>t.cls==='unanswered');
+  const wAgreedUp=classified.filter(t=>t.wFlagA==='up'&&t.wFlagB==='up');
+  const wAgreedDown=classified.filter(t=>t.wFlagA==='down'&&t.wFlagB==='down');
+  const wAgreed=[...wAgreedUp,...wAgreedDown];
+  const wConflict=classified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='down')||(t.wFlagA==='down'&&t.wFlagB==='up'));
+  const wAsymmetric=classified.filter(t=>(t.wFlagA&&!t.wFlagB)||(!t.wFlagA&&t.wFlagB));
+  const wDisputed=[...wConflict,...wAsymmetric];
+  const wAny=classified.filter(t=>t.wFlagA||t.wFlagB);
+  const emoBoth=classified.filter(t=>t.emoFlagA&&t.emoFlagB);
+  const emoOnlyA=classified.filter(t=>t.emoFlagA&&!t.emoFlagB);
+  const emoOnlyB=classified.filter(t=>t.emoFlagB&&!t.emoFlagA);
+  const emoAsymmetric=[...emoOnlyA,...emoOnlyB];
+  const emoAny=classified.filter(t=>t.emoFlagA||t.emoFlagB);
+
+  const bothClaim=bothAnswered.filter(t=>{const a=S.answersA[t.id],b=S.answersB[t.id];return a&&b&&a.phys==='me'&&b.phys==='me';});
+  const neitherClaim=bothAnswered.filter(t=>{const a=S.answersA[t.id],b=S.answersB[t.id];return a&&b&&a.phys==='partner'&&b.phys==='partner';});
+  const physShareA=(sA.p+sB.p)>0?Math.round(sA.p/(sA.p+sB.p)*100):50;
+  const physShareB=100-physShareA;
+  const menShareA=(sA.m+sB.m)>0?Math.round(sA.m/(sA.m+sB.m)*100):50;
+  const menShareB=100-menShareA;
+  const agreeRateStrict=bothAnswered.length>0?Math.round((agreed.length/bothAnswered.length)*100):0;
+  const inclusiveDenom=bothAnswered.length+oneSkip.length;
+  const agreeRateInclusive=inclusiveDenom>0?Math.round((agreed.length/inclusiveDenom)*100):0;
+  const aMode=S.agreeMode||'strict';
+  const agreeRate=aMode==='strict'?agreeRateStrict:agreeRateInclusive;
+  const agreeCol=agreeRate>=75?'agree-green':agreeRate>=50?'agree-yellow':'agree-red';
+  const perceptionGap=bothAnswered.length>0?Math.round(anyMis.length/bothAnswered.length*100):0;
+
+  const cats=activeCats().map(c=>{
+    const a=scCat(S.answersA,c.id,sMode),b=scCat(S.answersB,c.id,sMode);
+    const cT=classified.filter(t=>t.cat===c.id&&!['unanswered','skipped','one-skip'].includes(t.cls));
+    const cAg=cT.filter(t=>t.cls==='agree');
+    const cAR=cT.length>0?Math.round((cAg.length/cT.length)*100):null;
+    const cClassified=classified.filter(t=>t.cat===c.id);
+    const cWConflict=cClassified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='down')||(t.wFlagA==='down'&&t.wFlagB==='up')).length;
+    const cWAgreed=cClassified.filter(t=>(t.wFlagA==='up'&&t.wFlagB==='up')||(t.wFlagA==='down'&&t.wFlagB==='down')).length;
+    return{...c,a,b,total:a.total+b.total,gap:Math.abs(a.total-b.total),agreeRate:cAR,count:cT.length,wConflict:cWConflict,wAgreed:cWAgreed};
+  }).sort((x,y)=>y.gap-x.gap);
+
+  // §15.3 Agreement bright spot — category with best alignment on ownership AND weight
+  const brightSpot=(()=>{
+    const elig=cats.filter(c=>c.agreeRate!==null&&c.count>=3&&c.agreeRate>=70&&c.wConflict===0);
+    if(elig.length===0)return null;
+    elig.sort((a,b)=>(b.agreeRate-a.agreeRate)||(b.wAgreed-a.wAgreed));
+    return elig[0];
+  })();
+
+  const insights=[];
+  const sortedByAgree=cats.filter(c=>c.agreeRate!==null).sort((a,b)=>b.agreeRate-a.agreeRate);
+  if(sortedByAgree.length>0&&sortedByAgree[0].agreeRate>=70) insights.push({col:'#166534',bg:'#f0fdf4',text:`You see <strong>${esc(sortedByAgree[0].name)}</strong> very similarly (${sortedByAgree[0].agreeRate}% agreement). A good foundation.`});
+  const worst=sortedByAgree[sortedByAgree.length-1];
+  if(worst&&worst.agreeRate<50) insights.push({col:'#b91c1c',bg:'#fef2f2',text:`<strong>${esc(worst.name)}</strong> is your biggest blind spot — only ${worst.agreeRate}% agreement. Start here.`});
+  const heavyDis=bothMis.filter(t=>t.w===3);
+  if(heavyDis.length>0) insights.push({col:'#b45309',bg:'#fff7ed',text:`${heavyDis.length} high-complexity task${heavyDis.length!==1?'s':''} have full disagreement — these carry the most weight and deserve focused time.`});
+  if(sA.p>0&&sA.m/sA.p>1.5) insights.push({col:'#6d28d9',bg:'#f5f3ff',text:`${esc(S.nameA)} carries significantly more mental load than physical — more planner than executor in this household.`});
+  if(sB.p>0&&sB.m/sB.p>1.5) insights.push({col:'#6d28d9',bg:'#f5f3ff',text:`${esc(S.nameB)} carries significantly more mental load than physical — more planner than executor in this household.`});
+  if(invisTasks.length>0) insights.push({col:'#b91c1c',bg:'#fef2f2',text:`${invisTasks.length} task${invisTasks.length!==1?'s':''} involve invisible labor — one person thinks about something the other physically does, with no credit for the thinking.`});
+  if(menGapTasks.length>0) insights.push({col:'#b45309',bg:'#fff7ed',text:`${menGapTasks.length} "shared" task${menGapTasks.length!==1?'s':''} are mentally tracked by only one person — the hidden asymmetry hiding inside equal-looking arrangements.`});
+  if(oneSkip.length>=10) insights.push({col:'#7c3aed',bg:'#f5f3ff',text:`${oneSkip.length} task${oneSkip.length!==1?'s were':' was'} answered by only one of you — worth knowing whether the other person genuinely doesn't engage with that area, or just hadn't thought about it.`});
+  if(wConflict.length>0) insights.push({col:'#b91c1c',bg:'#fef2f2',text:`${wConflict.length} task${wConflict.length!==1?'s have':' has'} a <strong>directional conflict</strong> — one of you thinks it's heavier than rated, the other thinks it's lighter. These are the richest conversations. <em>"Why does this feel so different to us?"</em>`});
+  if(wAsymmetric.length>=5) insights.push({col:'#b91c1c',bg:'#fef2f2',text:`${wAsymmetric.length} tasks have a weight disagreement — one of you flagged a mis-weight, the other didn't. Worth asking why.`});
+  if(wAgreedUp.length>=3) insights.push({col:'#b45309',bg:'#fff7ed',text:`You both flag <strong>${wAgreedUp.length} task${wAgreedUp.length!==1?'s':''}</strong> as heavier than rated. These may be genuine outliers in your household — worth treating them as bigger than the score reflects.`});
+  if(wAgreedDown.length>=3) insights.push({col:'#166534',bg:'#f0fdf4',text:`You both flag <strong>${wAgreedDown.length} task${wAgreedDown.length!==1?'s':''}</strong> as lighter than rated. In your house these are quick or easy — no need to carry them around as heavy.`});
+  if(emoBoth.length>=2) insights.push({col:'#7c3aed',bg:'#faf5ff',text:`You both flagged <strong>${emoBoth.length} task${emoBoth.length!==1?'s':''}</strong> as 🧠 draining — costing energy beyond the time. Shared emotional cost, worth naming out loud.`});
+  if(emoAsymmetric.length>=3) insights.push({col:'#7c3aed',bg:'#faf5ff',text:`${emoAsymmetric.length} task${emoAsymmetric.length!==1?'s have':' has'} a 🧠 drain asymmetry — one of you feels it as energetically costly, the other doesn't. That gap itself is a conversation.`});
+  if(altImbalance!==imbalance&&Math.abs(altImbalance-imbalance)>=10){
+    const altLabel=altMode==='frequency'?'frequency-weighted':'cognitive-complexity';
+    insights.push({col:'#1e40af',bg:'#eff6ff',text:`Heads up: the ${altLabel} view shows a different balance (${Math.max(altPA,100-altPA)}% on one side vs. ${Math.max(pA,pB)}% here). Toggle between views to see what shifts.`});
+  }
+
+  const activeFilter=S.resFilter||'all';
+  const filterDefs=[
+    {id:'all',label:'All tasks',tasks:classified.filter(t=>t.cls!=='unanswered')},
+    {id:'agree',label:`Full agreement (${agreed.length})`,tasks:agreed},
+    {id:'any-mis',label:`Any mismatch (${anyMis.length})`,tasks:anyMis},
+    {id:'phys-mis',label:`Physical mismatch (${physMis.length})`,tasks:physMis},
+    {id:'men-mis',label:`Mental mismatch (${menMis.length})`,tasks:menMis},
+    {id:'both-mis',label:`Both mismatch (${bothMis.length})`,tasks:bothMis},
+    {id:'invisible',label:`Invisible labor (${invisTasks.length})`,tasks:invisTasks},
+    {id:'mental-gap',label:`Mental gap (${menGapTasks.length})`,tasks:menGapTasks},
+    {id:'both-claim',label:`Both claim (${bothClaim.length})`,tasks:bothClaim},
+    {id:'neither-claim',label:`Neither claims (${neitherClaim.length})`,tasks:neitherClaim},
+    {id:'w-conflict',label:`Directional conflict (${wConflict.length})`,tasks:wConflict},
+    {id:'w-asymmetric',label:`Weight asymmetry (${wAsymmetric.length})`,tasks:wAsymmetric},
+    {id:'w-disputed',label:`Weight disagreement (${wDisputed.length})`,tasks:wDisputed},
+    {id:'w-flagged',label:`Any weight flag (${wAny.length})`,tasks:wAny},
+    {id:'emo-flagged',label:`🧠 Emotional drain (${emoAny.length})`,tasks:emoAny},
+    {id:'emo-both',label:`🧠 Both flagged drain (${emoBoth.length})`,tasks:emoBoth},
+    {id:'emo-asymmetric',label:`🧠 Drain asymmetry (${emoAsymmetric.length})`,tasks:emoAsymmetric},
+    {id:'one-skip',label:`One skipped (${oneSkip.length})`,tasks:oneSkip},
+    {id:'unanswered',label:`Unanswered (${unanswered.length})`,tasks:unanswered},
+  ];
+  const activeDef=filterDefs.find(f=>f.id===activeFilter)||filterDefs[0];
+  const visibleTasks=activeDef.tasks;
+
+  const statusMeta={
+    'agree':{cls:'cmp-agree'},
+    'phys-mis':{cls:'cmp-phys-mis'},
+    'men-mis':{cls:'cmp-men-mis'},
+    'both-mis':{cls:'cmp-both-mis'},
+    'skipped':{cls:'cmp-skipped'},
+    'one-skip':{cls:'cmp-one-skip'},
+    'unanswered':{cls:'cmp-unanswered'},
+  };
+
+  const compRows=visibleTasks.map(t=>{
+    const a=S.answersA[t.id]||{};const b=S.answersB[t.id]||{};
+    const sm=statusMeta[t.cls]||statusMeta['unanswered'];
+    const wc=WC[t.w];
+    const flags=[];
+    if(t.invisA) flags.push(`<span style="font-size:10px;padding:1px 7px;border-radius:6px;background:var(--err-bg);color:var(--err-fg)">${esc(S.nameA)}: invisible labor</span>`);
+    if(t.invisB) flags.push(`<span style="font-size:10px;padding:1px 7px;border-radius:6px;background:var(--err-bg);color:var(--err-fg)">${esc(S.nameB)}: invisible labor</span>`);
+    if(t.menGapA) flags.push(`<span style="font-size:10px;padding:1px 7px;border-radius:6px;background:var(--warn-bg);color:var(--warn-fg)">${esc(S.nameA)}: mental gap</span>`);
+    if(t.menGapB) flags.push(`<span style="font-size:10px;padding:1px 7px;border-radius:6px;background:var(--warn-bg);color:var(--warn-fg)">${esc(S.nameB)}: mental gap</span>`);
+    const wA=t.wFlagA,wB=t.wFlagB;
+    const wTag=(dir,label)=>dir==='up'?`<span class="wflag-up-tag">↑ ${label}</span>`:dir==='down'?`<span class="wflag-down-tag">↓ ${label}</span>`:'';
+    if(wA&&wB&&wA===wB){const word=wA==='up'?'heavier':'lighter';flags.push(wTag(wA,`both: ${word}`));}
+    else if(wA&&wB){flags.push(`<span class="wflag-conflict-tag">⚠ directional conflict</span>`);flags.push(wTag(wA,`${esc(S.nameA)}: ${wA==='up'?'heavier':'lighter'}`));flags.push(wTag(wB,`${esc(S.nameB)}: ${wB==='up'?'heavier':'lighter'}`));}
+    else if(wA){flags.push(wTag(wA,`${esc(S.nameA)}: ${wA==='up'?'heavier':'lighter'}`));flags.push(`<span class="wflag-quiet">${esc(S.nameB)}: no flag</span>`);}
+    else if(wB){flags.push(wTag(wB,`${esc(S.nameB)}: ${wB==='up'?'heavier':'lighter'}`));flags.push(`<span class="wflag-quiet">${esc(S.nameA)}: no flag</span>`);}
+    const eA=t.emoFlagA,eB=t.emoFlagB;
+    if(eA&&eB) flags.push(`<span class="emoflag-tag">🧠 both: draining</span>`);
+    else if(eA) flags.push(`<span class="emoflag-tag">🧠 ${esc(S.nameA)}: draining</span>`);
+    else if(eB) flags.push(`<span class="emoflag-tag">🧠 ${esc(S.nameB)}: draining</span>`);
+    return`<div class="cmp-row ${sm.cls}">
+<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:8px">
+  <span class="badge ${wc.cls}" style="margin-top:2px;flex-shrink:0">${wc.label}</span>
+  <span style="font-size:13px;font-weight:500;line-height:1.4">${esc(t.name)}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+  <div style="background:var(--surface);border-radius:6px;padding:8px">
+    <div style="font-size:11px;font-weight:500;color:#2563eb;margin-bottom:5px">${esc(S.nameA)}</div>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:3px"><span style="font-size:10px;color:var(--text-dim);width:32px">does</span>${a.phys?pChip(a.phys):'<span class="chip chip-none">unanswered</span>'}</div>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap"><span style="font-size:10px;color:var(--text-dim);width:32px">thinks</span>${a.phys&&a.phys!=='na'?mChip(a.mental):(a.phys==='na'?'<span class="chip chip-skip">n/a</span>':'<span class="chip chip-none">—</span>')}</div>
+  </div>
+  <div style="background:var(--surface);border-radius:6px;padding:8px">
+    <div style="font-size:11px;font-weight:500;color:#dc2626;margin-bottom:5px">${esc(S.nameB)}</div>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:3px"><span style="font-size:10px;color:var(--text-dim);width:32px">does</span>${b.phys?pChip(b.phys):'<span class="chip chip-none">unanswered</span>'}</div>
+    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap"><span style="font-size:10px;color:var(--text-dim);width:32px">thinks</span>${b.phys&&b.phys!=='na'?mChip(b.mental):(b.phys==='na'?'<span class="chip chip-skip">n/a</span>':'<span class="chip chip-none">—</span>')}</div>
+  </div>
+</div>
+${flags.length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:7px">${flags.join('')}</div>`:''}
+${(()=>{const p=cmpPrompt(t,a,b,{wFlagA:wA,wFlagB:wB});return p?`<div class="cmp-prompt"><button class="cmp-prompt-toggle" aria-expanded="false" onclick="togglePrompt('${t.id}',this)"><span class="cpt-arrow">▶</span>💬 ${p.label} — talk about this</button><div class="cmp-prompt-body" id="cmp-prompt-${t.id}" hidden>${p.text}</div></div>`:'';})()}
+</div>`;
+  }).join('');
+
+  const catRows=cats.filter(c=>c.total>0).map(c=>{
+    const pAc=Math.round((c.a.total/c.total)*100);
+    const ar=c.agreeRate;
+    const arCol=ar===null?'#ccc':ar>=75?'#16a34a':ar>=50?'#d97706':'#dc2626';
+    const gA=(S.gutCheckA&&typeof S.gutCheckA[c.id]==='number')?S.gutCheckA[c.id]:null;
+    const gB=(S.gutCheckB&&typeof S.gutCheckB[c.id]==='number')?S.gutCheckB[c.id]:null;
+    const tickA=gA!==null?`<div class="cat-bar-tick a" style="left:${gA}%" title="${esc(S.nameA)}'s gut: ${gA}%"></div>`:'';
+    const tickB=gB!==null?`<div class="cat-bar-tick b" style="left:${100-gB}%" title="${esc(S.nameB)}'s gut: ${gB}%"></div>`:'';
+    const gutLine=(gA!==null||gB!==null)?`<div style="font-size:10.5px;color:var(--text-muted);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap">
+      ${gA!==null?`<span><span style="color:#1e40af">▼</span> ${esc(S.nameA)} gut: <strong>${gA}%</strong></span>`:''}
+      ${gB!==null?`<span><span style="color:#991b1b">▼</span> ${esc(S.nameB)} gut: <strong>${gB}%</strong></span>`:''}
+    </div>`:'';
+    return`<div style="margin-bottom:13px">
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;align-items:center">
+  <span style="font-size:13px;font-weight:500">${esc(c.name)}</span>
+  <div style="display:flex;gap:10px;align-items:center">
+    ${ar!==null?`<span style="font-size:11px;font-weight:500;color:${arCol}">${ar}% agree</span>`:''}
+    <span style="font-size:11px;color:var(--text-dim)">${esc(S.nameA)} ${c.a.total.toFixed(1)} · ${esc(S.nameB)} ${c.b.total.toFixed(1)}</span>
+  </div>
+</div>
+<div class="cat-bar-wrap"><div class="cat-bar-inner"><div style="width:${pAc}%;background:#2563eb"></div><div style="width:${100-pAc}%;background:#dc2626"></div></div>${tickA}${tickB}</div>
+${gutLine}
+</div>`;
+  }).join('');
+
+  const alertCls=imbalance>=25?'red':imbalance>=10?'yellow':'green';
+  const alertMsg=imbalance<10?`The overall load split looks fairly balanced. The comparison table below will show where the nuance lives.`:`${esc(higherN)} carries about <strong>${Math.max(pA,pB)}%</strong> of the combined load. ${imbalance>=30?`That's a significant gap — especially if it's concentrated in the mental dimension.`:`Worth exploring, especially if it doesn't feel sustainable.`}`;
+
+  const colorKey=`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;padding:10px 12px;background:var(--surface-2);border-radius:8px">
+<span style="font-size:11px;color:var(--text-muted);align-self:center;margin-right:2px;font-weight:500">Row color:</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#22c55e;flex-shrink:0;display:inline-block"></span>Full agreement</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#f97316;flex-shrink:0;display:inline-block"></span>Physical mismatch</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#eab308;flex-shrink:0;display:inline-block"></span>Mental mismatch</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#ef4444;flex-shrink:0;display:inline-block"></span>Both mismatch</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#a78bfa;flex-shrink:0;display:inline-block"></span>One skipped</span>
+<span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:2px;background:#94a3b8;flex-shrink:0;display:inline-block"></span>Unanswered</span>
+</div>`;
+
+  // Gut-check deltas — signed (gut - measured). Positive = overestimated own share.
+  const gutDeltas=[];
+  activeCats().forEach(c=>{
+    [{person:'A',name:S.nameA,gut:S.gutCheckA&&S.gutCheckA[c.id],ans:S.answersA},
+     {person:'B',name:S.nameB,gut:S.gutCheckB&&S.gutCheckB[c.id],ans:S.answersB}].forEach(p=>{
+      if(typeof p.gut!=='number')return;
+      const m=measuredSelfShare(p.ans,c.id,sMode);
+      if(m===null)return;
+      gutDeltas.push({person:p.person,name:p.name,cat:c.name,catId:c.id,gut:p.gut,measured:m,delta:p.gut-m,abs:Math.abs(p.gut-m)});
+    });
+  });
+  gutDeltas.sort((a,b)=>b.abs-a.abs);
+  const biggestBlindSpot=gutDeltas[0]||null;
+  const calibration=gutDeltas.length>0?Math.round(gutDeltas.reduce((s,g)=>s+g.abs,0)/gutDeltas.length):null;
+
+  const agreeSubtext=aMode==='strict'?`of the ${bothAnswered.length} tasks you both answered`:`of all ${inclusiveDenom} tasks where at least one of you answered`;
+  const scoreModeExplain=sMode==='complexity'?'Cognitive complexity treats each task equally regardless of cadence. Toggle to frequency-weighted to see how daily-routine work changes the picture.':'Frequency-weighted multiplies each task by how often it occurs. Daily routines count more, occasional-but-heavy work counts less. Toggle back to complexity for the cadence-blind view.';
+
+  const heroHTML=`<div class="hero-wrap">
+<div class="hero-split">
+  <div class="hero-split-head">Who does what — physical vs mental</div>
+  <div class="hero-split-sub">A gap between the two bars for the same person is the planner/executor split. That gap is often the invisible labor conversation.</div>
+  <div class="hero-split-row">
+    <span class="hero-split-label">Physical</span>
+    <div class="hero-split-bar"><div style="width:${physShareA}%;background:#2563eb"></div><div style="width:${physShareB}%;background:#dc2626"></div></div>
+    <span class="hero-split-val"><strong style="color:#2563eb">${esc(S.nameA)} ${physShareA}%</strong> / <strong style="color:#dc2626">${esc(S.nameB)} ${physShareB}%</strong></span>
+  </div>
+  <div class="hero-split-row">
+    <span class="hero-split-label">Mental</span>
+    <div class="hero-split-bar"><div style="width:${menShareA}%;background:#2563eb"></div><div style="width:${menShareB}%;background:#dc2626"></div></div>
+    <span class="hero-split-val"><strong style="color:#2563eb">${esc(S.nameA)} ${menShareA}%</strong> / <strong style="color:#dc2626">${esc(S.nameB)} ${menShareB}%</strong></span>
+  </div>
+</div>
+<div class="hero-tiles">
+  <button class="hero-tile" onclick="jumpToFilter('any-mis')" title="Jump to the mismatch list">
+    <div class="hero-num">${perceptionGap}%</div>
+    <div class="hero-tile-label">Perception gap</div>
+    <div class="hero-tile-sub">of tasks you two answered differently</div>
+  </button>
+  <button class="hero-tile" onclick="jumpToFilter('both-claim')" title="Jump to the both-claim list">
+    <div class="hero-num">${bothClaim.length}</div>
+    <div class="hero-tile-label">Both-claim</div>
+    <div class="hero-tile-sub">you both said you do it — planner/executor signal</div>
+  </button>
+  <button class="hero-tile" onclick="jumpToFilter('neither-claim')" title="Jump to the neither-claim list">
+    <div class="hero-num">${neitherClaim.length}</div>
+    <div class="hero-tile-label">Neither-claim</div>
+    <div class="hero-tile-sub">you each said the other does it — invisible work lives here</div>
+  </button>
+  <button class="hero-tile" onclick="jumpToFilter('w-asymmetric')" title="Jump to the weight-asymmetry list">
+    <div class="hero-num">${wAsymmetric.length}</div>
+    <div class="hero-tile-label">Weight asymmetry</div>
+    <div class="hero-tile-sub">one flagged it, the other didn't</div>
+  </button>
+  ${brightSpot?`<button class="hero-tile bright" onclick="jumpToFilter('agree')" title="Jump to the full-agreement list">
+    <div class="hero-num">✨ ${brightSpot.agreeRate}%</div>
+    <div class="hero-tile-label">Bright spot: ${esc(brightSpot.name)}</div>
+    <div class="hero-tile-sub">your highest-alignment area — what's working here that you could copy?</div>
+  </button>`:''}
+</div>
+</div>`;
+
+  R.innerHTML=`<div style="max-width:640px">
+<h1 class="sr-only">What We Carry — Results</h1>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:4px">Your results</h2>
+<p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Use the sections below to start a conversation — not a debate.</p>
+
+${heroHTML}
+
+${(()=>{
+  if(!biggestBlindSpot)return'';
+  const b=biggestBlindSpot;
+  const dir=b.delta>0?'overestimated':'underestimated';
+  const dirWord=b.delta>0?'more of':'less of';
+  const color=b.person==='A'?'#2563eb':'#dc2626';
+  const gap=Math.round(b.abs);
+  const framing=gap>=25?`A meaningful gap — worth talking about together.`:gap>=10?`A noticeable gap — worth a quick check-in.`:`A small gap — your gut feel was close.`;
+  const calibLine=calibration!==null?`<div style="font-size:11px;color:var(--text-dim);margin-top:8px">Average gut-to-measured gap across all categories: <strong>${calibration} points</strong>. Lower = better shared visibility into who does what.</div>`:'';
+  return `<div class="card" style="margin-bottom:14px;border-left:3px solid #d97706">
+  <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Biggest blind spot</div>
+  <div style="font-size:14.5px;line-height:1.55">
+    <strong style="color:${color}">${esc(b.name)}</strong> guessed they handle <strong>${b.gut}%</strong> of <strong>${esc(b.cat)}</strong>, but their own answers place them at <strong>${b.measured}%</strong>.
+  </div>
+  <div style="font-size:12.5px;color:var(--text-muted);margin-top:6px">That's a <strong>${gap}-point</strong> gap — ${esc(b.name)} ${dir} how much ${dirWord} this area they carry. ${framing}</div>
+  ${calibLine}
+</div>`;
+})()}
+
+<div class="card" style="margin-bottom:14px">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">How well do you agree?</div>
+      <div class="big-agree ${agreeCol}">${agreeRate}%</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:3px">of tasks you both see the same way</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-top:2px">${agreeSubtext}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;min-width:170px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:var(--text-muted)">Fully agreed</span><span style="font-weight:500;color:#16a34a">${agreed.length} tasks</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:var(--text-muted)">Physical mismatch only</span><span style="font-weight:500;color:#f97316">${onlyPhysMis.length} tasks</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:var(--text-muted)">Mental mismatch only</span><span style="font-weight:500;color:#eab308">${onlyMenMis.length} tasks</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:var(--text-muted)">Both mismatch</span><span style="font-weight:500;color:#dc2626">${bothMis.length} tasks</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;border-top:0.5px solid rgba(0,0,0,.08);padding-top:5px;margin-top:2px"><span style="color:var(--text-dim)">One person skipped</span><span style="font-weight:500;color:#94a3b8">${oneSkip.length} tasks</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:var(--text-dim)">Neither answered</span><span style="font-weight:500;color:#94a3b8">${unanswered.length} tasks</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;padding:10px 12px;background:var(--surface-2);border-radius:8px">
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:7px">Agreement basis</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+      <button class="toggle-pill${aMode==='strict'?' active':''}" onclick="setAgreeMode('strict')">Both answered (${agreeRateStrict}%)</button>
+      <button class="toggle-pill${aMode==='inclusive'?' active':''}" onclick="setAgreeMode('inclusive')">All answered (${agreeRateInclusive}%)</button>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);line-height:1.5">${aMode==='strict'?'Strict mode: only counts the '+bothAnswered.length+' tasks you both answered.':'Inclusive mode: also counts the '+oneSkip.length+' tasks where only one of you weighed in — those count as not-agreed.'}</div>
+  </div>
+
+  <div style="margin-top:12px;padding:10px 12px;background:var(--surface-2);border-radius:8px">
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:7px">Score basis</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+      <button class="toggle-pill${sMode==='complexity'?' active':''}" onclick="setScoreMode('complexity')">Cognitive complexity</button>
+      <button class="toggle-pill${sMode==='frequency'?' active':''}" onclick="setScoreMode('frequency')">Frequency-weighted</button>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);line-height:1.5">${scoreModeExplain}</div>
+  </div>
+
+  <div style="margin-top:12px;padding:10px 12px;background:var(--surface-2);border-radius:8px">
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:7px">Questions answered</div>
+    <div class="answered-row"><span style="color:var(--text-muted)">${esc(S.nameA)}</span><span class="answered-pill" style="color:#1d4ed8">${ansA} / ${aTasks.length}</span></div>
+    <div class="answered-row"><span style="color:var(--text-muted)">${esc(S.nameB)}</span><span class="answered-pill" style="color:#dc2626">${ansB} / ${aTasks.length}</span></div>
+  </div>
+
+  ${wAny.length>0?`<div style="margin-top:12px;padding:10px 12px;background:rgba(249,115,22,.08);border-radius:8px;border-left:3px solid #f97316">
+    <div style="font-size:11px;font-weight:500;color:#9a3412;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px">Weight disagreement flags</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;margin-bottom:3px"><span style="color:#9a3412">↑ Both feel heavier than rated</span><span style="font-weight:500;color:#9a3412">${wAgreedUp.length}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;margin-bottom:3px"><span style="color:#9a3412">↓ Both feel lighter than rated</span><span style="font-weight:500;color:#9a3412">${wAgreedDown.length}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;margin-bottom:3px"><span style="color:#9a3412">⚠ Directional conflict (one ↑, one ↓)</span><span style="font-weight:500;color:#9a3412">${wConflict.length}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:#9a3412">Only one of you flagged it</span><span style="font-weight:500;color:#9a3412">${wAsymmetric.length}</span></div>
+  </div>`:''}
+
+  ${emoAny.length>0?`<div style="margin-top:12px;padding:10px 12px;background:rgba(168,85,247,.08);border-radius:8px;border-left:3px solid #a855f7">
+    <div style="font-size:11px;font-weight:500;color:#7c3aed;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px">🧠 Emotional-labor flags</div>
+    <div style="font-size:11.5px;color:#6b21a8;margin-bottom:6px;line-height:1.5">Tasks one or both of you marked as costing energy beyond the time. Conversation starter — not scored.</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;margin-bottom:3px"><span style="color:#6b21a8">Both flagged it as draining</span><span style="font-weight:500;color:#6b21a8">${emoBoth.length}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;margin-bottom:3px"><span style="color:#6b21a8">Only ${esc(S.nameA)} flagged it</span><span style="font-weight:500;color:#6b21a8">${emoOnlyA.length}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px"><span style="color:#6b21a8">Only ${esc(S.nameB)} flagged it</span><span style="font-weight:500;color:#6b21a8">${emoOnlyB.length}</span></div>
+  </div>`:''}
+
+  <div style="margin-top:14px;height:10px;border-radius:5px;overflow:hidden;background:var(--surface-3);display:flex">
+    <div style="width:${bothAnswered.length>0?Math.round(agreed.length/bothAnswered.length*100):0}%;background:#22c55e;transition:width .3s"></div>
+    <div style="width:${bothAnswered.length>0?Math.round(onlyPhysMis.length/bothAnswered.length*100):0}%;background:#f97316;transition:width .3s"></div>
+    <div style="width:${bothAnswered.length>0?Math.round(onlyMenMis.length/bothAnswered.length*100):0}%;background:#eab308;transition:width .3s"></div>
+    <div style="width:${bothAnswered.length>0?Math.round(bothMis.length/bothAnswered.length*100):0}%;background:#ef4444;transition:width .3s"></div>
+  </div>
+  <div style="font-size:11px;color:var(--text-dim);margin-top:5px;text-align:right">${bothAnswered.length} tasks both answered · ${oneSkip.length} where one skipped · ${unanswered.length} unanswered</div>
+</div>
+
+${insights.length?`<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">${insights.map(i=>`<div style="padding:10px 13px;border-radius:8px;background:var(--surface-2);border-left:3px solid ${i.col};font-size:13px;line-height:1.6;color:var(--text)">${i.text}</div>`).join('')}</div>`:''}
+
+<div class="card">
+  <div class="section-title">Overall load distribution</div>
+  <div class="section-sub">${sMode==='complexity'?'Physical + mental, weighted by task complexity.':'Physical + mental, weighted by task complexity × frequency.'}</div>
+  <div style="display:flex;height:34px;border-radius:8px;overflow:hidden;margin-bottom:8px">
+    <div style="width:${pA}%;background:#2563eb;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff">${pA>12?pA+'%':''}</div>
+    <div style="width:${pB}%;background:#dc2626;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff">${pB>12?pB+'%':''}</div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:18px">
+    <span style="color:#2563eb;font-weight:500">${esc(S.nameA)} — ${pA}%</span>
+    <span style="color:#dc2626;font-weight:500">${esc(S.nameB)} — ${pB}%</span>
+  </div>
+  <div class="score-grid">
+  ${[{n:S.nameA,s:sA,col:'#2563eb'},{n:S.nameB,s:sB,col:'#dc2626'}].map(({n,s,col})=>`
+  <div class="score-card"><div style="font-size:13px;font-weight:500;color:${col};margin-bottom:10px">${esc(n)}</div>
+  <div style="margin-bottom:7px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:3px"><span>Physical</span><span>${s.p.toFixed(1)}</span></div><div class="mini-bar-track"><div style="height:100%;width:${Math.round(s.p/maxS*100)}%;background:#2563eb"></div></div></div>
+  <div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:3px"><span>Mental</span><span>${s.m.toFixed(1)}</span></div><div class="mini-bar-track"><div style="height:100%;width:${Math.round(s.m/maxS*100)}%;background:#dc2626"></div></div></div>
+  <div style="margin-top:9px;padding-top:8px;border-top:0.5px solid rgba(0,0,0,.08);display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text-muted)">Total</span><span style="font-weight:500">${s.total.toFixed(1)}</span></div></div>`).join('')}
+  </div>
+  <div style="padding:10px 12px;background:var(--surface-2);border-radius:8px">
+    <div style="font-size:11px;font-weight:500;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px">Mental-only split</div>
+    ${[{n:S.nameA,pct:mPA,col:'#2563eb'},{n:S.nameB,pct:100-mPA,col:'#dc2626'}].map(p=>`<div class="mental-split-row"><span style="font-size:12px;width:75px;flex-shrink:0;color:var(--text-muted)">${esc(p.n)}</span><div class="mental-split-bar"><div style="width:${p.pct}%;height:100%;background:${p.col}"></div></div><span style="font-size:12px;font-weight:500;width:28px;text-align:right">${p.pct}%</span></div>`).join('')}
+  </div>
+</div>
+
+<div class="info-box ${alertCls}">${alertMsg}</div>
+
+<div class="card">
+  <div class="section-title">By category</div>
+  <div class="section-sub">Sorted by load gap. Agreement % shows how similarly you perceive each area. Blue = ${esc(S.nameA)}, red = ${esc(S.nameB)}.</div>
+  ${catRows}
+</div>
+
+<div class="card" id="comp-card">
+  <div class="section-title">Full side-by-side comparison</div>
+  <div class="section-sub">Every task, both perspectives. Filter to focus on what you want to discuss.</div>
+  ${colorKey}
+  <div class="filter-scroll">
+    ${filterDefs.filter(f=>f.id==='all'||f.id===activeFilter||f.tasks.length>0).map(f=>`<button class="filter-btn${activeFilter===f.id?' active':''}" onclick="jumpToFilter('${f.id}')">${f.label}</button>`).join('')}
+  </div>
+  ${visibleTasks.length===0?`<div style="text-align:center;padding:2rem;color:var(--text-dim);font-size:13px">No tasks match this filter — that's often good news.<br><button class="btn-ghost" onclick="jumpToFilter('all')" style="margin-top:12px">Show all tasks</button></div>`:compRows}
+  ${visibleTasks.length>0?`<div style="font-size:11px;color:var(--text-dim);text-align:right;margin-top:8px">Showing ${visibleTasks.length} task${visibleTasks.length!==1?'s':''}</div>`:''}
+</div>
+
+<div class="card">
+  <div class="section-title">Where to go from here</div>
+  <div class="section-sub">Three one-pick starters. Each button jumps to the relevant list in the table above — pick one task, not all of them.</div>
+  <div class="action-prompt-list">
+    ${(()=>{const cards=[
+      {text:`Pick <strong>one</strong> task from the <em>disputed</em> list to re-negotiate this month.`,count:anyMis.length,filter:'any-mis',btn:`Open mismatch list (${anyMis.length})`,examples:pickExamples(anyMis)},
+      {text:`Pick <strong>one</strong> task from your <em>heavier</em> list to trade or share for 30 days.`,count:wAny.length,filter:'w-flagged',btn:`Open weight-flagged list (${wAny.length})`,examples:pickExamples(wAny)},
+      {text:`Pick <strong>one</strong> task from the <em>neither-claim</em> list to officially claim, hand off, or retire.`,count:neitherClaim.length,filter:'neither-claim',btn:`Open neither-claim list (${neitherClaim.length})`,examples:pickExamples(neitherClaim)}
+    ];return cards.map(c=>{
+      const exHTML=c.count===0
+        ?`<div class="ap-examples-empty">Nothing in this list right now.</div>`
+        :(c.examples.length?`<ul class="ap-examples">${c.examples.map(ex=>`<li><span class="badge ${WC[ex.weight].cls}">${WC[ex.weight].label}</span><span class="ap-ex-name">${esc(ex.name)}</span><span class="ap-ex-frame">${esc(ex.frame)}</span></li>`).join('')}</ul>`:'');
+      return`<div class="action-prompt action-prompt-stack"><div class="ap-text">${c.text}</div>${exHTML}<button class="ap-btn" onclick="jumpToFilter('${c.filter}')">${c.btn}</button></div>`;
+    }).join('');})()}
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title">What surprised you most? <span style="font-size:11px;font-weight:400;color:var(--text-dim);letter-spacing:0">(optional)</span></div>
+  <div class="section-sub">One line you'd actually share. No one sees this but you.</div>
+  <textarea id="meta-surprise" rows="3" placeholder="The thing I didn't expect was…" oninput="setMetaSurprise(this.value)" style="width:100%;box-sizing:border-box;padding:10px 12px;font-size:13px;line-height:1.5;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);resize:vertical;font-family:inherit">${esc(S.metaSurprise||'')}</textarea>
+</div>
+
+<div class="note-box">
+  <div style="font-size:13px;font-weight:500;color:#1e40af;margin-bottom:6px">A note on these results</div>
+  <p style="font-size:13px;color:#1e40af;line-height:1.7;opacity:.9">These numbers aren't a verdict — they're a vocabulary. Use them to talk about what feels sustainable, what feels invisible, and what might shift. Equal doesn't have to mean 50/50; it means both people feel seen and respected.</p>
+</div>
+
+<button class="btn-ghost" onclick="resetAll()">Start over</button>
+</div>`;
+}
+
+document.addEventListener('keydown',ev=>{
+  if(S.screen!=='formA'&&S.screen!=='formB')return;
+  const tag=(ev.target&&ev.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||(ev.target&&ev.target.isContentEditable))return;
+  if(ev.ctrlKey||ev.metaKey||ev.altKey)return;
+  const person=S.screen==='formA'?'A':'B';
+  const ans=person==='A'?S.answersA:S.answersB;
+  const aCats=activeCats();
+  if(!aCats.length)return;
+  const cat=aCats[S.catIdx];if(!cat)return;
+  const tasks=activeTasks().filter(t=>t.cat===cat.id);
+  if(!tasks.length)return;
+  let idx=tasks.findIndex(t=>t.id===F.focusedTid);
+  if(idx<0){idx=0;F.focusedTid=tasks[0].id;}
+  const t=tasks[idx];const a=ans[t.id]||{};
+  const focusNext=()=>{if(idx<tasks.length-1){F.focusedTid=tasks[idx+1].id;render();}};
+  const focusPrev=()=>{if(idx>0){F.focusedTid=tasks[idx-1].id;render();}};
+  let handled=true;
+  switch(ev.key){
+    case '1':setPhys(person,t.id,'me');break;
+    case '2':setPhys(person,t.id,'shared');break;
+    case '3':setPhys(person,t.id,'partner');break;
+    case '4':setPhys(person,t.id,'na');break;
+    case 'q':case 'Q':if(a.phys&&a.phys!=='na')setMen(person,t.id,'me');break;
+    case 'w':case 'W':if(a.phys&&a.phys!=='na')setMen(person,t.id,'shared');break;
+    case 'e':case 'E':if(a.phys&&a.phys!=='na')setMen(person,t.id,'partner');break;
+    case 'h':case 'H':setWFlag(person,t.id,'up');break;
+    case 'l':case 'L':setWFlag(person,t.id,'down');break;
+    case 'd':case 'D':toggleEmo(person,t.id);break;
+    case 'j':case 'J':case 'ArrowDown':focusNext();break;
+    case 'k':case 'K':case 'ArrowUp':focusPrev();break;
+    case 'Enter':
+      if(idx<tasks.length-1){focusNext();}
+      else if(S.catIdx<aCats.length-1){S.catIdx++;F.focusedTid=null;render();}
+      else{donePerson(person);}
+      break;
+    case '?':F.cheatOpen=!F.cheatOpen;render();break;
+    default:handled=false;
+  }
+  if(handled)ev.preventDefault();
+});
+loadS();
+try{
+  const ack=localStorage.getItem('mlv7_ack')==='1';
+  if(S.screen==='intro'&&ack)S.screen='welcome';
+  else if(S.screen==='welcome'&&!ack)S.screen='intro';
+}catch(e){}
+render();
+</script>
+</body>
+</html>
