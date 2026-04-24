@@ -115,7 +115,7 @@ strong{color:var(--text)}
 .emoflag-btn.active{background:rgba(168,85,247,.15);color:#7c3aed;border-color:#a855f7;font-weight:500}
 .theme-toggle{position:fixed;top:14px;right:14px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s}
 .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
-@media (max-width:520px){#root{padding-top:10px}}
+@media (max-width:720px){#root{padding-top:40px}}
 .reset-btn{position:fixed;top:14px;right:60px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
 .reset-btn.visible{display:flex}
 .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -194,7 +194,7 @@ strong{color:var(--text)}
 .filter-scroll::-webkit-scrollbar{display:none}
 .filter-scroll.dragging{cursor:grabbing}
 @media (hover:hover){.tab-scroll,.filter-scroll{scrollbar-width:thin}.tab-scroll::-webkit-scrollbar,.filter-scroll::-webkit-scrollbar{display:block;height:6px}.tab-scroll::-webkit-scrollbar-thumb,.filter-scroll::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}}
-input[type="text"]{width:100%;padding:8px 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:inherit;outline:none;background:var(--surface-2);color:var(--text)}
+input[type="text"]{width:100%;padding:8px 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:16px;font-family:inherit;outline:none;background:var(--surface-2);color:var(--text)}
 input[type="text"]:focus{border-color:var(--accent)}
 input[type="text"]::placeholder{color:var(--text-dim)}
 label{display:block;font-size:11px;font-weight:500;margin-bottom:5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
@@ -1078,7 +1078,7 @@ ${(()=>{
 <section><h2>Top 5 conversations</h2>${top5HTML}</section>
 <section><h2>Where to go from here</h2>${actionsHTML}</section>
 ${metaHTML}
-<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V0.12.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
+<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V0.12.2 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
 </body></html>`;
 }
 
@@ -1243,7 +1243,9 @@ function isFormInProgress(){return ['formA','formB','gutA','gutB','handoff'].inc
 window.addEventListener('beforeunload',e=>{if(isFormInProgress()){e.preventDefault();e.returnValue='';}});
 function resetAll(){if(!window.confirm('Start over? This will clear both partners\u2019 answers and return to the intro screen.'))return;S=DEFAULT_S();try{localStorage.removeItem(V12_KEY);localStorage.removeItem(V12_ACK);}catch(e){}render();}
 let _lastNavKey=null;
-function render(){const navKey=S.screen+':'+(S.catIdx||0);const navChanged=navKey!==_lastNavKey;_lastNavKey=navKey;({migrate:renderMigrate,intro:renderIntro,welcome:renderWelcome,names:renderNames,setup:renderSetup,gutA:()=>renderGutCheck('A'),formA:()=>renderForm('A'),handoff:renderHandoff,gutB:()=>renderGutCheck('B'),formB:()=>renderForm('B'),results:renderResults}[S.screen]||renderIntro)();postRender();if(navChanged)window.scrollTo(0,0);}
+function captureFocusKey(){const el=document.activeElement;if(!el||el===document.body)return null;const row=el.closest('.task-sep');if(!row)return null;const btns=[...row.querySelectorAll('button')];const idx=btns.indexOf(el);if(idx<0)return null;return{tid:row.dataset.tid,idx};}
+function restoreFocusKey(k){if(!k)return;const row=document.querySelector(`.task-sep[data-tid="${k.tid}"]`);if(!row)return;const btns=row.querySelectorAll('button');const el=btns[k.idx]||btns[btns.length-1];if(el&&el.focus)try{el.focus({preventScroll:true});}catch(e){el.focus();}}
+function render(){const navKey=S.screen+':'+(S.catIdx||0);const navChanged=navKey!==_lastNavKey;_lastNavKey=navKey;const fk=navChanged?null:captureFocusKey();({migrate:renderMigrate,intro:renderIntro,welcome:renderWelcome,names:renderNames,setup:renderSetup,gutA:()=>renderGutCheck('A'),formA:()=>renderForm('A'),handoff:renderHandoff,gutB:()=>renderGutCheck('B'),formB:()=>renderForm('B'),results:renderResults}[S.screen]||renderIntro)();postRender();if(navChanged)window.scrollTo(0,0);else restoreFocusKey(fk);}
 function postRender(){
   const rb=document.getElementById('resetBtn');
   if(rb)rb.classList.toggle('visible',!!hasData());
@@ -2089,6 +2091,6 @@ try{
 }catch(e){}
 render();
 </script>
-<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V0.12.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
+<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V0.12.2 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
 </body>
 </html>
