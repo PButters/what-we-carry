@@ -115,6 +115,7 @@ strong{color:var(--text)}
 .emoflag-btn.active{background:rgba(168,85,247,.15);color:#7c3aed;border-color:#a855f7;font-weight:500}
 .theme-toggle{position:fixed;top:14px;right:14px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s}
 .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media (max-width:520px){#root{padding-top:10px}}
 .reset-btn{position:fixed;top:14px;right:60px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
 .reset-btn.visible{display:flex}
 .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -123,6 +124,22 @@ strong{color:var(--text)}
 .export-btn:hover,.export-btn.open{border-color:var(--accent);color:var(--accent)}
 .export-menu{position:fixed;top:58px;right:14px;z-index:11;min-width:260px;max-width:calc(100vw - 28px);background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.35);padding:6px;display:none;font-family:inherit}
 .export-menu.open{display:block}
+.kbd-btn{position:fixed;top:14px;right:152px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
+.kbd-btn:hover,.kbd-btn.open{border-color:var(--accent);color:var(--accent)}
+.kbd-drawer{position:fixed;top:58px;right:14px;z-index:11;width:310px;max-width:calc(100vw - 28px);max-height:calc(100vh - 72px);overflow-y:auto;background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.35);padding:14px 16px 12px;display:none;font-family:inherit}
+.kbd-drawer.open{display:block}
+.kbd-drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.kbd-drawer-title{font-size:13px;font-weight:600;color:var(--text)}
+.kbd-drawer-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1;padding:2px 8px;border-radius:4px;font-family:inherit}
+.kbd-drawer-close:hover{color:var(--accent);background:var(--surface-2)}
+.kbd-drawer h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin:14px 0 6px}
+.kbd-drawer h3:first-of-type{margin-top:8px}
+.kbd-drawer h3 .kbd-section-scope{display:block;font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-dim);font-style:italic;margin-top:1px}
+.kbd-row{display:flex;gap:10px;align-items:baseline;font-size:12.5px;color:var(--text-muted);line-height:1.5;margin-bottom:5px}
+.kbd-keys{flex-shrink:0;min-width:84px;color:var(--text)}
+.kbd-drawer kbd{display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;padding:1px 6px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;background:var(--surface-2);color:var(--text);margin-right:2px;line-height:1.2}
+.kbd-scope-note{font-size:11px;font-style:italic;color:var(--text-dim);margin:10px 0 0;padding-top:8px;border-top:1px solid var(--border);line-height:1.5}
+@media (max-width:720px){.kbd-btn,.kbd-drawer{display:none !important}}
 .export-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:6px;color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit;line-height:1.3}
 .export-menu-item:hover{background:var(--surface-2);color:var(--accent)}
 .export-menu-item .em-ico{flex-shrink:0;font-size:15px;width:18px;text-align:center;opacity:.85}
@@ -150,11 +167,6 @@ strong{color:var(--text)}
 .task-sep{padding:13px 0;border-top:1px solid var(--border);position:relative;transition:background .15s}
 .task-sep.focused{background:var(--surface-2)}
 .task-sep.focused::before{content:'';position:absolute;left:-14px;top:13px;bottom:13px;width:3px;background:var(--accent);border-radius:2px}
-.kbd-hint{font-size:11px;padding:3px 10px;border-radius:14px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-family:inherit;line-height:1}
-.kbd-hint:hover{color:var(--accent);border-color:var(--accent)}
-.kbd-hint.active{color:var(--accent);border-color:var(--accent)}
-.kbd-panel{font-size:12px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.9}
-.kbd-panel kbd{display:inline-block;padding:0 6px;border-radius:4px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:11px;min-width:14px;text-align:center}
 .hero-wrap{margin-bottom:16px}
 .hero-split{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .hero-split-head{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text);margin-bottom:3px}
@@ -270,21 +282,47 @@ label{display:block;font-size:11px;font-weight:500;margin-bottom:5px;color:var(-
     <button id="exportBtn" class="export-btn" onclick="toggleExportMenu(event)" title="Export your results" aria-label="Export your results" aria-haspopup="true" aria-expanded="false">📤</button>
     <button id="resetBtn" class="reset-btn" onclick="resetAll()" title="Start over (clears all answers)" aria-label="Start over and clear all answers">↺</button>
     <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark" aria-label="Toggle light or dark theme">🌙</button>
+    <button id="kbdBtn" class="kbd-btn" onclick="toggleKbdDrawer(event)" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts" aria-haspopup="dialog" aria-expanded="false">⌨</button>
   </div>
   <div id="exportMenu" class="export-menu" role="menu" aria-hidden="true"></div>
+  <div id="kbdDrawer" class="kbd-drawer" role="dialog" aria-label="Keyboard shortcuts" aria-hidden="true">
+    <div class="kbd-drawer-head">
+      <span class="kbd-drawer-title">⌨ Keyboard shortcuts</span>
+      <button class="kbd-drawer-close" onclick="closeKbdDrawer()" aria-label="Close keyboard shortcuts" title="Close (Esc)">×</button>
+    </div>
+    <h3>Setting answers <span class="kbd-section-scope">on form screens</span></h3>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></span><span>I do · we share · partner · skip <em>(physical)</em></span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd></span><span>I track · we both · partner <em>(mental)</em></span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>H</kbd><kbd>L</kbd></span><span>↑ heavier · ↓ lighter (toggle)</span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>D</kbd></span><span>🧠 drain (toggle)</span></div>
+    <h3>Navigation <span class="kbd-section-scope">on form screens</span></h3>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>J</kbd> / <kbd>↓</kbd></span><span>Next task</span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>K</kbd> / <kbd>↑</kbd></span><span>Previous task</span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>Enter</kbd></span><span>Advance to next category / done</span></div>
+    <h3>Other</h3>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>?</kbd></span><span>Open / close this panel</span></div>
+    <div class="kbd-row"><span class="kbd-keys"><kbd>Esc</kbd></span><span>Close this panel</span></div>
+    <p class="kbd-scope-note">Shortcuts under "Setting answers" and "Navigation" only do anything while you're filling out the questionnaire.</p>
+  </div>
 </header>
 <input type="file" id="importFileInput" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
 <main id="root"><p style="color:var(--text-muted);font-size:14px;padding:2rem 0">Setting up...</p></main>
 <script>
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-function applyTheme(t){const btn=document.getElementById('themeToggle');if(t==='light'){document.documentElement.setAttribute('data-theme','light');if(btn)btn.textContent='☀';}else{document.documentElement.removeAttribute('data-theme');if(btn)btn.textContent='🌙';}}
+function applyTheme(t){const btn=document.getElementById('themeToggle');if(t==='light'){document.documentElement.setAttribute('data-theme','light');if(btn)btn.textContent='☀';}else{document.documentElement.removeAttribute('data-theme');if(btn)btn.textContent='🌙';}const src=t==='light'?'wwc-icon-fill-square-black.png':'wwc-icon-fill-square-white.png';document.querySelectorAll('.wwc-icon').forEach(img=>{img.src=src;});}
 function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';const next=cur==='light'?'dark':'light';try{localStorage.setItem('mlv7_theme',next);}catch(e){}applyTheme(next);}
+function iconSrc(){return document.documentElement.getAttribute('data-theme')==='light'?'wwc-icon-fill-square-black.png':'wwc-icon-fill-square-white.png';}
 try{applyTheme(localStorage.getItem('mlv7_theme')||'dark');}catch(e){applyTheme('dark');}
-const WC={1:{label:'routine',cls:'badge-routine'},2:{label:'moderate',cls:'badge-moderate'},3:{label:'complex',cls:'badge-complex'}};
+// v12 hybrid 1–6 scale: backend carries 1–6, user sees three tiers (routine / moderate / complex).
+const WC={1:{label:'routine',cls:'badge-routine'},2:{label:'routine',cls:'badge-routine'},3:{label:'moderate',cls:'badge-moderate'},4:{label:'moderate',cls:'badge-moderate'},5:{label:'complex',cls:'badge-complex'},6:{label:'complex',cls:'badge-complex'}};
+function wTier(w){return w<=2?1:(w<=4?2:3);}
 const FQ={daily:4,weekly:3,monthly:2,occasional:1};
 const FQ_LABEL={daily:'daily',weekly:'weekly',monthly:'monthly',occasional:'occasional'};
 const CATS=[
-{id:'household',name:'Household'},
+{id:'kitchen',name:'Kitchen & food'},
+{id:'clean',name:'Cleaning & tidy'},
+{id:'shop',name:'Shopping & supplies'},
+{id:'home',name:'Home & Yard Maintenance'},
 {id:'school',name:'School & daycare'},
 {id:'body',name:'Body & health'},
 {id:'pets',name:'Pets'},
@@ -295,215 +333,292 @@ const CATS=[
 {id:'relationships',name:'Sleep & relationships'},
 {id:'money',name:'Money & admin'},
 {id:'technology',name:'Technology'},
-{id:'eldercare',name:'Eldercare & family caregiving'}
+{id:'care',name:'Caring for a family member'}
 ];
+// v12 task list — 209 items across 15 categories. Source of truth: VERSION_11_AND_BEYOND.md §"Category locks — final v12 item lists".
+// Weights on 1–6 scale: 1–2 routine · 3–4 moderate · 5–6 complex.
 const T=[
-{id:'h01',cat:'household',name:'Washing & hanging laundry',w:1,freq:'weekly'},
-{id:'h02',cat:'household',name:'Drying laundry (dryer or line)',w:1,freq:'weekly'},
-{id:'h03',cat:'household',name:'Folding & putting away laundry',w:1,freq:'weekly'},
-{id:'h04',cat:'household',name:'Ironing',w:1,freq:'monthly'},
-{id:'h05',cat:'household',name:'Changing bed sheets',w:1,freq:'weekly'},
-{id:'h06',cat:'household',name:'Making beds (daily)',w:1,freq:'daily'},
-{id:'h07',cat:'household',name:'Cooking weekday family dinners',w:2,freq:'daily'},
-{id:'h08',cat:'household',name:'Preparing kid breakfasts / school-morning food',w:1,freq:'daily',requiresKids:true},
-{id:'h09',cat:'household',name:'Cooking from-scratch / skill-required meals',w:3,freq:'weekly'},
-{id:'h10',cat:'household',name:"Knowing each family member's food preferences & restrictions",w:3,freq:'weekly'},
-{id:'h11',cat:'household',name:'Loading & unloading the dishwasher',w:1,freq:'daily'},
-{id:'h12',cat:'household',name:'Hand-washing pots, pans & oversize items',w:1,freq:'daily'},
-{id:'h13',cat:'household',name:'Wiping counters & stovetop after meals',w:1,freq:'daily'},
-{id:'h14',cat:'household',name:'Deep kitchen reset (weekly — appliances, sink, splashbacks)',w:2,freq:'weekly'},
-{id:'h15',cat:'household',name:'Maintaining the running grocery list',w:3,freq:'weekly'},
-{id:'h16',cat:'household',name:"Tracking what's running low in pantry / fridge",w:2,freq:'daily'},
-{id:'h17',cat:'household',name:'Grocery shopping (the trip)',w:2,freq:'weekly'},
-{id:'h18',cat:'household',name:'Planning meals for the week',w:3,freq:'weekly'},
-{id:'h19',cat:'household',name:'Daily kitchen / common-area tidy (reset to baseline)',w:1,freq:'daily'},
-{id:'h20',cat:'household',name:'Weekly deeper tidy (surfaces, clutter sweep)',w:2,freq:'weekly'},
-{id:'h21',cat:'household',name:'Decluttering / purging (seasonal or as-needed)',w:3,freq:'occasional'},
-{id:'h22',cat:'household',name:'Vacuuming',w:1,freq:'weekly'},
-{id:'h23',cat:'household',name:'Mopping / wet-cleaning floors',w:1,freq:'weekly'},
-{id:'h24',cat:'household',name:'Quick bathroom touch-up (sink, mirror, counter)',w:1,freq:'weekly'},
-{id:'h25',cat:'household',name:'Deep bathroom clean (toilet, tub, shower, grout)',w:2,freq:'monthly'},
-{id:'h26',cat:'household',name:'Restocking bathroom supplies (TP, soap, towels)',w:2,freq:'monthly'},
-{id:'h27',cat:'household',name:'Cleaning the oven (deep clean)',w:2,freq:'occasional'},
-{id:'h40',cat:'household',name:'Cleaning fridge & freezer (interior, expired food sweep)',w:2,freq:'monthly'},
-{id:'h28',cat:'household',name:'Watering indoor plants',w:1,freq:'weekly'},
-{id:'h29',cat:'household',name:'Knowing what each plant needs (light, food, repotting)',w:2,freq:'weekly'},
-{id:'h30',cat:'household',name:'Daily trash bin emptying (kitchen → outside bin)',w:1,freq:'daily'},
-{id:'h41',cat:'household',name:'Daily recycling bin emptying (kitchen → outside bin)',w:1,freq:'daily'},
-{id:'h31',cat:'household',name:'Weekly trash to curb',w:1,freq:'weekly'},
-{id:'h42',cat:'household',name:'Weekly recycling to curb',w:1,freq:'weekly'},
-{id:'h32',cat:'household',name:'Knowing trash & recycling collection schedule (which day, special pickups)',w:2,freq:'weekly'},
-{id:'h33',cat:'household',name:'Mail handling — sorting incoming, opening, filing',w:1,freq:'daily'},
-{id:'h34',cat:'household',name:'Returns & outgoing shipments',w:2,freq:'monthly'},
-{id:'h35',cat:'household',name:'Light bulb / battery / smoke-alarm replacement',w:1,freq:'occasional'},
-{id:'h36',cat:'household',name:'Maintaining the Target / Walmart / general-merchandise list',w:2,freq:'weekly'},
-{id:'h37',cat:'household',name:'Target / Walmart shopping trips',w:2,freq:'weekly'},
-{id:'h38',cat:'household',name:"Maintaining the wholesale (Costco / BJ's / Sam's) shopping list",w:2,freq:'monthly'},
-{id:'h39',cat:'household',name:'Wholesale shopping trips',w:2,freq:'monthly'},
-{id:'s01',cat:'school',name:'Morning drop-off (the drive)',w:1,freq:'daily',requiresSchool:true},
-{id:'s02',cat:'school',name:'Afternoon pick-up (the drive)',w:1,freq:'daily',requiresSchool:true},
-{id:'s03',cat:'school',name:'Coordinating who does drop-off / pick-up each day',w:2,freq:'weekly',requiresSchool:true},
-{id:'s04',cat:'school',name:'Packing school lunches',w:2,freq:'daily',requiresSchool:true},
-{id:'s05',cat:'school',name:'Preparing snack boxes',w:2,freq:'daily',requiresSchool:true},
-{id:'s06',cat:'school',name:'Supervising homework',w:2,freq:'daily',requiresSchool:true},
-{id:'s07',cat:'school',name:'Helping with bigger school projects',w:3,freq:'monthly',requiresSchool:true},
-{id:'s08',cat:'school',name:'Getting school & daycare supplies',w:3,freq:'occasional',requiresSchool:true},
-{id:'s09',cat:'school',name:"Being the school's primary contact person",w:3,freq:'weekly',requiresSchool:true},
-{id:'s10',cat:'school',name:'Reading school emails / app notifications',w:2,freq:'daily',requiresSchool:true},
-{id:'s11',cat:'school',name:'Parent-teacher conferences / parent nights',w:2,freq:'occasional',requiresSchool:true},
-{id:'s12',cat:'school',name:'Preparing gym kit / sports gear for school',w:2,freq:'weekly',requiresSchool:true},
-{id:'s13',cat:'school',name:'Tracking the school calendar (early release, breaks, picture day, themed days)',w:3,freq:'weekly',requiresSchool:true},
-{id:'s14',cat:'school',name:'Permission slips & forms',w:2,freq:'monthly',requiresSchool:true},
-{id:'s15',cat:'school',name:'Field trip & classroom volunteer sign-ups',w:2,freq:'monthly',requiresSchool:true},
-{id:'s16',cat:'school',name:'Teacher gifts / classroom contributions',w:2,freq:'occasional',requiresSchool:true},
-{id:'s17',cat:'school',name:"Knowing kids' friends, friend-group dynamics & social issues",w:3,freq:'weekly',requiresSchool:true},
-{id:'s18',cat:'school',name:'Coordinating carpools with other families',w:2,freq:'weekly',requiresSchool:true},
-{id:'b01',cat:'body',name:"Kids' hair combing & styling",w:1,freq:'daily',requiresKids:true},
-{id:'b02',cat:'body',name:"Kids' bath time & hair washing",w:1,freq:'daily',requiresKids:true},
-{id:'b03',cat:'body',name:'Tooth-brushing supervision (kids)',w:1,freq:'daily',requiresKids:true},
-{id:'b04',cat:'body',name:'Tracking & buying drugstore supplies (toothpaste, deodorant, etc.)',w:2,freq:'monthly'},
-{id:'b05',cat:'body',name:'Making doctor appointments — kids',w:3,freq:'monthly',requiresKids:true},
-{id:'b06',cat:'body',name:'Making doctor appointments — self / partner',w:3,freq:'monthly'},
-{id:'b07',cat:'body',name:'Doctor visits & follow-ups (taking, sitting through, remembering instructions)',w:2,freq:'monthly'},
-{id:'b08',cat:'body',name:'Tracking immunizations & well-child visits',w:3,freq:'occasional',requiresKids:true},
-{id:'b09',cat:'body',name:'Dental cleanings — scheduling & taking',w:3,freq:'occasional'},
-{id:'b10',cat:'body',name:'Eye exams & glasses upkeep',w:3,freq:'occasional'},
-{id:'b11',cat:'body',name:"Sorting & updating the medicine cabinet (what's expired, what we're out of)",w:3,freq:'monthly'},
-{id:'b12',cat:'body',name:'Managing prescription refills',w:3,freq:'monthly'},
-{id:'b13',cat:'body',name:'Insurance claims, EOBs, billing follow-up',w:3,freq:'monthly'},
-{id:'b14',cat:'body',name:'Mental health / therapy scheduling (self & kids)',w:3,freq:'monthly'},
-{id:'b15',cat:'body',name:'Noticing early illness signs in the household',w:3,freq:'weekly'},
-{id:'b16',cat:'body',name:'Caring for a sick family member (food, comfort, monitoring)',w:2,freq:'monthly'},
-{id:'p01',cat:'pets',name:'Daily feeding',w:1,freq:'daily'},
-{id:'p02',cat:'pets',name:'Daily walks / outdoor time / exercise',w:1,freq:'daily'},
-{id:'p03',cat:'pets',name:'Litter box / waste cleanup (indoor)',w:1,freq:'daily'},
-{id:'p04',cat:'pets',name:'Yard waste cleanup (outdoor)',w:1,freq:'weekly'},
-{id:'p05',cat:'pets',name:'Grooming — brushing, bathing, nail trims',w:2,freq:'monthly'},
-{id:'p06',cat:'pets',name:'Vet appointments — scheduling',w:3,freq:'occasional'},
-{id:'p07',cat:'pets',name:'Vet appointments — taking the pet',w:2,freq:'occasional'},
+// Kitchen & food (10)
+{id:'k01',cat:'kitchen',name:'Meal planning for the week',w:4,freq:'weekly'},
+{id:'k02',cat:'kitchen',name:'Cooking weekday dinners',w:4,freq:'daily'},
+{id:'k03',cat:'kitchen',name:'Weekend cooking & entertaining',w:3,freq:'weekly'},
+{id:'k04',cat:'kitchen',name:'Preparing weekday breakfasts / lunches',w:2,freq:'daily'},
+{id:'k05',cat:'kitchen',name:'Meal cleanup (dishwasher, hand-wash, counters)',w:3,freq:'daily'},
+{id:'k06',cat:'kitchen',name:'Deep-cleaning the oven / stovetop',w:1,freq:'occasional'},
+{id:'k07',cat:'kitchen',name:'Deep-cleaning the fridge / freezer',w:2,freq:'monthly'},
+{id:'k08',cat:'kitchen',name:'Knowing food preferences & restrictions',w:3,freq:'weekly'},
+{id:'k09',cat:'kitchen',name:'Managing leftovers / using up food',w:3,freq:'weekly'},
+{id:'k10',cat:'kitchen',name:'Noticing when the kitchen is "done" for the night',w:3,freq:'daily'},
+// Cleaning & tidy (12)
+{id:'cl01',cat:'clean',name:'Laundry — machine-wash / hand-wash',w:2,freq:'weekly'},
+{id:'cl02',cat:'clean',name:'Laundry — drying (machine, hang, lay flat)',w:2,freq:'weekly'},
+{id:'cl03',cat:'clean',name:'Laundry — folding & putting away',w:3,freq:'weekly'},
+{id:'cl04',cat:'clean',name:'Iron / steam / press clothes',w:1,freq:'monthly'},
+{id:'cl05',cat:'clean',name:'Cleaning bathrooms',w:2,freq:'weekly'},
+{id:'cl06',cat:'clean',name:'Changing bedding',w:1,freq:'weekly'},
+{id:'cl07',cat:'clean',name:'Daily reset of shared living spaces',w:3,freq:'daily'},
+{id:'cl08',cat:'clean',name:'Vacuuming',w:2,freq:'weekly'},
+{id:'cl09',cat:'clean',name:'Mopping',w:2,freq:'weekly'},
+{id:'cl10',cat:'clean',name:'Dusting',w:1,freq:'weekly'},
+{id:'cl11',cat:'clean',name:'Cleaning windows / mirrors',w:1,freq:'monthly'},
+{id:'cl12',cat:'clean',name:'Noticing when shared spaces need a reset',w:3,freq:'daily'},
+// Shopping & supplies (6)
+{id:'sh01',cat:'shop',name:"Maintaining the grocery list & tracking what's running low",w:4,freq:'weekly'},
+{id:'sh02',cat:'shop',name:'Running grocery shopping trips',w:2,freq:'weekly'},
+{id:'sh03',cat:'shop',name:'Maintaining the general-merchandise list (Target / Walmart / Costco / big-box)',w:3,freq:'weekly'},
+{id:'sh04',cat:'shop',name:'Running general-merchandise shopping trips',w:2,freq:'weekly'},
+{id:'sh05',cat:'shop',name:'Tracking household consumables (bulbs, batteries, smoke-alarm batteries)',w:2,freq:'monthly'},
+{id:'sh06',cat:'shop',name:'Tracking bathroom / toiletry supplies',w:2,freq:'monthly'},
+// Home & Yard Maintenance (19) — fixer/caller pairs + universal trash + yard-gated
+{id:'hm01',cat:'home',name:'Basic handy work done yourself (small repairs, filters, HVAC/appliance fixes, tightening, swapping parts)',w:5,freq:'monthly',requiresOwnHome:true},
+{id:'hm02',cat:'home',name:'Calling someone for basic handy work / HVAC / appliance repair',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm03',cat:'home',name:'Skilled electrical work yourself (outlets, fixtures — NOT bulbs)',w:6,freq:'occasional',requiresOwnHome:true},
+{id:'hm04',cat:'home',name:'Calling an electrician',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm05',cat:'home',name:'Plumbing work yourself',w:5,freq:'occasional',requiresOwnHome:true},
+{id:'hm06',cat:'home',name:'Calling a plumber',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm07',cat:'home',name:'Roof / gutter / exterior work yourself',w:6,freq:'occasional',requiresOwnHome:true},
+{id:'hm08',cat:'home',name:'Calling roofers / exterior contractors',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm09',cat:'home',name:'Pool / hot tub maintenance yourself',w:5,freq:'weekly',requiresOwnHome:true},
+{id:'hm10',cat:'home',name:'Calling for pool / hot tub service',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm11',cat:'home',name:'Security / alarm system work yourself',w:5,freq:'occasional',requiresOwnHome:true},
+{id:'hm12',cat:'home',name:'Calling for security / alarm service',w:3,freq:'occasional',requiresOwnHome:true},
+{id:'hm13',cat:'home',name:'Noticing small fixes needed around the house',w:4,freq:'weekly',requiresOwnHome:true},
+{id:'hm14',cat:'home',name:'Daily trash / recycling bin routine',w:1,freq:'daily'},
+{id:'hm15',cat:'home',name:'Weekly trash / recycling to curb',w:1,freq:'weekly'},
+{id:'hm16',cat:'home',name:'Routine yard care (mowing, watering, weeding)',w:2,freq:'weekly',requiresYard:true},
+{id:'hm17',cat:'home',name:'Seasonal yard transitions (leaves, spring cleanup, snow)',w:3,freq:'occasional',requiresYard:true},
+{id:'hm18',cat:'home',name:'Outdoor equipment maintenance (mower, snowblower, tools)',w:1,freq:'occasional',requiresYard:true},
+{id:'hm19',cat:'home',name:'Outdoor seasonal décor / lights (holiday, landscape lighting)',w:2,freq:'occasional',requiresYard:true},
+// School & daycare (18)
+{id:'s01',cat:'school',name:'Morning drop-off (driving)',w:2,freq:'daily',requiresSchool:true},
+{id:'s02',cat:'school',name:'Afternoon pick-up (driving)',w:2,freq:'daily',requiresSchool:true},
+{id:'s03',cat:'school',name:'Coordinating who does drop-off / pick-up',w:3,freq:'weekly',requiresSchool:true},
+{id:'s04',cat:'school',name:'Preparing school lunches',w:3,freq:'daily',requiresSchool:true},
+{id:'s05',cat:'school',name:'Packing snack boxes',w:2,freq:'daily',requiresSchool:true},
+{id:'s06',cat:'school',name:'Supervising homework',w:3,freq:'daily',requiresSchool:true},
+{id:'s07',cat:'school',name:'Reading school communications (emails, newsletters, apps)',w:4,freq:'daily',requiresSchool:true},
+{id:'s08',cat:'school',name:'Getting school & daycare supplies',w:2,freq:'occasional',requiresSchool:true},
+{id:'s09',cat:'school',name:"Being the school's primary contact person",w:4,freq:'weekly',requiresSchool:true},
+{id:'s10',cat:'school',name:'Filling out forms & permission slips',w:3,freq:'monthly',requiresSchool:true},
+{id:'s11',cat:'school',name:'Preparing gym kit / sports gear for school',w:2,freq:'weekly',requiresSchool:true},
+{id:'s12',cat:'school',name:'Tracking school calendar',w:4,freq:'weekly',requiresSchool:true},
+{id:'s13',cat:'school',name:"Knowing kids' friendships and social dynamics",w:4,freq:'weekly',requiresSchool:true},
+{id:'s14',cat:'school',name:'School / daycare registration & enrollment (choice, waitlists, re-enrollment)',w:4,freq:'occasional',requiresSchool:true},
+{id:'s15',cat:'school',name:'Summer / school-break coverage & camp coordination',w:5,freq:'occasional',requiresSchool:true},
+{id:'s16',cat:'school',name:'Noticing when a kid is struggling academically or socially',w:4,freq:'weekly',requiresSchool:true},
+{id:'s17',cat:'school',name:'Coordinating with teachers / attending conferences',w:3,freq:'monthly',requiresSchool:true},
+{id:'s18',cat:'school',name:'Planning for school events (class parties, field trips, fundraisers)',w:3,freq:'occasional',requiresSchool:true},
+// Body & health (13)
+{id:'b01',cat:'body',name:"Kids' hair / bath / tooth-brushing routines",w:2,freq:'daily',requiresKids:true},
+{id:'b02',cat:'body',name:'Scheduling health appointments for kids (doctor, dental, eye, therapy)',w:4,freq:'monthly',requiresKids:true},
+{id:'b03',cat:'body',name:'Scheduling health appointments for adults (self & partner, GP and specialists)',w:3,freq:'monthly'},
+{id:'b04',cat:'body',name:"Attending kids' appointments",w:2,freq:'monthly',requiresKids:true},
+{id:'b05',cat:'body',name:'Attending adult appointments (self & partner)',w:2,freq:'monthly'},
+{id:'b06',cat:'body',name:'Tracking immunizations',w:4,freq:'occasional',requiresKids:true},
+{id:'b07',cat:'body',name:'Managing mental health / therapy for kids',w:4,freq:'weekly',requiresKids:true},
+{id:'b08',cat:'body',name:'Managing mental health / therapy for self & partner',w:4,freq:'weekly'},
+{id:'b09',cat:'body',name:'Medicine cabinet & OTC supply upkeep',w:2,freq:'monthly'},
+{id:'b10',cat:'body',name:'Caring for a sick family member',w:4,freq:'monthly'},
+{id:'b11',cat:'body',name:'Insurance claims, EOBs, billing follow-up',w:5,freq:'monthly'},
+{id:'b12',cat:'body',name:'Noticing early illness signs',w:4,freq:'weekly'},
+{id:'b13',cat:'body',name:"Noticing partner's health drift (sleep, pain, mood)",w:3,freq:'weekly'},
+// Pets (12)
+{id:'p01',cat:'pets',name:'Feeding (daily schedule, stocking food)',w:2,freq:'daily'},
+{id:'p02',cat:'pets',name:'Walking / exercise',w:2,freq:'daily'},
+{id:'p03',cat:'pets',name:'Waste cleanup — indoor litter / outdoor yard',w:2,freq:'daily'},
+{id:'p04',cat:'pets',name:'Grooming (baths, brushing, nail trims)',w:2,freq:'monthly'},
+{id:'p05',cat:'pets',name:'Training / behavior work',w:3,freq:'weekly'},
+{id:'p06',cat:'pets',name:'Vet appointments — scheduling',w:4,freq:'occasional'},
+{id:'p07',cat:'pets',name:'Vet appointments — taking',w:2,freq:'occasional'},
 {id:'p08',cat:'pets',name:'Medication schedule & administering',w:3,freq:'daily'},
-{id:'p09',cat:'pets',name:'Buying pet food & supplies',w:2,freq:'monthly'},
-{id:'p10',cat:'pets',name:'Pet sitter / boarding coordination when traveling',w:3,freq:'occasional'},
-{id:'a01',cat:'hobbies',name:'Driving kids to / from after-school activities',w:1,freq:'daily',requiresKids:true},
-{id:'a02',cat:'hobbies',name:'Coordinating logistics for activities (who, when, gear, snack)',w:2,freq:'weekly',requiresKids:true},
-{id:'a03',cat:'hobbies',name:'Sports / club registration, fees, paperwork',w:3,freq:'occasional',requiresKids:true},
+{id:'p09',cat:'pets',name:'Buying pet supplies (food, treats, toys, litter)',w:2,freq:'monthly'},
+{id:'p10',cat:'pets',name:'Pet sitter / boarding coordination',w:4,freq:'occasional'},
+{id:'p11',cat:'pets',name:'End-of-life / chronic-illness decisions',w:5,freq:'occasional'},
+{id:'p12',cat:'pets',name:'Noticing changes in pet health or behavior',w:3,freq:'weekly'},
+// Activities (15)
+{id:'a01',cat:'hobbies',name:'Driving kids to activities',w:2,freq:'weekly',requiresKids:true},
+{id:'a02',cat:'hobbies',name:'Coordinating logistics for activities',w:4,freq:'weekly',requiresKids:true},
+{id:'a03',cat:'hobbies',name:'Sports / club / lesson registration',w:3,freq:'occasional',requiresKids:true},
 {id:'a04',cat:'hobbies',name:'Researching new clubs / sports / lessons',w:3,freq:'occasional',requiresKids:true},
 {id:'a05',cat:'hobbies',name:'Making play dates',w:3,freq:'weekly',requiresKids:true},
-{id:'a06',cat:'hobbies',name:'Weekend excursions / family outings',w:2,freq:'weekly'},
-{id:'a07',cat:'hobbies',name:'Organizing babysitter / childcare',w:3,freq:'monthly',requiresKids:true},
-{id:'a08',cat:'hobbies',name:"Managing kids' pocket money / allowance",w:2,freq:'weekly',requiresKids:true},
-{id:'a09',cat:'hobbies',name:"Vacation planning (where, when, who's invited)",w:3,freq:'occasional'},
-{id:'a10',cat:'hobbies',name:'Booking travel logistics (flights, hotels, rental cars)',w:3,freq:'occasional'},
-{id:'a11',cat:'hobbies',name:'Packing suitcases — kids',w:2,freq:'occasional',requiresKids:true},
-{id:'a12',cat:'hobbies',name:'Packing suitcases — self / partner',w:1,freq:'occasional'},
-{id:'a13',cat:'hobbies',name:'Adult social planning (friends, dinners out, double dates)',w:3,freq:'monthly'},
-{id:'a14',cat:'hobbies',name:'Planning date nights / one-on-one couple time',w:2,freq:'monthly'},
-{id:'a15',cat:'hobbies',name:'Holiday tradition planning (non-gift-related)',w:3,freq:'occasional'},
-{id:'c01',cat:'clothes',name:"Choosing kids' daily outfits",w:1,freq:'daily',requiresKids:true},
-{id:'c02',cat:'clothes',name:'Physically dressing young children',w:1,freq:'daily',requiresKids:true},
-{id:'c03',cat:'clothes',name:"Tracking kids' current clothing sizes",w:3,freq:'monthly',requiresKids:true},
-{id:'c04',cat:'clothes',name:'Sorting & rotating outgrown clothes',w:2,freq:'occasional',requiresKids:true},
-{id:'c05',cat:'clothes',name:'Shoe size testing & shopping (kids)',w:3,freq:'occasional',requiresKids:true},
-{id:'c06',cat:'clothes',name:'Buying new clothes — kids',w:2,freq:'monthly',requiresKids:true},
-{id:'c07',cat:'clothes',name:'Buying new clothes — self',w:1,freq:'monthly'},
-{id:'c08',cat:'clothes',name:'Buying new clothes — partner',w:2,freq:'monthly'},
-{id:'c09',cat:'clothes',name:'Mending / hemming clothes',w:2,freq:'occasional'},
-{id:'c10',cat:'clothes',name:'Donating / selling used clothes',w:2,freq:'occasional'},
-{id:'c11',cat:'clothes',name:'Seasonal wardrobe rotation (storing & retrieving)',w:2,freq:'occasional'},
-{id:'c12',cat:'clothes',name:'Special-occasion outfits (school events, weddings, family photos)',w:2,freq:'occasional'},
+{id:'a06',cat:'hobbies',name:'Family outings & day-trip planning',w:3,freq:'monthly'},
+{id:'a07',cat:'hobbies',name:'Vacation planning (where / when / who)',w:5,freq:'occasional'},
+{id:'a08',cat:'hobbies',name:'Booking travel logistics',w:3,freq:'occasional'},
+{id:'a09',cat:'hobbies',name:'Packing suitcases — kids',w:3,freq:'occasional',requiresKids:true},
+{id:'a10',cat:'hobbies',name:'Packing suitcases — adults',w:2,freq:'occasional'},
+{id:'a11',cat:'hobbies',name:'Adult social planning (couple-with-friends)',w:3,freq:'monthly'},
+{id:'a12',cat:'hobbies',name:'Date nights / organizing couple time',w:3,freq:'monthly'},
+{id:'a13',cat:'hobbies',name:'Holiday tradition planning (non-gift-related)',w:3,freq:'occasional'},
+{id:'a14',cat:'hobbies',name:'Noticing when a kid is ready to try something new',w:3,freq:'monthly',requiresKids:true},
+{id:'a15',cat:'hobbies',name:"Attending other kids' events (birthday parties, games, recitals)",w:3,freq:'monthly',requiresKids:true},
+// Clothes (13)
+{id:'c01',cat:'clothes',name:"Choosing kids' daily outfits",w:2,freq:'daily',requiresKids:true},
+{id:'c02',cat:'clothes',name:"Choosing kids' clothes for special occasions",w:2,freq:'occasional',requiresKids:true},
+{id:'c03',cat:'clothes',name:"Tracking kids' current clothing sizes",w:4,freq:'monthly',requiresKids:true},
+{id:'c04',cat:'clothes',name:'Shoe size testing & shopping (kids)',w:3,freq:'occasional',requiresKids:true},
+{id:'c05',cat:'clothes',name:'Buying new clothes — kids',w:3,freq:'monthly',requiresKids:true},
+{id:'c06',cat:'clothes',name:'Buying new clothes — self',w:1,freq:'monthly'},
+{id:'c07',cat:'clothes',name:'Buying new clothes — partner',w:2,freq:'monthly'},
+{id:'c08',cat:'clothes',name:'Seasonal wardrobe rotation',w:3,freq:'occasional'},
+{id:'c09',cat:'clothes',name:'Donating / selling outgrown clothes',w:2,freq:'occasional'},
+{id:'c10',cat:'clothes',name:'Mending / hemming / alterations',w:3,freq:'occasional'},
+{id:'c11',cat:'clothes',name:'Stain removal / treatment',w:1,freq:'weekly'},
+{id:'c12',cat:'clothes',name:'Dry-cleaning runs',w:1,freq:'monthly'},
+{id:'c13',cat:'clothes',name:"Noticing what's worn out or outgrown",w:4,freq:'monthly'},
+// Birthdays & holidays (15)
 {id:'d01',cat:'birthdays',name:'Sending birthday greetings (cards, texts, calls)',w:2,freq:'monthly'},
-{id:'d02',cat:'birthdays',name:'Buying birthday gifts for friends & extended family',w:3,freq:'monthly'},
-{id:'d03',cat:'birthdays',name:"Knowing kids' gift wishes & relaying to relatives",w:2,freq:'monthly',requiresKids:true},
-{id:'d04',cat:'birthdays',name:'Buying birthday gifts for own children',w:3,freq:'occasional',requiresKids:true},
-{id:'d05',cat:'birthdays',name:"Planning kids' birthday parties",w:3,freq:'occasional',requiresKids:true},
-{id:'d06',cat:'birthdays',name:'Holiday gift planning & shopping (Christmas, Hanukkah, etc.)',w:3,freq:'occasional'},
-{id:'d07',cat:'birthdays',name:'Holiday cards / family photo coordination',w:3,freq:'occasional'},
-{id:'d08',cat:'birthdays',name:'Hosting family gatherings — logistics (who, when, RSVPs)',w:3,freq:'occasional'},
-{id:'d09',cat:'birthdays',name:'Hosting family gatherings — food & cooking',w:3,freq:'occasional'},
-{id:'d10',cat:'birthdays',name:'Decorating the home for holidays',w:2,freq:'occasional'},
-{id:'d11',cat:'birthdays',name:'Tracking anniversaries & important family dates',w:2,freq:'monthly'},
-{id:'d12',cat:'birthdays',name:'Buying gifts for partner',w:2,freq:'occasional'},
-{id:'d13',cat:'birthdays',name:'Buying gifts for own parents / siblings',w:2,freq:'occasional'},
-{id:'t01',cat:'transport',name:'Refueling the car',w:1,freq:'weekly'},
-{id:'t02',cat:'transport',name:'Car checkups & repairs — scheduling',w:2,freq:'occasional'},
-{id:'t03',cat:'transport',name:'Car checkups & repairs — taking it in',w:1,freq:'occasional'},
-{id:'t04',cat:'transport',name:'Servicing bicycles',w:2,freq:'occasional'},
-{id:'t05',cat:'transport',name:'Helmet sizing & buying (kids & adults)',w:2,freq:'occasional'},
-{id:'t06',cat:'transport',name:'Buying child seats for car & bike',w:3,freq:'occasional',requiresKids:true},
-{id:'t07',cat:'transport',name:'Vehicle registration & inspections',w:3,freq:'occasional'},
-{id:'t08',cat:'transport',name:'Vehicle insurance (renewal, comparison shopping)',w:3,freq:'occasional'},
-{id:'t09',cat:'transport',name:'Car cleaning — interior',w:1,freq:'monthly'},
-{id:'t10',cat:'transport',name:'Car cleaning — exterior / wash',w:1,freq:'monthly'},
-{id:'t11',cat:'transport',name:'Researching the next vehicle purchase',w:3,freq:'occasional'},
-{id:'r01',cat:'relationships',name:'Bedtime — bringing kids to bed (the routine itself)',w:2,freq:'daily',requiresKids:true},
-{id:'r02',cat:'relationships',name:'Bedtime — reading / wind-down ritual',w:1,freq:'daily',requiresKids:true},
-{id:'r03',cat:'relationships',name:'Wake-up support — getting kids up & moving',w:1,freq:'daily',requiresKids:true},
-{id:'r04',cat:'relationships',name:'Night shifts during illness',w:2,freq:'monthly',requiresKids:true},
-{id:'r05',cat:'relationships',name:'Night wakings / soothing back to sleep',w:2,freq:'weekly',requiresKids:true},
-{id:'r06',cat:'relationships',name:'Conversations with teenagers (the heavy talks)',w:3,freq:'weekly',requiresSchool:true},
-{id:'r07',cat:'relationships',name:'Rule agreements with older children (screens, curfew, etc.)',w:3,freq:'monthly',requiresSchool:true},
-{id:'r08',cat:'relationships',name:'Mediating sibling conflict',w:2,freq:'daily',requiresKids:true},
-{id:'r09',cat:'relationships',name:'Emotional check-ins with kids (noticing mood, processing big feelings)',w:3,freq:'weekly',requiresKids:true},
-{id:'r10',cat:'relationships',name:'Organizing couple time',w:2,freq:'monthly'},
-{id:'r11',cat:'relationships',name:"Remembering & honoring partner's preferences (\"love language\" upkeep)",w:3,freq:'weekly'},
-{id:'r12',cat:'relationships',name:'Maintaining contact with own parents / siblings',w:3,freq:'weekly'},
-{id:'r13',cat:'relationships',name:"Maintaining contact with partner's parents / siblings",w:3,freq:'weekly'},
-{id:'r14',cat:'relationships',name:'Sending holiday cards / staying in touch with friends',w:3,freq:'monthly'},
-{id:'r15',cat:'relationships',name:'Saving memories & photos (capturing them)',w:2,freq:'weekly'},
-{id:'r16',cat:'relationships',name:'Managing the digital photo library / shared albums',w:2,freq:'monthly'},
-{id:'m01',cat:'money',name:'Paying recurring bills (rent / mortgage, electric, water, etc.)',w:3,freq:'monthly'},
-{id:'m02',cat:'money',name:'Household budgeting / cash-flow tracking',w:3,freq:'weekly'},
-{id:'m03',cat:'money',name:'Reviewing bank & credit card statements for errors',w:2,freq:'monthly'},
-{id:'m04',cat:'money',name:'Managing household subscriptions (streaming, software, memberships)',w:3,freq:'monthly'},
-{id:'m05',cat:'money',name:'Researching utilities & insurance providers',w:3,freq:'occasional'},
-{id:'m06',cat:'money',name:'Tax prep — gathering documents',w:2,freq:'occasional'},
-{id:'m07',cat:'money',name:'Tax prep — filing decisions / working with accountant',w:3,freq:'occasional'},
-{id:'m08',cat:'money',name:'Retirement & long-term financial planning',w:3,freq:'occasional'},
-{id:'m09',cat:'money',name:'College savings / 529 plans',w:3,freq:'occasional',requiresKids:true},
-{id:'m10',cat:'money',name:'Estate / will / guardianship paperwork',w:3,freq:'occasional'},
-{id:'m11',cat:'money',name:"Tracking & renewing IDs, passports, driver's licenses",w:3,freq:'occasional'},
-{id:'m12',cat:'money',name:'Managing the family calendar / shared scheduling app',w:3,freq:'daily'},
-{id:'n01',cat:'technology',name:'Setting up new devices for family members (phone, laptop, tablet — activation, accounts)',w:2,freq:'monthly'},
-{id:'n02',cat:'technology',name:'Researching big tech purchases (which TV, which phone, which laptop)',w:2,freq:'occasional'},
-{id:'n03',cat:'technology',name:'Managing the home network — fixing it when it breaks',w:2,freq:'monthly'},
-{id:'n04',cat:'technology',name:'Being on call as the household\'s tech support ("X isn\'t working")',w:3,freq:'weekly'},
-{id:'n05',cat:'technology',name:'Managing passwords & shared logins (where they live, who has access)',w:3,freq:'monthly'},
+{id:'d02',cat:'birthdays',name:'Buying birthday gifts for friends & extended family',w:2,freq:'monthly'},
+{id:'d03',cat:'birthdays',name:"Planning & throwing kids' birthday parties",w:5,freq:'occasional',requiresKids:true},
+{id:'d04',cat:'birthdays',name:'Buying birthday gifts for own children',w:2,freq:'occasional',requiresKids:true},
+{id:'d05',cat:'birthdays',name:'Holiday gift planning & shopping',w:4,freq:'occasional'},
+{id:'d06',cat:'birthdays',name:'Holiday cards / family photo coordination',w:4,freq:'occasional'},
+{id:'d07',cat:'birthdays',name:'Hosting logistics (holidays, gatherings)',w:4,freq:'occasional'},
+{id:'d08',cat:'birthdays',name:'Hosting food (menu, shopping, cooking for gatherings)',w:4,freq:'occasional'},
+{id:'d09',cat:'birthdays',name:'Buying gifts for partner',w:2,freq:'occasional'},
+{id:'d10',cat:'birthdays',name:'Buying gifts for own parents / siblings',w:3,freq:'occasional'},
+{id:'d11',cat:'birthdays',name:"Buying gifts for partner's parents / siblings",w:3,freq:'occasional'},
+{id:'d12',cat:'birthdays',name:'Tracking anniversaries & important family dates',w:3,freq:'monthly'},
+{id:'d13',cat:'birthdays',name:'Extended-family emotional labor around holidays (hosting, travel splits, hurt feelings)',w:4,freq:'occasional'},
+{id:'d14',cat:'birthdays',name:'Sending cards for other special occasions (graduations, condolences, thinking-of-you)',w:2,freq:'monthly'},
+{id:'d15',cat:'birthdays',name:'Noticing upcoming occasions that need a card, gift, or acknowledgement',w:3,freq:'weekly'},
+// Transport (10)
+{id:'t01',cat:'transport',name:'Routine car care (refueling, interior tidy, exterior wash)',w:2,freq:'weekly'},
+{id:'t02',cat:'transport',name:'Scheduling car service',w:3,freq:'occasional'},
+{id:'t03',cat:'transport',name:'Taking car in for service',w:1,freq:'occasional'},
+{id:'t04',cat:'transport',name:'Ongoing car seat upkeep (cleaning, tightening, moving between cars)',w:2,freq:'monthly',requiresKids:true},
+{id:'t05',cat:'transport',name:'Buying child seats (as-needed)',w:2,freq:'occasional',requiresKids:true},
+{id:'t06',cat:'transport',name:'Vehicle registration & inspection',w:3,freq:'occasional'},
+{id:'t07',cat:'transport',name:'Vehicle insurance (renewal, claims)',w:3,freq:'occasional'},
+{id:'t08',cat:'transport',name:'Researching the next vehicle purchase',w:5,freq:'occasional'},
+{id:'t09',cat:'transport',name:'Multi-vehicle coordination (which car where, keys, batteries)',w:2,freq:'weekly'},
+{id:'t10',cat:'transport',name:'Noticing when the car needs attention (sounds, warning lights, wear)',w:3,freq:'weekly'},
+// Sleep & relationships (16)
+{id:'r01',cat:'relationships',name:'Bedtime — bringing kids to bed',w:2,freq:'daily',requiresKids:true},
+{id:'r02',cat:'relationships',name:'Bedtime — reading / wind-down',w:2,freq:'daily',requiresKids:true},
+{id:'r03',cat:'relationships',name:"Kids' sleep — weekday routines",w:3,freq:'daily',requiresKids:true},
+{id:'r04',cat:'relationships',name:"Kids' sleep — weekend routines",w:2,freq:'weekly',requiresKids:true},
+{id:'r05',cat:'relationships',name:'Night shifts during illness',w:4,freq:'monthly',requiresKids:true},
+{id:'r06',cat:'relationships',name:'Night wakings / soothing back to sleep',w:4,freq:'weekly',requiresKids:true},
+{id:'r07',cat:'relationships',name:'Conversations with teenagers (the heavy talks)',w:5,freq:'weekly',requiresSchool:true},
+{id:'r08',cat:'relationships',name:'Rule agreements with older children',w:4,freq:'monthly',requiresSchool:true},
+{id:'r09',cat:'relationships',name:'Mediating sibling conflict',w:3,freq:'daily',requiresKids:true},
+{id:'r10',cat:'relationships',name:'Emotional check-ins with kids',w:4,freq:'weekly',requiresKids:true},
+{id:'r11',cat:'relationships',name:"Remembering & honoring partner's preferences",w:4,freq:'weekly'},
+{id:'r12',cat:'relationships',name:'Maintaining contact with own parents / siblings',w:4,freq:'weekly'},
+{id:'r13',cat:'relationships',name:"Maintaining contact with partner's parents / siblings",w:4,freq:'weekly'},
+{id:'r14',cat:'relationships',name:'Maintaining contact with friends',w:3,freq:'monthly'},
+{id:'r15',cat:'relationships',name:'Noticing when the couple is drifting',w:4,freq:'weekly'},
+{id:'r16',cat:'relationships',name:"Noticing the household's emotional weather",w:3,freq:'weekly'},
+// Money & admin (12)
+{id:'m01',cat:'money',name:'Managing day-to-day finances (bill-pay, checking balances, transfers)',w:4,freq:'weekly'},
+{id:'m02',cat:'money',name:'Reviewing statements for errors',w:3,freq:'monthly'},
+{id:'m03',cat:'money',name:'Managing paid subscriptions (tracking, renewing, cancelling)',w:4,freq:'monthly'},
+{id:'m04',cat:'money',name:'Researching utilities & insurance providers',w:3,freq:'occasional'},
+{id:'m05',cat:'money',name:'Gathering tax documents',w:3,freq:'occasional'},
+{id:'m06',cat:'money',name:'Tax filing decisions',w:4,freq:'occasional'},
+{id:'m07',cat:'money',name:'Long-term financial planning (retirement, college savings / 529, investments)',w:4,freq:'occasional'},
+{id:'m08',cat:'money',name:'Estate / will / guardianship paperwork',w:5,freq:'occasional'},
+{id:'m09',cat:'money',name:"IDs, passports, driver's licenses (renewals)",w:3,freq:'occasional'},
+{id:'m10',cat:'money',name:'Managing the family calendar / shared scheduling app',w:5,freq:'daily'},
+{id:'m11',cat:'money',name:"Dealing with household service problems (disputes, refunds, cancellations that won't die)",w:4,freq:'monthly'},
+{id:'m12',cat:'money',name:'Emergency preparedness (insurance docs filed, medical directives, home inventory)',w:3,freq:'occasional'},
+// Technology (16)
+{id:'n01',cat:'technology',name:'Setting up new devices (phones, laptops, TVs)',w:3,freq:'monthly'},
+{id:'n02',cat:'technology',name:'Day-to-day device issues (the "fix my phone" asks)',w:3,freq:'weekly'},
+{id:'n03',cat:'technology',name:'Managing the home network — fixing when it breaks',w:4,freq:'monthly'},
+{id:'n04',cat:'technology',name:'Being on call as household tech support',w:5,freq:'weekly'},
+{id:'n05',cat:'technology',name:'Managing shared accounts & family-plan profiles (usernames, passwords, profiles)',w:3,freq:'monthly'},
 {id:'n06',cat:'technology',name:'Software / OS updates on family devices',w:1,freq:'monthly'},
-{id:'n07',cat:'technology',name:"Photo & file backups (knowing they happen, fixing when they don't)",w:3,freq:'weekly'},
-{id:'n08',cat:'technology',name:'Managing streaming & subscription accounts (profiles, family plans, who is logged in where)',w:2,freq:'monthly'},
-{id:'n09',cat:'technology',name:"Setting & enforcing kids' screen-time rules",w:3,freq:'weekly',requiresKids:true},
-{id:'n10',cat:'technology',name:'Talking to kids about online safety (scams, content, strangers, social apps)',w:3,freq:'monthly',requiresKids:true},
-{id:'n11',cat:'technology',name:'School tech support (Chromebook, parent portal logins, app installs for assignments)',w:2,freq:'weekly',requiresSchool:true},
-{id:'n12',cat:'technology',name:'Smart home / IoT setup & day-to-day fixes (devices the family actually uses)',w:2,freq:'monthly'},
-{id:'e01',cat:'eldercare',name:'Medication tracking & refills',w:3,freq:'weekly',requiresEldercare:true},
-{id:'e02',cat:'eldercare',name:'Scheduling & attending medical appointments',w:3,freq:'monthly',requiresEldercare:true},
-{id:'e03',cat:'eldercare',name:'Transportation to appointments / errands',w:2,freq:'weekly',requiresEldercare:true},
-{id:'e04',cat:'eldercare',name:'Daily check-ins (calls, visits)',w:2,freq:'daily',requiresEldercare:true},
-{id:'e05',cat:'eldercare',name:'Insurance / Medicare / benefits paperwork',w:3,freq:'monthly',requiresEldercare:true},
-{id:'e06',cat:'eldercare',name:'Coordinating siblings or other family caregivers',w:3,freq:'weekly',requiresEldercare:true},
-{id:'e07',cat:'eldercare',name:'Managing paid caregivers or facility relationships',w:3,freq:'weekly',requiresEldercare:true},
-{id:'e08',cat:'eldercare',name:'Home-safety adaptations (mobility, grab bars, etc.)',w:2,freq:'occasional',requiresEldercare:true},
-{id:'e09',cat:'eldercare',name:'Meal prep or grocery delivery for the care recipient',w:2,freq:'weekly',requiresEldercare:true},
-{id:'e10',cat:'eldercare',name:'Advance-directive / end-of-life planning',w:3,freq:'occasional',requiresEldercare:true},
-{id:'e11',cat:'eldercare',name:'Holding the worry — noticing changes, anticipating decline',w:3,freq:'daily',requiresEldercare:true}
+{id:'n07',cat:'technology',name:'Taking & capturing family photos day-to-day',w:1,freq:'weekly'},
+{id:'n08',cat:'technology',name:'Curating & organizing the photo library (albums, tagging, deleting duplicates)',w:5,freq:'monthly'},
+{id:'n09',cat:'technology',name:'Photo & file backups — making sure they happen',w:4,freq:'monthly'},
+{id:'n10',cat:'technology',name:"Setting & enforcing kids' screen-time rules",w:5,freq:'weekly',requiresKids:true},
+{id:'n11',cat:'technology',name:'Talking to kids about online safety',w:5,freq:'monthly',requiresKids:true},
+{id:'n12',cat:'technology',name:'School tech support (devices, logins, apps)',w:3,freq:'weekly',requiresSchool:true},
+{id:'n13',cat:'technology',name:'Smart home / IoT setup — only if family uses it',w:3,freq:'monthly'},
+{id:'n14',cat:'technology',name:'Printer / peripheral upkeep (ink, toner, paper, jams, drivers)',w:2,freq:'monthly'},
+{id:'n15',cat:'technology',name:'Dealing with ISP / phone provider (outages, plan changes, billing disputes)',w:3,freq:'occasional'},
+{id:'n16',cat:'technology',name:'Noticing when something needs updating, backing up, or replacing',w:3,freq:'weekly'},
+// Caring for a family member (22) — careScope: 'S' shared · 'AP' aging parent · 'CD' child w/ disability · 'AD' adult w/ disability · 'CD_AD' either
+{id:'e01',cat:'care',name:'Managing their medications (tracking, refills, administering)',w:4,freq:'weekly',careScope:'S'},
+{id:'e02',cat:'care',name:'Scheduling their medical & specialist appointments',w:4,freq:'monthly',careScope:'S'},
+{id:'e03',cat:'care',name:'Attending their appointments',w:2,freq:'monthly',careScope:'S'},
+{id:'e04',cat:'care',name:'Day-to-day care routines (bathing, feeding, mobility, toileting help)',w:5,freq:'daily',careScope:'S'},
+{id:'e05',cat:'care',name:'Coordinating paid caregivers / aides / in-home help',w:4,freq:'weekly',careScope:'S'},
+{id:'e06',cat:'care',name:'Insurance, benefits & billing paperwork',w:5,freq:'monthly',careScope:'S'},
+{id:'e07',cat:'care',name:'Advocacy with providers, agencies, insurance',w:5,freq:'monthly',careScope:'S'},
+{id:'e08',cat:'care',name:'Home-safety adaptations (grab bars, ramps, sensory / accessibility setup)',w:2,freq:'occasional',careScope:'S'},
+{id:'e09',cat:'care',name:'Meal prep & food accommodations for care recipient',w:3,freq:'weekly',careScope:'S'},
+{id:'e10',cat:'care',name:'Coordinating with siblings / extended family about shared care',w:4,freq:'weekly',careScope:'S'},
+{id:'e11',cat:'care',name:'Noticing changes in their condition',w:4,freq:'weekly',careScope:'S'},
+{id:'e12',cat:'care',name:'Holding the worry — anticipating next decline, crisis, or transition',w:6,freq:'daily',careScope:'S'},
+{id:'e13',cat:'care',name:'Facility / residence coordination (assisted living, nursing home tours, transitions)',w:5,freq:'occasional',careScope:'AP'},
+{id:'e14',cat:'care',name:'Medicare / SSA / retirement-benefits administration',w:5,freq:'occasional',careScope:'AP'},
+{id:'e15',cat:'care',name:'Advance-directive / end-of-life planning',w:3,freq:'occasional',careScope:'AP'},
+{id:'e16',cat:'care',name:'Managing their finances / power-of-attorney responsibilities',w:5,freq:'monthly',careScope:'AP'},
+{id:'e17',cat:'care',name:'IEP / 504 / school disability coordination',w:5,freq:'monthly',careScope:'CD'},
+{id:'e18',cat:'care',name:'Therapy coordination (OT / PT / speech / ABA / behavioral)',w:5,freq:'weekly',careScope:'CD'},
+{id:'e19',cat:'care',name:'Managing a multi-specialist medical team & care plan',w:5,freq:'monthly',careScope:'CD_AD'},
+{id:'e20',cat:'care',name:'Special-needs financial & legal planning (ABLE, special-needs trust, SSI, guardianship)',w:5,freq:'occasional',careScope:'CD_AD'},
+{id:'e21',cat:'care',name:'SSDI / disability benefits administration (adult recipient)',w:5,freq:'occasional',careScope:'AD'},
+{id:'e22',cat:'care',name:'Day program / vocational / community-access coordination',w:4,freq:'weekly',careScope:'CD_AD'}
 ];
 
-const DEFAULT_S=()=>({screen:'intro',nameA:'',nameB:'',kidsState:null,eldercareState:null,answersA:{},answersB:{},gutCheckA:{},gutCheckB:{},catIdx:0,resFilter:'all',agreeMode:'strict',scoreMode:'complexity',metaSurprise:''});
+// v12 uses its own storage keys. v11 keys are sniffed for migration only.
+const V12_KEY='wwc_v12';
+const V12_ACK='wwc_v12_ack';
+const V11_KEY='mlv7';
+const V11_ACK='mlv7_ack';
+const DEFAULT_S=()=>({screen:'intro',nameA:'',nameB:'',kidsState:null,ownHome:null,yardWork:null,caregiving:null,careScenarios:{agingParent:false,childDisability:false,adultDisability:false},answersA:{},answersB:{},gutCheckA:{},gutCheckB:{},catIdx:0,resFilter:'all',agreeMode:'strict',scoreMode:'complexity',metaSurprise:''});
 let S=DEFAULT_S();
-// 'mlv7' key retained for backward-compat with existing users; do not rename without migration.
-function saveS(){try{localStorage.setItem('mlv7',JSON.stringify(S));}catch(e){}}
-function checkMigration(){
-  if(S.eldercareState==null&&S.screen!=='intro'&&S.screen!=='welcome'){
-    S.screen='setup';S._migrationBanner=true;
-  }
+function saveS(){try{localStorage.setItem(V12_KEY,JSON.stringify(S));}catch(e){}}
+function hasV11Data(){
+  try{
+    const raw=localStorage.getItem(V11_KEY);if(!raw)return false;
+    const d=JSON.parse(raw);if(!d||typeof d!=='object')return false;
+    if(d.nameA||d.nameB||d.kidsState||d.eldercareState)return true;
+    if(d.answersA&&Object.keys(d.answersA).length)return true;
+    if(d.answersB&&Object.keys(d.answersB).length)return true;
+    return false;
+  }catch(e){return false;}
 }
-function loadS(){try{const d=localStorage.getItem('mlv7');if(d){Object.assign(S,JSON.parse(d));if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};[S.answersA,S.answersB].forEach(ans=>{if(!ans)return;Object.keys(ans).forEach(k=>{const a=ans[k];if(a&&a.heavy&&!a.wFlag){a.wFlag='up';}if(a)delete a.heavy;});});checkMigration();}}catch(e){}}
+function loadS(){
+  try{
+    const d=localStorage.getItem(V12_KEY);
+    if(d){
+      Object.assign(S,JSON.parse(d));
+      if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};
+      if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};
+      if(!S.careScenarios||typeof S.careScenarios!=='object')S.careScenarios={agingParent:false,childDisability:false,adultDisability:false};
+      return;
+    }
+  }catch(e){}
+  // No v12 state. Breaking release: if v11 data exists and hasn't been acked, force the migration screen.
+  if(hasV11Data()&&localStorage.getItem(V12_ACK)!=='1')S.screen='migrate';
+}
+function ackMigration(){
+  try{localStorage.removeItem(V11_KEY);localStorage.removeItem(V11_ACK);localStorage.setItem(V12_ACK,'1');}catch(e){}
+  S=DEFAULT_S();render();
+}
+window.ackMigration=ackMigration;
 
 function isApplicable(t){
   const ks=S.kidsState||'school';
   if(ks==='none'){if(t.requiresKids||t.requiresSchool)return false;}
   else if(ks==='preschool'){if(t.requiresSchool)return false;}
-  if(t.requiresEldercare&&S.eldercareState!=='present')return false;
+  if(t.requiresOwnHome&&S.ownHome!=='yes')return false;
+  if(t.requiresYard&&S.yardWork!=='yes')return false;
+  if(t.careScope){
+    if(S.caregiving!=='yes')return false;
+    const cs=S.careScenarios||{};
+    const scope=t.careScope;
+    if(scope==='S')return true; // shared — any scenario checked (gate already true)
+    if(scope==='AP')return !!cs.agingParent;
+    if(scope==='CD')return !!cs.childDisability;
+    if(scope==='AD')return !!cs.adultDisability;
+    if(scope==='CD_AD')return !!(cs.childDisability||cs.adultDisability);
+    return false;
+  }
   return true;
 }
 function activeTasks(){return T.filter(isApplicable);}
@@ -607,7 +722,8 @@ function pChip(v){if(!v||v==='na')return'<span class="chip chip-skip">skipped</s
 function mChip(v){if(!v)return'<span class="chip chip-none">—</span>';return`<span class="chip ${MC[v]||''}">${ML[v]||v}</span>`;}
 
 // ───── Export module (v7) ─────
-const EXPORT_SCHEMA='mlv7';
+// Bumped for v12: v11 exports use 'mlv7' and will fail this check cleanly, per the breaking-release rule.
+const EXPORT_SCHEMA='wwc_v12';
 const EX={redact:false,menuOpen:false};
 const BUCKET_PRIORITY={'w-conflict':1,'both-claim':2,'neither-claim':3,'agreed-heavier':4,'emo-agreed':5,'straight-dis':6,'w-asymmetric':7,'emo-asymmetric':8,'agreed-lighter':9};
 
@@ -728,10 +844,11 @@ function computeExport(){
 
 function stripHTML(s){return String(s||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();}
 
+// Keyed by tier (1=routine, 2=moderate, 3=complex) so it still works after the 1–6 scale change.
 const LEVEL_FRAME={1:'quick win',2:'realistic 30-day trial',3:'high-impact, harder negotiation'};
 function pickExamples(tasks){
   const out=[];
-  [1,2,3].forEach(w=>{const hit=tasks.find(t=>t.w===w);if(hit)out.push({name:hit.name,weight:w,levelLabel:WC[w].label,frame:LEVEL_FRAME[w]});});
+  [1,2,3].forEach(tier=>{const hit=tasks.find(t=>wTier(t.w)===tier);if(hit)out.push({name:hit.name,weight:hit.w,levelLabel:WC[hit.w].label,frame:LEVEL_FRAME[tier]});});
   return out;
 }
 
@@ -961,7 +1078,7 @@ ${(()=>{
 <section><h2>Top 5 conversations</h2>${top5HTML}</section>
 <section><h2>Where to go from here</h2>${actionsHTML}</section>
 ${metaHTML}
-<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · v11.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
+<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V0.12.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
 </body></html>`;
 }
 
@@ -1015,7 +1132,7 @@ function handleImportFile(ev){
       S=Object.assign(DEFAULT_S(),j.state);
       if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};
       if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};
-      checkMigration();
+      if(!S.careScenarios||typeof S.careScenarios!=='object')S.careScenarios={agingParent:false,childDisability:false,adultDisability:false};
       saveS();render();
       flashExportStatus('Imported prior session');
     }catch(e){window.alert('Could not import that file.\n\n'+(e&&e.message||e));}
@@ -1079,14 +1196,54 @@ document.addEventListener('click',ev=>{
 });
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&EX.menuOpen)closeExportMenu();});
 
+// Keyboard-shortcuts drawer (Option A: button in toolbar, slide-out under it).
+const KBD={open:false};
+function toggleKbdDrawer(ev){
+  if(ev&&ev.stopPropagation)ev.stopPropagation();
+  KBD.open=!KBD.open;
+  applyKbdDrawerState();
+}
+function closeKbdDrawer(){if(!KBD.open)return;KBD.open=false;applyKbdDrawerState();}
+function applyKbdDrawerState(){
+  const btn=document.getElementById('kbdBtn'),drawer=document.getElementById('kbdDrawer');
+  if(!btn||!drawer)return;
+  const wasOpen=drawer.classList.contains('open');
+  if(KBD.open){
+    drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');
+    btn.classList.add('open');btn.setAttribute('aria-expanded','true');
+    const closeBtn=drawer.querySelector('.kbd-drawer-close');if(closeBtn)closeBtn.focus();
+  }else{
+    drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');
+    btn.classList.remove('open');btn.setAttribute('aria-expanded','false');
+    if(wasOpen)btn.focus();
+  }
+}
+document.addEventListener('click',ev=>{
+  if(!KBD.open)return;
+  const drawer=document.getElementById('kbdDrawer'),btn=document.getElementById('kbdBtn');
+  if(drawer&&drawer.contains(ev.target))return;
+  if(btn&&btn.contains(ev.target))return;
+  closeKbdDrawer();
+});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&KBD.open)closeKbdDrawer();});
+// Global ? toggles the drawer from any screen (not just forms). Suppress while typing in fields.
+document.addEventListener('keydown',ev=>{
+  if(ev.key!=='?')return;
+  const tag=(ev.target&&ev.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||(ev.target&&ev.target.isContentEditable))return;
+  if(ev.ctrlKey||ev.metaKey||ev.altKey)return;
+  ev.preventDefault();toggleKbdDrawer();
+});
+
 const R=document.getElementById('root');
-const F={focusedTid:null,cheatOpen:window.matchMedia('(hover:hover) and (pointer:fine)').matches};
-function hasData(){return (S.screen!=='intro')||S.nameA||S.nameB||S.kidsState||Object.keys(S.answersA||{}).length||Object.keys(S.answersB||{}).length;}
+const F={focusedTid:null};
+function hasData(){return (S.screen!=='intro'&&S.screen!=='migrate')||S.nameA||S.nameB||S.kidsState||Object.keys(S.answersA||{}).length||Object.keys(S.answersB||{}).length;}
 function guardClick(btn,ms){if(!btn)return;btn.disabled=true;setTimeout(()=>{btn.disabled=false;},ms||200);}
 function isFormInProgress(){return ['formA','formB','gutA','gutB','handoff'].includes(S.screen);}
 window.addEventListener('beforeunload',e=>{if(isFormInProgress()){e.preventDefault();e.returnValue='';}});
-function resetAll(){if(!window.confirm('Start over? This will clear both partners\u2019 answers and return to the intro screen.'))return;S=DEFAULT_S();try{localStorage.removeItem('mlv7');localStorage.removeItem('mlv7_ack');}catch(e){}render();}
-function render(){({intro:renderIntro,welcome:renderWelcome,names:renderNames,setup:renderSetup,gutA:()=>renderGutCheck('A'),formA:()=>renderForm('A'),handoff:renderHandoff,gutB:()=>renderGutCheck('B'),formB:()=>renderForm('B'),results:renderResults}[S.screen]||renderIntro)();postRender();}
+function resetAll(){if(!window.confirm('Start over? This will clear both partners\u2019 answers and return to the intro screen.'))return;S=DEFAULT_S();try{localStorage.removeItem(V12_KEY);localStorage.removeItem(V12_ACK);}catch(e){}render();}
+let _lastNavKey=null;
+function render(){const navKey=S.screen+':'+(S.catIdx||0);const navChanged=navKey!==_lastNavKey;_lastNavKey=navKey;({migrate:renderMigrate,intro:renderIntro,welcome:renderWelcome,names:renderNames,setup:renderSetup,gutA:()=>renderGutCheck('A'),formA:()=>renderForm('A'),handoff:renderHandoff,gutB:()=>renderGutCheck('B'),formB:()=>renderForm('B'),results:renderResults}[S.screen]||renderIntro)();postRender();if(navChanged)window.scrollTo(0,0);}
 function postRender(){
   const rb=document.getElementById('resetBtn');
   if(rb)rb.classList.toggle('visible',!!hasData());
@@ -1141,8 +1298,28 @@ function postRender(){
   centerInline(filterScroll,filterScroll&&filterScroll.querySelector('.filter-btn.active'));
 }
 
-function ackIntro(){try{localStorage.setItem('mlv7_ack','1');}catch(e){}S.screen='welcome';saveS();render();}
+function ackIntro(){try{localStorage.setItem(V12_ACK,'1');}catch(e){}S.screen='welcome';saveS();render();}
 window.ackIntro=ackIntro;
+
+function renderMigrate(){
+  R.innerHTML=`<div style="max-width:520px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+<div style="flex:1;min-width:0">
+<h1 style="font-size:22px;font-weight:500;margin:0 0 4px">What We Carry</h1>
+<p style="font-size:13px;color:var(--text-muted);font-style:italic;margin:0">A household check-in for two</p>
+</div>
+<img src="${iconSrc()}" class="wwc-icon" alt="" width="48" height="48" style="flex-shrink:0">
+</div>
+<div class="card">
+<h2 class="card-title">We changed how this works</h2>
+<p style="font-size:14px;line-height:1.75;color:var(--text);margin-bottom:12px">This version reorganizes categories, adds new ones, and reweights how tasks are scored. Your previous answers are from an older version and don’t map cleanly onto the new structure, so we’re asking everyone to start fresh.</p>
+<p style="font-size:14px;line-height:1.75;color:var(--text);margin:0">If you’d like to keep your old results, close this tab now and export them from the previous version first. Otherwise, tap below and we’ll clear the old data and take you to the new check-in.</p>
+</div>
+<div style="margin-top:4px">
+<button class="btn-primary" onclick="ackMigration()">Start fresh →</button>
+</div>
+</div>`;
+}
 
 function renderIntro(){
   R.innerHTML=`<div style="max-width:560px">
@@ -1151,12 +1328,12 @@ function renderIntro(){
 <h1 style="font-size:26px;font-weight:600;letter-spacing:-0.01em;margin:0 0 4px">What We Carry</h1>
 <p style="font-size:14px;color:var(--text-muted);font-style:italic;margin:0">A household check-in for two</p>
 </div>
-<img src="wwc-icon-fill-square-white.png" alt="" width="56" height="56" style="flex-shrink:0">
+<img src="${iconSrc()}" class="wwc-icon" alt="" width="56" height="56" style="flex-shrink:0">
 </div>
 <div style="font-size:15px;line-height:1.75;color:var(--text)">
-<p style="margin-bottom:14px">Hey — this started as a personal project. My partner and I wanted a way to see the invisible work of running our home — the mental load, the remembering, the planning. What we built helped us talk about it more honestly, so I'm sharing it in case it helps yours. It's a personal tool, not a framework. Take what's useful.</p>
-<p style="margin-bottom:14px">Here's what this is: a two-person questionnaire about the work that runs a home. Each of you answers on your own, then the tool lines up your answers side by side. It tries to count both the <strong>physical</strong> work of a task (the doing) and the <strong>mental</strong> work (the remembering, planning, worrying, and keeping-track). A lot of the second kind is invisible until you write it down.</p>
-<p style="margin-bottom:14px">Nothing you type leaves this browser. There's no account, no server, no analytics. If you close the tab, it's gone unless you export it yourself.</p>
+<p style="margin-bottom:14px">Welcome — this started as a personal project. My partner and I wanted a way to see the invisible work of running our home: the mental load, the remembering, the planning. What we built helped us talk about it more openly and honestly, so I'm sharing it in hopes that it can help you as well. It's a personal tool, not a framework. Take what's useful.</p>
+<p style="margin-bottom:14px">Here's what this is: a two-person check-in about the work that runs a home. Each of you answers the questions on your own, then your answers get lined up side by side. It tries to count both the <strong>physical</strong> work of a task (the doing) and the <strong>mental</strong> work (the remembering, planning, worrying, and keeping-track). A lot of the second kind is invisible until you write it down.</p>
+<p style="margin-bottom:14px">Nothing you type leaves this browser. There's no account, no server, no analytics. If you close the browser, it's gone — unless you export it and save it yourself.</p>
 <p style="margin-bottom:14px">This isn't a test and there's no score that means anything about you as a partner or a person. It's a mirror, not a verdict. The point is to have a more specific conversation afterward — one where you're both looking at the same picture.</p>
 <p style="margin-bottom:20px">If today isn't the right day for this, close the tab. Come back when it is. If you do keep going, be honest rather than generous; the tool is only useful if the answers are real.</p>
 <p style="font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:22px">Inspired in part by Eve Rodsky's <em>Fair Play</em>, which got me thinking about this in the first place. Independent tool — not affiliated with or endorsed by the Fair Play® brand.</p>
@@ -1172,9 +1349,9 @@ function renderWelcome(){
 <h1 style="font-size:22px;font-weight:500;margin:0 0 4px">What We Carry</h1>
 <p style="font-size:13px;color:var(--text-muted);font-style:italic;margin:0">A household check-in for two</p>
 </div>
-<img src="wwc-icon-fill-square-white.png" alt="" width="48" height="48" style="flex-shrink:0">
+<img src="${iconSrc()}" class="wwc-icon" alt="" width="48" height="48" style="flex-shrink:0">
 </div>
-<p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:18px">A more nuanced look at care work — not just <em>who does it</em>, but <em>who thinks about it</em>.</p>
+<p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:18px">A more nuanced look at the work required to run a home — not just <em>who does it</em>, but <em>who thinks about it</em>.</p>
 <div class="card"><h2 class="card-title">The scope of this check-in</h2>
 <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin:0">This tool measures one thing: the shared work of running a home. It does not measure paid work outside the home. It does not measure the full day of a stay-at-home parent or caregiver. If either of those is part of your household, that effort is real — it's just on a different ledger than this one. Fill this out for what it is: a conversation starter about the home-running work, not a verdict on who contributes more overall.</p></div>
 <div class="card"><h2 class="card-title">Two dimensions, measured separately</h2>
@@ -1191,12 +1368,12 @@ function renderWelcome(){
 <p style="font-size:12px;color:var(--text-muted);border-top:0.5px solid rgba(0,0,0,.08);padding-top:10px;line-height:1.6">"Making beds" is routine. "Planning meals for the week" is complex — nutrition, preferences, schedule, ongoing adjustment.</p></div>
 <div class="card"><h2 class="card-title">About the difficulty ratings</h2>
 <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">These ratings are <em>defaults</em> — the same in every household, so results stay comparable.</p>
-<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">But every household is different. If a task feels <em>heavier</em> or <em>lighter</em> in your home than the rating suggests — say, "cooking" is rated <em>moderate</em> but in your house it means meal-planning for picky eaters and food allergies — tap <span class="wflag-btn up active" style="cursor:default;display:inline-block">↑ heavier</span> or <span class="wflag-btn down active" style="cursor:default;display:inline-block">↓ lighter</span> next to that task. <em>You're stating that you disagree with the default weight.</em></p>
-<p style="font-size:13px;color:var(--text-muted);line-height:1.7">The flags <strong>don't change your scores</strong>. They surface in the results as conversation prompts: when one of you flags a task and the other doesn't, that's a small but useful disagreement worth talking about. <em>"Why does this feel like a 4 to me but a 2 to you?"</em></p></div>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">But every household is different. If a task feels <em>heavier</em> or <em>lighter</em> in your home than the rating suggests — say, "cooking" is rated <em>moderate</em> but in your house it means meal-planning for picky eaters and food allergies, or say, "managing paid subscriptions" is rated <em>complex</em>, but in your house it's two streaming services on auto-pay that no one has to think about — tap <span class="wflag-btn up active" style="cursor:default;display:inline-block">↑ heavier</span> or <span class="wflag-btn down active" style="cursor:default;display:inline-block">↓ lighter</span> next to that task. <em>You're stating that you disagree with the default weight.</em></p>
+<p style="font-size:13px;color:var(--text-muted);line-height:1.7">The flags <strong>don't change your scores</strong>. They surface in the results as conversation prompts: when one of you flags a task and the other doesn't, that's a small but useful signal worth talking about. <em>"I'm curious, why does this feel heavier/lighter to you?"</em></p></div>
 <div class="card"><h2 class="card-title">About the 🧠 drain chip</h2>
 <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:8px">Some tasks don't look hard on paper but quietly cost you energy — the worry, the watching, the <em>"what if I forget."</em> Tap <span class="emoflag-btn active" style="cursor:default;display:inline-block">🧠 drain</span> next to any task that feels that way to you. It's opt-in — most tasks won't need it.</p>
 <p style="font-size:13px;color:var(--text-muted);line-height:1.7">Like the ↑/↓ flags, this <strong>doesn't change your scores</strong>. It surfaces in the results so you can talk about the tasks that quietly wear you down, and about the ones where one of you feels the drain and the other doesn't.</p></div>
-<div class="info-box blue" style="font-size:13px;line-height:1.7">Both people fill this out independently, then compare together. The goal isn't to win — it's to make invisible work visible. <strong>Skip generously</strong> — anything that doesn't apply just won't count.</div>
+<div class="info-box blue" style="font-size:13px;line-height:1.7"><strong>Skip generously</strong> — this is detailed for a reason, pass on anything you believe doesn't apply.</div>
 <button class="btn-primary" onclick="S.screen='names';render()">Get started</button>
 <div style="margin-top:14px;text-align:center">
   <button type="button" onclick="doImportJSON()" style="background:none;border:none;color:var(--text-muted);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;padding:4px 8px">↺ Resume from a prior session (.json)</button>
@@ -1207,46 +1384,83 @@ function renderWelcome(){
 function renderNames(){
   R.innerHTML=`<div style="max-width:400px">
 <h1 class="sr-only">What We Carry — Who's taking part</h1>
-<h2 style="font-size:20px;font-weight:500;margin-bottom:6px">Who's taking this test?</h2>
-<p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">Each person fills out independently, then compare results together.</p>
+<h2 style="font-size:20px;font-weight:500;margin-bottom:10px">Who's taking part?</h2>
+<p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:4px">Enter both of your names below.</p>
+<p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:4px">Each person fills this out on their own.</p>
+<p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:16px">You then check-in together, at the end.</p>
 <div class="card">
-<div style="margin-bottom:14px"><label>Person A</label><input id="nA" type="text" value="${esc(S.nameA)}" placeholder="Name..."></div>
-<div><label>Person B</label><input id="nB" type="text" value="${esc(S.nameB)}" placeholder="Name..."></div>
+<div style="margin-bottom:14px"><label>Person A ·</label><input id="nA" type="text" value="${esc(S.nameA)}" placeholder="Name..."></div>
+<div><label>Person B ·</label><input id="nB" type="text" value="${esc(S.nameB)}" placeholder="Name..."></div>
 </div>
 <button class="btn-primary" onclick="guardClick(this);S.nameA=document.getElementById('nA').value.trim();S.nameB=document.getElementById('nB').value.trim();if(S.nameA&&S.nameB){S.screen='setup';saveS();render()}">Continue →</button>
 </div>`;
 }
 
 function renderSetup(){
-  const ks=S.kidsState;
-  const es=S.eldercareState;
-  const opts=[
+  const ks=S.kidsState,oh=S.ownHome,yw=S.yardWork,cg=S.caregiving;
+  const cs=S.careScenarios||{};
+  const kidsOpts=[
     {v:'none',title:'No children',desc:'School and child-related tasks will be hidden.'},
     {v:'preschool',title:'Children, not yet in school',desc:'School-specific tasks (drop-off, homework, parent-teacher) will be hidden, but child-care tasks stay.'},
     {v:'school',title:'Children, in school (or older)',desc:'All categories shown.'}
   ];
-  const optsHtml=opts.map(o=>`<button class="setup-opt${ks===o.v?' active':''}" role="radio" aria-checked="${ks===o.v?'true':'false'}" onclick="setKids('${o.v}')"><div class="setup-opt-title">${o.title}</div><div class="setup-opt-desc">${o.desc}</div></button>`).join('');
-  const eopts=[
-    {v:'none',title:'No',desc:'Eldercare & family caregiving tasks will be hidden.'},
-    {v:'present',title:'Yes',desc:"You'll see an Eldercare & family caregiving category."}
+  const ownHomeOpts=[
+    {v:'yes',title:'Yes',desc:"You'll see home-maintenance tasks (repairs, tradespeople, upkeep)."},
+    {v:'no',title:'No',desc:'Owner-specific maintenance tasks will be hidden.'}
   ];
-  const eoptsHtml=eopts.map(o=>`<button class="setup-opt${es===o.v?' active':''}" role="radio" aria-checked="${es===o.v?'true':'false'}" onclick="setEldercare('${o.v}')"><div class="setup-opt-title">${o.title}</div><div class="setup-opt-desc">${o.desc}</div></button>`).join('');
-  const migBanner=S._migrationBanner?`<div class="info-box blue" style="font-size:13px;line-height:1.6;margin-bottom:12px">We added a new category in this version — just need one quick answer.</div>`:'';
+  const yardOpts=[
+    {v:'yes',title:'Yes',desc:"You'll see yard tasks (mowing, leaves, snow, seasonal cleanup)."},
+    {v:'no',title:'No',desc:'Yard tasks will be hidden.'}
+  ];
+  const cgOpts=[
+    {v:'yes',title:'Yes'},
+    {v:'no',title:'No'}
+  ];
+  const mkRadio=(val,opts,handler)=>opts.map(o=>`<button class="setup-opt${val===o.v?' active':''}" role="radio" aria-checked="${val===o.v?'true':'false'}" onclick="${handler}('${o.v}')"><div class="setup-opt-title">${o.title}</div>${o.desc?`<div class="setup-opt-desc">${o.desc}</div>`:''}</button>`).join('');
+  const kidsHtml=mkRadio(ks,kidsOpts,'setKids');
+  const ownHomeHtml=mkRadio(oh,ownHomeOpts,'setOwnHome');
+  const yardHtml=mkRadio(yw,yardOpts,'setYardWork');
+  const cgHtml=mkRadio(cg,cgOpts,'setCaregiving');
+  const scenarioBox=cg==='yes'?`
+<div style="margin-top:10px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px">
+<div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;line-height:1.55">Who are you caring for? Check any that apply — you can check more than one.</div>
+<label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;cursor:pointer;font-size:14px;line-height:1.5"><input type="checkbox" ${cs.agingParent?'checked':''} onchange="toggleCareScenario('agingParent')" style="margin-top:3px;flex-shrink:0"><span>An aging parent or elder</span></label>
+<label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;cursor:pointer;font-size:14px;line-height:1.5"><input type="checkbox" ${cs.childDisability?'checked':''} onchange="toggleCareScenario('childDisability')" style="margin-top:3px;flex-shrink:0"><span>A child with a disability or chronic medical need</span></label>
+<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:14px;line-height:1.5"><input type="checkbox" ${cs.adultDisability?'checked':''} onchange="toggleCareScenario('adultDisability')" style="margin-top:3px;flex-shrink:0"><span>An adult with a disability (partner, sibling, adult child)</span></label>
+</div>`:'';
+  const ready=window._setupReady();
   R.innerHTML=`<div style="max-width:480px">
 <h1 class="sr-only">What We Carry — Setup</h1>
 <h2 style="font-size:20px;font-weight:500;margin-bottom:6px">A couple of quick setup questions</h2>
-${migBanner}
 <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">This tailors which tasks you'll see. You can skip any individual task or whole category later regardless.</p>
-<div style="margin-bottom:18px" role="radiogroup" aria-label="Children in your household"><label style="margin-bottom:8px">Are there children in your household?</label>${optsHtml}</div>
-<div style="margin-bottom:18px" role="radiogroup" aria-label="Caring for an aging, ill, or disabled family member"><label style="margin-bottom:8px">Are you involved in caring for an aging, ill, or disabled family member — a parent, in-law, or anyone else?</label>${eoptsHtml}</div>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Children in your household"><label style="margin-bottom:8px">Are there children in your household?</label>${kidsHtml}</div>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Do you own your home"><label style="margin-bottom:8px">Do you own your home?</label>${ownHomeHtml}</div>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Do you have yard work"><label style="margin-bottom:8px">Do you have a yard that needs regular work (mowing, leaves, snow, etc.)?</label>${yardHtml}</div>
+<div style="margin-bottom:18px" role="radiogroup" aria-label="Caring for a family member"><label style="margin-bottom:8px">Are you a primary source of care for someone beyond day-to-day parenting?</label>${cgHtml}${scenarioBox}</div>
 <div style="display:flex;justify-content:space-between;gap:10px">
 <button class="btn-ghost" onclick="S.screen='names';render()">← Back</button>
-<button class="btn-primary" ${(ks&&es)?'':'disabled'} onclick="if(S.kidsState&&S.eldercareState){guardClick(this);delete S._migrationBanner;S.screen='gutA';saveS();render()}">Start form →</button>
+<button class="btn-primary" ${ready?'':'disabled'} onclick="if(window._setupReady()){guardClick(this);S.screen='gutA';saveS();render()}">Start form →</button>
 </div></div>`;
 }
 
+window._setupReady=function(){
+  const cs=S.careScenarios||{};
+  const cgOk=S.caregiving==='no'||(S.caregiving==='yes'&&(cs.agingParent||cs.childDisability||cs.adultDisability));
+  return !!(S.kidsState&&S.ownHome&&S.yardWork&&S.caregiving&&cgOk);
+};
 window.setKids=function(v){S.kidsState=v;saveS();render();};
-window.setEldercare=function(v){S.eldercareState=v;saveS();render();};
+window.setOwnHome=function(v){S.ownHome=v;saveS();render();};
+window.setYardWork=function(v){S.yardWork=v;saveS();render();};
+window.setCaregiving=function(v){
+  S.caregiving=v;
+  if(v==='no')S.careScenarios={agingParent:false,childDisability:false,adultDisability:false};
+  saveS();render();
+};
+window.toggleCareScenario=function(k){
+  if(!S.careScenarios)S.careScenarios={agingParent:false,childDisability:false,adultDisability:false};
+  S.careScenarios[k]=!S.careScenarios[k];
+  saveS();render();
+};
 window.setPhys=function(person,tid,val){const ans=person==='A'?S.answersA:S.answersB;const prev=ans[tid]||{};ans[tid]={phys:val,mental:val==='na'?undefined:prev.mental,wFlag:prev.wFlag,emoFlag:prev.emoFlag||false};F.focusedTid=tid;saveS();render();};
 window.setMen=function(person,tid,val){const ans=person==='A'?S.answersA:S.answersB;ans[tid]={...(ans[tid]||{}),mental:val};F.focusedTid=tid;saveS();render();};
 window.setWFlag=function(person,tid,dir){const ans=person==='A'?S.answersA:S.answersB;const prev=ans[tid]||{};ans[tid]={...prev,wFlag:prev.wFlag===dir?null:dir};F.focusedTid=tid;saveS();render();};
@@ -1290,14 +1504,12 @@ function renderForm(person){
     const firstUnans=tasks.find(t=>{const a=ans[t.id];return !a||!a.phys||(a.phys!=='na'&&!a.mental);});
     F.focusedTid=(firstUnans||tasks[0]).id;
   }
-  const kbdPanel=F.cheatOpen?`<div class="kbd-panel"><strong style="color:var(--text)">Keyboard shortcuts</strong><br><kbd>1</kbd>&nbsp;I do &middot; <kbd>2</kbd>&nbsp;we share &middot; <kbd>3</kbd>&nbsp;partner &middot; <kbd>4</kbd>&nbsp;skip<br><kbd>Q</kbd>&nbsp;I track &middot; <kbd>W</kbd>&nbsp;we both track &middot; <kbd>E</kbd>&nbsp;partner tracks<br><kbd>H</kbd>&nbsp;↑ heavier &middot; <kbd>L</kbd>&nbsp;↓ lighter (toggle) &middot; <kbd>D</kbd>&nbsp;🧠 drain (toggle)<br><kbd>J</kbd>&nbsp;/&nbsp;<kbd>↓</kbd> next task &middot; <kbd>K</kbd>&nbsp;/&nbsp;<kbd>↑</kbd> previous &middot; <kbd>Enter</kbd> advance &middot; <kbd>?</kbd> hide this</div>`:'';
   R.innerHTML=`<div style="max-width:580px">
 <h1 class="sr-only">What We Carry — ${esc(name)}'s form</h1>
-<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:10px"><span style="font-size:16px;font-weight:500">${esc(name)}'s form</span><span style="display:flex;align-items:center;gap:8px"><button class="kbd-hint${F.cheatOpen?' active':''}" onclick="F.cheatOpen=!F.cheatOpen;render()" title="Show / hide keyboard shortcuts (?)">⌨ Shortcuts ${F.cheatOpen?'▲':'▼'}</button><span style="font-size:13px;color:var(--text-muted)">${totalDone} / ${aTasks.length} answered</span></div><div class="progress-track" role="progressbar" aria-valuenow="${totalDone}" aria-valuemin="0" aria-valuemax="${aTasks.length}" aria-label="Form progress"><div class="progress-fill" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Your progress is saved — feel free to pause and come back.</div></div>
-${kbdPanel}
+<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:10px"><span style="font-size:16px;font-weight:500">${esc(name)}'s form</span><span style="font-size:13px;color:var(--text-muted)">${totalDone} / ${aTasks.length} answered</span></div><div class="progress-track" role="progressbar" aria-valuenow="${totalDone}" aria-valuemin="0" aria-valuemax="${aTasks.length}" aria-label="Form progress"><div class="progress-fill" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text-dim);margin-top:4px">Your progress is saved — feel free to pause and come back.</div></div>
 <div class="tab-scroll">${tabs}</div>
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:17px;font-weight:500">${esc(cat.name)}</span><span style="font-size:13px;color:var(--text-muted)">${cp.done}/${cp.total} answered</span></div><p style="font-size:13.5px;color:var(--text-muted);margin-bottom:3px">Answer from your own perspective. Skip tasks that don't apply.</p>
-<p style="font-size:12.5px;color:var(--text-dim);font-style:italic;margin-bottom:6px">Disagree with the weight? Tap ↑ if it feels heavier or ↓ if it feels lighter in your house than rated. Tap 🧠 drain if the task costs you energy beyond the time — the worry, the watching, the "what if I forget." Opt-in, not scored.</p>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:17px;font-weight:500">${esc(cat.name)}</span><span style="font-size:13px;color:var(--text-muted)">${cp.done}/${cp.total} answered</span></div><p style="font-size:13.5px;color:var(--text-muted);margin-bottom:6px">Answer from your own perspective. Skip tasks you believe don't apply.</p>
+<p style="font-size:12.5px;color:var(--text-dim);font-style:italic;line-height:1.55;margin-bottom:6px">Disagree with the weight? Tap ↑ if it feels heavier or ↓ if it feels lighter in your house.<br>Task costs you energy beyond the time? Tap 🧠 drain.</p>
 <div style="margin-bottom:2px"><button class="btn-ghost" style="font-size:11px;padding:4px 10px" onclick="if(confirm('Skip every task in &quot;${esc(cat.name)}&quot;? You can change individual answers afterward.')){skipCategory('${person}','${cat.id}');}">Skip whole category</button></div>
 ${taskHTML}</div>
 <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><button class="btn-ghost" ${S.catIdx===0?'disabled':''} onclick="guardClick(this);if(S.catIdx>0){S.catIdx--;F.focusedTid=null;render();}">← Back</button>${S.catIdx<aCats.length-1?`<button class="btn-primary" onclick="guardClick(this);S.catIdx++;F.focusedTid=null;render()">Next →</button>`:`<button class="btn-primary" onclick="guardClick(this);donePerson('${person}')">${person==='B'?'See results →':`Done — pass to ${esc(other)} →`}</button>`}</div>
@@ -1336,8 +1548,19 @@ function renderGutCheck(person){
 <div style="display:flex;justify-content:space-between;gap:10px;margin-top:12px">
 <button class="btn-ghost" onclick="guardClick(this);S.screen='${back}';render()">← Back</button>
 <button class="btn-primary" onclick="guardClick(this);S.screen='${nextScreen}';S.catIdx=0;saveS();render()">Continue to questions →</button>
+</div>
+<div style="margin-top:14px;text-align:center">
+  <button type="button" onclick="skipGutCheck('${person}')" style="background:none;border:none;color:var(--text-muted);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;padding:4px 8px">Skip the gut check for ${esc(name)} →</button>
 </div></div>`;
 }
+window.skipGutCheck=function(person){
+  if(!window.confirm("Skip the gut check? You'll go straight to the itemized questions. Your partner can still do theirs — gut answers don't compare across partners."))return;
+  // Wipe the 50%-default pre-populates this screen seeded so nothing leaks into results.
+  if(person==='A')S.gutCheckA={}; else S.gutCheckB={};
+  S.screen=person==='A'?'formA':'formB';
+  S.catIdx=0;
+  saveS();render();
+};
 window.setGut=function(p,cid,v,el){
   const n=parseInt(v,10);
   (p==='A'?S.gutCheckA:S.gutCheckB)[cid]=n;
@@ -1447,7 +1670,7 @@ function renderResults(){
   if(sortedByAgree.length>0&&sortedByAgree[0].agreeRate>=70) insights.push({col:'#166534',bg:'#f0fdf4',text:`You see <strong>${esc(sortedByAgree[0].name)}</strong> very similarly (${sortedByAgree[0].agreeRate}% agreement). A good foundation.`});
   const worst=sortedByAgree[sortedByAgree.length-1];
   if(worst&&worst.agreeRate<50) insights.push({col:'#b91c1c',bg:'#fef2f2',text:`<strong>${esc(worst.name)}</strong> is your biggest blind spot — only ${worst.agreeRate}% agreement. Start here.`});
-  const heavyDis=bothMis.filter(t=>t.w===3);
+  const heavyDis=bothMis.filter(t=>t.w>=5);
   if(heavyDis.length>0) insights.push({col:'#b45309',bg:'#fff7ed',text:`${heavyDis.length} high-complexity task${heavyDis.length!==1?'s':''} have full disagreement — these carry the most weight and deserve focused time.`});
   if(sA.p>0&&sA.m/sA.p>1.5) insights.push({col:'#6d28d9',bg:'#f5f3ff',text:`${esc(S.nameA)} carries significantly more mental load than physical — more planner than executor in this household.`});
   if(sB.p>0&&sB.m/sB.p>1.5) insights.push({col:'#6d28d9',bg:'#f5f3ff',text:`${esc(S.nameB)} carries significantly more mental load than physical — more planner than executor in this household.`});
@@ -1646,9 +1869,9 @@ ${gutLine}
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
 <div style="flex:1;min-width:0">
 <h2 style="font-size:20px;font-weight:500;margin:0 0 4px">Your results</h2>
-<p style="font-size:13px;color:var(--text-muted);margin:0">Use the sections below to start a conversation — not a debate.</p>
+<p style="font-size:13px;color:var(--text-muted);margin:0">Use the information in the sections below to check-in — remember to keep an open mind.</p>
 </div>
-<img src="wwc-icon-fill-square-white.png" alt="" width="48" height="48" style="flex-shrink:0">
+<img src="${iconSrc()}" class="wwc-icon" alt="" width="48" height="48" style="flex-shrink:0">
 </div>
 
 ${heroHTML}
@@ -1852,19 +2075,20 @@ document.addEventListener('keydown',ev=>{
       else if(S.catIdx<aCats.length-1){S.catIdx++;F.focusedTid=null;render();}
       else{donePerson(person);}
       break;
-    case '?':F.cheatOpen=!F.cheatOpen;render();break;
     default:handled=false;
   }
   if(handled)ev.preventDefault();
 });
 loadS();
 try{
-  const ack=localStorage.getItem('mlv7_ack')==='1';
-  if(S.screen==='intro'&&ack)S.screen='welcome';
-  else if(S.screen==='welcome'&&!ack)S.screen='intro';
+  if(S.screen!=='migrate'){
+    const ack=localStorage.getItem(V12_ACK)==='1';
+    if(S.screen==='intro'&&ack)S.screen='welcome';
+    else if(S.screen==='welcome'&&!ack)S.screen='intro';
+  }
 }catch(e){}
 render();
 </script>
-<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · v11.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
+<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V0.12.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
 </body>
 </html>

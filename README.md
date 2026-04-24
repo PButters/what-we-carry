@@ -18,8 +18,9 @@
 ## What it is
 
 - A single HTML page. Open it, answer questions about everyday household work
-  (120+ tasks depending on your situation — a setup step hides categories that
-  don't apply to you), and see a shared picture of what each of you carries.
+  (about 200 tasks across 15 life areas, depending on your situation — a setup
+  step hides categories that don't apply to you), and see a shared picture of
+  what each of you carries.
 - Each task is measured on two dimensions: the **physical doing** and the
   **mental holding** — the remembering, planning, tracking, and worrying.
   The mental dimension is the part most tools don't try to quantify.
@@ -43,11 +44,14 @@
 ## Use it
 
 - **Hosted:** https://what-we-carry.pages.dev/ — the easiest path. Just open the link.
-- **Self-host / offline:** grab **both** `index.html` and `wwc-icon-fill-square-white.png`
-  from this repo (or download the ZIP under
-  [Releases](https://github.com/PButters/what-we-carry/releases)), keep them in the
-  same folder, and open `index.html` in any browser. The page works without the icon
-  file — but the tab favicon and header mark will be broken if you only grab the HTML.
+- **Self-host / offline:** grab `index.html` plus the two icon PNGs
+  (`wwc-icon-fill-square-white.png` and `wwc-icon-fill-square-black.png`) from
+  this repo (or download the ZIP under
+  [Releases](https://github.com/PButters/what-we-carry/releases)), keep them in
+  the same folder, and open `index.html` in any browser. The page works without
+  the icons — but the tab favicon and header mark will be broken if you only
+  grab the HTML. Both PNGs are used so the header and favicon look right in
+  either light or dark mode.
 
 ## License
 
