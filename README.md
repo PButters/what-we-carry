@@ -41,6 +41,26 @@
   internet, and it still works.
 - The only way your answers leave is if you export them yourself.
 
+### How the privacy promise is backed
+
+A few small technical guardrails are in place so you don't have to take the
+privacy claim on faith:
+
+- **The page can't phone home.** A Content Security Policy blocks *every*
+  outbound network call from the page — no analytics pixels, no fonts, no CDN
+  scripts, nothing. Your browser enforces it. If a future code change ever
+  tried to send data out, the browser would refuse.
+- **No third-party code.** One HTML file, zero dependencies, zero external
+  scripts. Nothing loaded from a CDN that could change under you.
+- **Text you enter is always escaped.** Names and notes are HTML-escaped
+  before being shown back to you, so a weird character in a partner's name
+  can't break the page or sneak anything in.
+- **Imports are checked before they're accepted.** If you re-import a saved
+  `.json` file, the file is validated against the expected shape first —
+  unexpected fields are dropped, wrong types are rejected, oversized files
+  are refused. A corrupted or hand-edited file gets a clean error, not weird
+  behavior.
+
 ## Use it
 
 - **Hosted:** https://what-we-carry.pages.dev/ — the easiest path. Just open the link.

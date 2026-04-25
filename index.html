@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'self'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
 <title>What We Carry — A Household Check-In</title>
 <link rel="icon" type="image/png" href="wwc-icon-fill-square-white.png">
 <link rel="apple-touch-icon" href="wwc-icon-fill-square-white.png">
@@ -115,7 +117,7 @@ strong{color:var(--text)}
 .emoflag-btn.active{background:rgba(168,85,247,.15);color:#7c3aed;border-color:#a855f7;font-weight:500}
 .theme-toggle{position:fixed;top:14px;right:14px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s}
 .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
-@media (max-width:720px){#root{padding-top:40px}}
+@media (max-width:960px){#root{padding-top:40px}}
 .reset-btn{position:fixed;top:14px;right:60px;z-index:10;width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;font-family:inherit;transition:background .15s, border-color .15s, color .15s}
 .reset-btn.visible{display:flex}
 .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -139,7 +141,7 @@ strong{color:var(--text)}
 .kbd-keys{flex-shrink:0;min-width:84px;color:var(--text)}
 .kbd-drawer kbd{display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;padding:1px 6px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;background:var(--surface-2);color:var(--text);margin-right:2px;line-height:1.2}
 .kbd-scope-note{font-size:11px;font-style:italic;color:var(--text-dim);margin:10px 0 0;padding-top:8px;border-top:1px solid var(--border);line-height:1.5}
-@media (max-width:720px){.kbd-btn,.kbd-drawer{display:none !important}}
+@media (hover:none) and (pointer:coarse){.kbd-btn,.kbd-drawer{display:none !important}}
 .export-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:6px;color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit;line-height:1.3}
 .export-menu-item:hover{background:var(--surface-2);color:var(--accent)}
 .export-menu-item .em-ico{flex-shrink:0;font-size:15px;width:18px;text-align:center;opacity:.85}
@@ -1078,7 +1080,7 @@ ${(()=>{
 <section><h2>Top 5 conversations</h2>${top5HTML}</section>
 <section><h2>Where to go from here</h2>${actionsHTML}</section>
 ${metaHTML}
-<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V0.12.2 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
+<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V1.0.0 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
 </body></html>`;
 }
 
@@ -1120,22 +1122,90 @@ function doImportJSON(){
   if(fi){fi.value='';fi.click();}
   closeExportMenu();
 }
+// Defensive import: rebuild state from an allowlist, drop unknown keys,
+// coerce types, cap string length. Never merge raw imported objects into S.
+const IMPORT_MAX_STR=2000;
+const IMPORT_MAX_NAME=80;
+const IMPORT_ENUMS={
+  screen:['intro','migrate','welcome','names','setup','gutA','formA','handoff','gutB','formB','results'],
+  kidsState:['none','preschool','school'],
+  ownHome:['yes','no'],
+  yardWork:['yes','no'],
+  caregiving:['yes','no'],
+  resFilter:['all','agree','phys','men','both','skip','oneskip','flag','invis','drain'],
+  agreeMode:['strict','loose'],
+  scoreMode:['complexity','frequency']
+};
+const ANS_PHYS=['me','shared','partner','na'];
+const ANS_MEN=['me','shared','partner'];
+const ANS_WFLAG=['up','down'];
+function _cleanStr(v,max){return typeof v==='string'?v.slice(0,max||IMPORT_MAX_STR):'';}
+function _cleanEnum(v,list){return list.indexOf(v)>=0?v:null;}
+function _cleanAnswers(raw){
+  if(!raw||typeof raw!=='object')return {};
+  const out={};const taskIds=new Set(T.map(t=>t.id));
+  for(const tid of Object.keys(raw)){
+    if(!taskIds.has(tid))continue;
+    const src=raw[tid];if(!src||typeof src!=='object')continue;
+    const cleaned={};
+    if(ANS_PHYS.indexOf(src.phys)>=0)cleaned.phys=src.phys;
+    if(ANS_MEN.indexOf(src.mental)>=0)cleaned.mental=src.mental;
+    if(ANS_WFLAG.indexOf(src.wFlag)>=0)cleaned.wFlag=src.wFlag;
+    if(src.emoFlag===true)cleaned.emoFlag=true;
+    if(Object.keys(cleaned).length)out[tid]=cleaned;
+  }
+  return out;
+}
+function _cleanGut(raw){
+  if(!raw||typeof raw!=='object')return {};
+  const out={};const catIds=new Set(CATS.map(c=>c.id));
+  for(const cid of Object.keys(raw)){
+    if(!catIds.has(cid))continue;
+    const n=Number(raw[cid]);
+    if(Number.isFinite(n)&&n>=0&&n<=100)out[cid]=Math.round(n);
+  }
+  return out;
+}
+function validateImport(j){
+  if(!j||typeof j!=='object')throw new Error('File is not a valid JSON object.');
+  if(j.version!==EXPORT_SCHEMA)throw new Error(`This file is from a different version (${j&&j.version||'unknown'}). Current is ${EXPORT_SCHEMA}.`);
+  if(!j.state||typeof j.state!=='object')throw new Error('Missing or malformed "state" payload.');
+  const src=j.state;const out=DEFAULT_S();
+  out.nameA=_cleanStr(src.nameA,IMPORT_MAX_NAME);
+  out.nameB=_cleanStr(src.nameB,IMPORT_MAX_NAME);
+  out.metaSurprise=_cleanStr(src.metaSurprise,IMPORT_MAX_STR);
+  for(const k of Object.keys(IMPORT_ENUMS)){
+    const v=_cleanEnum(src[k],IMPORT_ENUMS[k]);
+    if(v!==null)out[k]=v;
+  }
+  const ci=parseInt(src.catIdx,10);
+  if(Number.isFinite(ci)&&ci>=0&&ci<CATS.length)out.catIdx=ci;
+  out.answersA=_cleanAnswers(src.answersA);
+  out.answersB=_cleanAnswers(src.answersB);
+  out.gutCheckA=_cleanGut(src.gutCheckA);
+  out.gutCheckB=_cleanGut(src.gutCheckB);
+  if(src.careScenarios&&typeof src.careScenarios==='object'){
+    out.careScenarios={
+      agingParent:src.careScenarios.agingParent===true,
+      childDisability:src.careScenarios.childDisability===true,
+      adultDisability:src.careScenarios.adultDisability===true
+    };
+  }
+  return out;
+}
 function handleImportFile(ev){
   const f=ev.target.files&&ev.target.files[0];if(!f)return;
+  if(f.size>1024*1024){window.alert('That file is larger than expected (over 1 MB). Import aborted.');return;}
   const rd=new FileReader();
   rd.onload=()=>{
     try{
       const j=JSON.parse(rd.result);
-      if(!j||j.version!==EXPORT_SCHEMA) throw new Error(`Unexpected schema version: ${j&&j.version||'none'}`);
-      if(!j.state||typeof j.state!=='object') throw new Error('Missing state payload');
+      const cleanState=validateImport(j);
       if(hasData()&&!window.confirm('Importing will replace your current answers. Continue?'))return;
-      S=Object.assign(DEFAULT_S(),j.state);
-      if(!S.gutCheckA||typeof S.gutCheckA!=='object')S.gutCheckA={};
-      if(!S.gutCheckB||typeof S.gutCheckB!=='object')S.gutCheckB={};
-      if(!S.careScenarios||typeof S.careScenarios!=='object')S.careScenarios={agingParent:false,childDisability:false,adultDisability:false};
+      S=cleanState;
       saveS();render();
       flashExportStatus('Imported prior session');
-    }catch(e){window.alert('Could not import that file.\n\n'+(e&&e.message||e));}
+    }catch(e){window.alert('Could not import that file.\n\nThis may not be a What We Carry export, or it may be from an older version.\n\nDetails: '+(e&&e.message||e));}
   };
   rd.onerror=()=>window.alert('Could not read that file.');
   rd.readAsText(f);
@@ -1403,8 +1473,8 @@ function renderSetup(){
   const cs=S.careScenarios||{};
   const kidsOpts=[
     {v:'none',title:'No children',desc:'School and child-related tasks will be hidden.'},
-    {v:'preschool',title:'Children, not yet in school',desc:'School-specific tasks (drop-off, homework, parent-teacher) will be hidden, but child-care tasks stay.'},
-    {v:'school',title:'Children, in school (or older)',desc:'All categories shown.'}
+    {v:'preschool',title:'Children, none in school yet',desc:'All under school age — school-specific tasks (drop-off, homework, parent-teacher) will be hidden, but child-care tasks stay.'},
+    {v:'school',title:'Children, at least one in school (any level)',desc:'Pick this if any of your kids are in school, even if others aren’t yet. All categories shown.'}
   ];
   const ownHomeOpts=[
     {v:'yes',title:'Yes',desc:"You'll see home-maintenance tasks (repairs, tradespeople, upkeep)."},
@@ -2091,6 +2161,6 @@ try{
 }catch(e){}
 render();
 </script>
-<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V0.12.2 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
+<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V1.0.0 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
 </body>
 </html>
