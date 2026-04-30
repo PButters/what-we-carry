@@ -670,6 +670,9 @@ function catProg(ans){
 }
 function answeredCount(ans){return activeTasks().filter(t=>{const a=ans[t.id];return a&&a.phys&&(a.phys==='na'||a.mental);}).length;}
 
+// Normalize a perspective-relative answer ("me"/"partner") to a canonical owner
+// ("A"/"B") so A and B answers can be compared. "shared"/"na" are perspective-neutral.
+function canon(v,isB){if(v==='me')return isB?'B':'A';if(v==='partner')return isB?'A':'B';return v;}
 function classifyTask(t){
   const a=S.answersA[t.id],b=S.answersB[t.id];
   const aDone=a&&a.phys&&(a.phys==='na'||a.mental);
@@ -678,8 +681,8 @@ function classifyTask(t){
   if(!aDone||!bDone) return 'one-skip';
   if(a.phys==='na'&&b.phys==='na') return 'skipped';
   if(a.phys==='na'||b.phys==='na') return 'one-skip';
-  const physAgree=a.phys===b.phys;
-  const menAgree=a.mental===b.mental;
+  const physAgree=canon(a.phys,false)===canon(b.phys,true);
+  const menAgree=canon(a.mental,false)===canon(b.mental,true);
   if(physAgree&&menAgree) return 'agree';
   if(physAgree&&!menAgree) return 'men-mis';
   if(!physAgree&&menAgree) return 'phys-mis';
@@ -709,7 +712,7 @@ function cmpPrompt(t,a,b,f){
   if(a.phys==='partner'&&b.phys==='partner') return{key:'neither-claim',label:'Neither claims it',text:`Neither of you claimed <em>${tn}</em>. Who actually does it — or is it just not getting done?`};
   if(wA==='up'&&wB==='up') return{key:'agreed-heavier',label:'Both flagged heavier',text:`You both said <em>${tn}</em> is heavier than average. Shared pain point — redesign candidate.`};
   if(eA&&eB) return{key:'emo-agreed',label:'Both flagged as draining',text:`You both marked <em>${tn}</em> as costing energy beyond the time. Shared emotional cost — worth naming together.`};
-  if(a.phys&&b.phys&&a.phys!==b.phys&&a.phys!=='na'&&b.phys!=='na') return{key:'straight-dis',label:'Different answers',text:`You see this differently. Talk about what "doing it" looks like for <em>${tn}</em> week-to-week.`};
+  if(a.phys&&b.phys&&a.phys!=='na'&&b.phys!=='na'&&canon(a.phys,false)!==canon(b.phys,true)) return{key:'straight-dis',label:'Different answers',text:`You see this differently. Talk about what "doing it" looks like for <em>${tn}</em> week-to-week.`};
   if((wA&&!wB)||(!wA&&wB)){const who=wA?aN:bN;const dir=(wA||wB)==='up'?'heavier':'lighter';return{key:'w-asymmetric',label:'Weight asymmetry',text:`${who} flagged <em>${tn}</em> as ${dir}; the other didn't flag it. Is this a weight that isn't visible from the outside?`};}
   if(eA!==eB){const who=eA?aN:bN;return{key:'emo-asymmetric',label:'Emotional-labor asymmetry',text:`${who} feels <em>${tn}</em> as draining; the other didn't flag it. What makes the difference — the task itself, or everything riding on it?`};}
   if(wA==='down'&&wB==='down') return{key:'agreed-lighter',label:'Both flagged lighter',text:`You both said <em>${tn}</em> is lighter than it looks. One of the easy ones — you're already on the same page here.`};
@@ -1080,7 +1083,7 @@ ${(()=>{
 <section><h2>Top 5 conversations</h2>${top5HTML}</section>
 <section><h2>Where to go from here</h2>${actionsHTML}</section>
 ${metaHTML}
-<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V1.0.0 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
+<footer>What We Carry · self-contained export · open locally, print to PDF via your browser · V1.0.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener">Source on GitHub</a></footer>
 </body></html>`;
 }
 
@@ -2161,6 +2164,6 @@ try{
 }catch(e){}
 render();
 </script>
-<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V1.0.0 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
+<footer style="max-width:660px;margin:16px auto 24px;padding:14px 0 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:left">What We Carry · V1.0.1 · MIT Licensed · <a href="https://github.com/PButters/what-we-carry" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Source on GitHub</a></footer>
 </body>
 </html>
